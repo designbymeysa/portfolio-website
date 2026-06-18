@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DesignbyMeysa — Portfolio refresh</title>
+
+  <link rel="stylesheet" href="portfolio.css" />
+
+  <style>
+    html, body, #root { margin: 0; padding: 0; }
+    body {
+      background: var(--ink-50);
+      font-family: var(--font-body);
+      color: var(--ink-true);
+      min-height: 100vh;
+    }
+    .pf-shell {
+      width: 1440px;
+      margin: 0 auto;
+      background: var(--ink-0);
+      box-shadow: 0 40px 120px rgba(9,20,50,0.06);
+    }
+
+    /* ─── Print export ─────────────────────────────────────── */
+    @page {
+      size: 1440px 1850px;
+      margin: 0;
+    }
+    @media print {
+      html, body {
+        background: #FFFFFF !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      body { min-height: 0 !important; }
+      .pf-shell {
+        width: 1440px !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+      }
+      .pf { overflow: visible !important; }
+
+      /* Kill animations & reveal hooks so everything renders flat */
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+      .pf-reveal,
+      .pf-anim-eyebrow,
+      .pf-anim-headline,
+      .pf-anim-meta,
+      .pf-anim-fadein,
+      .pf-anim-collage .pf-chip {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      /* Restore the chips' baseline rotations after the transform reset above */
+      .pf-chip-polaroid     { transform: rotate(-7deg) !important; }
+      .pf-chip-now-playing  { transform: rotate(2deg) !important; }
+      .pf-chip-open         { transform: rotate(4deg) !important; }
+      .pf-chip-loc          { transform: rotate(-3deg) !important; }
+      .pf-chip-role         { transform: rotate(5deg) !important; }
+      .pf-chip-marquee      { transform: translateX(-50%) rotate(-1deg) !important; }
+      .pf-chip-cv           { transform: rotate(6deg) !important; }
+      .pf-chip-mail         { transform: rotate(-5deg) !important; }
+
+      /* Hide the dark-mode toggle and any in-page tweak chrome */
+      .pf-theme-toggle,
+      .twk-launcher,
+      .twk-panel { display: none !important; }
+
+      /* Make sure the nav doesn't sit on top of the hero on page 1
+         (it's absolutely positioned over the hero in the live view). */
+      .pf-nav {
+        position: relative !important;
+        inset: auto !important;
+        margin: 0 !important;
+      }
+      .pf-hero {
+        padding-top: 80px !important;
+        min-height: 0 !important;
+      }
+      .pf-hero,
+      .pf-band { break-inside: avoid; }
+
+      /* Page breaks between major sections */
+      .pf-band               { break-before: page; }
+      .pf-section-head       { break-before: page; }
+      .pf-story              { break-before: page; break-inside: avoid; }
+      .pf-story:first-of-type { break-before: avoid; }
+      .pf-footer             { break-before: page; }
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+          crossorigin="anonymous"></script>
+</head>
+<body style="background-color: rgb(144, 144, 144)">
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" data-presets="react" src="portfolio.jsx"></script>
+  <script type="text/babel" data-presets="react" src="app.jsx"></script>
+
+  <script type="text/babel" data-presets="react">
+    // Auto-trigger the browser print dialog once fonts + JSX are ready.
+    (async () => {
+      try { if (document.fonts && document.fonts.ready) { await document.fonts.ready; } } catch (e) {}
+      // Wait for the React tree to render (root has children) and for the
+      // reveal observer to have flipped everything visible.
+      const root = document.getElementById('root');
+      const start = Date.now();
+      while ((!root || !root.firstChild) && Date.now() - start < 4000) {
+        await new Promise((r) => setTimeout(r, 60));
+      }
+      // Force any reveal elements visible (print CSS does this too, but
+      // belt-and-braces in case @media print hasn't taken effect yet).
+      document.querySelectorAll('.pf-reveal').forEach((el) => el.classList.add('is-in'));
+      await new Promise((r) => setTimeout(r, 500));
+      window.print();
+    })();
+  </script>
+</body>
+</html>

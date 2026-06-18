@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DesignbyMeysa — Portfolio refresh</title>
+
+  <link rel="stylesheet" href="portfolio.css" />
+
+  <style>
+    html, body, #root { margin: 0; padding: 0; }
+    body {
+      background: var(--ink-50);
+      font-family: var(--font-body);
+      color: var(--ink-true);
+      min-height: 100vh;
+    }
+    .pf-shell {
+      width: 1440px;
+      margin: 0 auto;
+      background: var(--ink-0);
+      box-shadow: 0 40px 120px rgba(9,20,50,0.06);
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+          integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+          integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+          crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+          integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+          crossorigin="anonymous"></script>
+</head>
+<body style="background-color: rgb(144, 144, 144)">
+  <template id="__bundler_thumbnail" data-bg-color="#F6F4FE">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="g1" cx="20%" cy="30%" r="55%">
+          <stop offset="0%" stop-color="#DADFFF"/>
+          <stop offset="100%" stop-color="#DADFFF" stop-opacity="0"/>
+        </radialGradient>
+        <radialGradient id="g2" cx="78%" cy="78%" r="55%">
+          <stop offset="0%" stop-color="#E0D1CC"/>
+          <stop offset="100%" stop-color="#E0D1CC" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="1200" height="800" fill="#F6F4FE"/>
+      <rect width="1200" height="800" fill="url(#g1)"/>
+      <rect width="1200" height="800" fill="url(#g2)"/>
+      <text x="600" y="430" text-anchor="middle"
+            font-family="Georgia, 'Times New Roman', serif"
+            font-style="italic" font-weight="500"
+            font-size="120" fill="#0F0F0F" letter-spacing="-4">
+        Meysa<tspan font-style="normal" fill="#3D52FF">.</tspan>
+      </text>
+      <text x="600" y="490" text-anchor="middle"
+            font-family="Inter, sans-serif" font-weight="700"
+            font-size="14" letter-spacing="3" fill="#6B6F7A">
+        DESIGNBYMEYSA · PORTFOLIO
+      </text>
+    </svg>
+  </template>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" data-presets="react" src="portfolio.jsx"></script>
+  <script type="text/babel" data-presets="react" src="app.jsx"></script>
+</body>
+</html>
