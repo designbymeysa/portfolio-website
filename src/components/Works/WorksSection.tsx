@@ -75,15 +75,13 @@ function WorkCard({ project }: { project: typeof allProjects[0] }) {
           </p>
         </div>
 
-        <div className="flex flex-col gap-[16px]">
+        <div className="flex items-center justify-between gap-4 mt-[32px] md:mt-0">
           <div className="flex gap-[8px] flex-wrap">
             {project.tags.map(tag => <TagDimmed key={tag} label={tag} />)}
           </div>
-          <div className="w-fit">
-            <span className="relative inline-block font-['Open_Sans'] font-semibold text-[16px] text-[#0f0f0f] group-hover:text-[#422bd9] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
-              View project →
-            </span>
-          </div>
+          <span className="relative inline-block shrink-0 font-['Open_Sans'] font-medium text-[16px] text-[#4b4f58] group-hover:text-[#422bd9] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover:after:scale-x-100">
+            View project →
+          </span>
         </div>
       </Link>
     </div>

@@ -1,6 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import Typewriter from '../fancy/text/typewriter'
+import { useRef, useEffect } from 'react'
 
 const CELL = 28
 
@@ -24,9 +22,6 @@ const BLOB_DEFS = [
   // #1F30B8 dark indigo — top-center for faint depth
   { cx: 0.50, cy: -0.06, rx: 0.46, ry: 0.44, r:  31, g:  48, b: 184, a: 0.22, ax: -0.03, ay:  0.04, period: 16 },
 ]
-
-const words    = ['(Product)', '(Experience)', '(Visual)', '(Wellbeing-focused)']
-const articles = ['a',         'an',           'a',        'a'                  ]
 
 // cursor-trail palette — cells cycle through these as the trail moves
 const TRAIL_COLORS = [
@@ -59,7 +54,6 @@ function trailColor(phase: number): [number, number, number] {
 export function Hero() {
   const containerRef  = useRef<HTMLDivElement>(null)
   const contentRef    = useRef<HTMLDivElement>(null)
-  const [wordIndex, setWordIndex] = useState(0)
   const bgCanvasRef   = useRef<HTMLCanvasElement>(null)
   const fgCanvasRef   = useRef<HTMLCanvasElement>(null)
 
@@ -277,56 +271,20 @@ export function Hero() {
 
       <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px]">
         <p
-          className="font-['Libre_Caslon_Text'] font-normal text-black leading-[1.1] mb-0"
+          className="font-['Libre_Caslon_Text'] font-normal text-black leading-[1.1] mb-[clamp(24px,3vw,40px)]"
           style={{ fontSize: 'clamp(34px, 5.2vw, 72px)', letterSpacing: '-0.013em' }}
         >
           Hi! I'm Meysa,
         </p>
 
         <p
-          className="font-['Libre_Caslon_Text'] leading-[1.1] mb-[clamp(24px,3vw,40px)]"
-          style={{ fontSize: 'clamp(34px, 5.2vw, 72px)', letterSpacing: '-0.02em' }}
-        >
-          <span className="font-normal text-black">{articles[wordIndex]} </span>
-          <em className="font-normal italic text-[#422bd9]">
-            <Typewriter
-              text={words}
-              speed={110}
-              deleteSpeed={65}
-              waitTime={2200}
-              className="text-[#422bd9]"
-              onIndexChange={setWordIndex}
-            />
-          </em>
-          <span className="font-normal text-black"> Designer</span>
-        </p>
-
-        <p
           className="font-['Open_Sans'] font-medium text-[#737373] leading-[1.2] max-w-[760px] mb-[clamp(28px,4vw,48px)]"
           style={{ fontSize: 'clamp(16px, 1.7vw, 24px)', fontVariationSettings: '"wdth" 100' }}
         >
-          I design products that center on{' '}
-          <span className="font-medium text-black">people's wellbeing</span>, because how something makes you feel matters as much as how it works.
+          a designer who shapes digital products and experiences
+          <br />
+          around <span className="font-medium text-black">people's wellbeing</span>.
         </p>
-
-        <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/projects"
-            className="inline-flex items-center justify-center w-[160px] rounded-full bg-[#15151c] py-2.5 font-['Open_Sans'] font-semibold text-[16px] text-white transition-colors duration-200 hover:bg-[#422bd9]"
-          >
-            See my work
-          </Link>
-          <a
-            href="/cv.pdf"
-            download
-            className="cv-download-btn inline-flex items-center justify-center gap-2 w-[160px] rounded-full border border-[#d4d4d4] bg-transparent py-2.5 font-['Open_Sans'] font-semibold text-[16px] text-black transition-colors duration-200"
-          >
-            Download CV
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path d="M6 3h7v7M13 3 4 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
 
       </div>
 

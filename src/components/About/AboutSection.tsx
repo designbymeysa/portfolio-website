@@ -1,25 +1,38 @@
+import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useInView } from '../../hooks/useInView'
 import Stack from '../Stack/Stack'
-import { AppsTicker } from '../Ticker/AppsTicker'
+import { SkillsTicker } from '../Ticker/SkillsTicker'
 import type React from 'react'
 
 const EXPERIENCE = [
-  { role: 'Design Intern',      note: 'Wearable health devices',    org: 'Empatica · Milan',              period: '2025 — Present', logo: '/logos/empatica.svg' },
-  { role: 'Research Assistant', note: 'Sustainable design research', org: 'LeNS Lab, Politecnico di Milano', period: '2024 — 2025',    logo: '/logos/polimi.svg' },
-  { role: 'MSc in Design',      note: "Master's degree",            org: 'Politecnico di Milano',         period: '2023 — 2025',    logo: '/logos/polimi.svg' },
+  { role: 'Design Intern',      note: 'Biotechnology Research',      org: 'Empatica',                      period: '2025 — Present', logo: '/logos/empatica_logo.jpeg' },
+  { role: 'Research Assistant', note: 'Sustainable design research', org: 'LeNS Lab, Politecnico di Milano', period: '2024',           logo: '/logos/lenslab_polimi_logo.jpeg' },
+  { role: 'Digital and Interaction Design', note: "Master's degree",   org: 'Politecnico di Milano',         period: '2023 — 2025',    logo: '/logos/polimi_logo.jpeg' },
 ]
 
-const photoCards = [
-  <div key="back" className="w-full h-full bg-[#c6caf6]" />,
-  <div key="front" className="w-full h-full bg-[#eceef2] flex items-center justify-center">
-    <span className="font-['Open_Sans'] text-[12px] text-[#9ca1ad] uppercase tracking-[0.2em]">
-      Your Photo
-    </span>
-  </div>,
+// Photos for the About stack — drop your images in public/about/ with these names.
+// Add or remove entries here to match how many photos you have.
+const photos = [
+  '/about/photo_1.png',
+  '/about/photo_2.png',
+  '/about/photo_3.png',
 ]
+
+const photoCards = photos.map((src, i) => (
+  <img
+    key={src}
+    src={src}
+    alt={`Meysa — photo ${i + 1}`}
+    className="w-full h-full object-cover"
+    draggable={false}
+  />
+))
 
 export function AboutSection() {
   const { ref, inView } = useInView()
+  const [cursorLogo, setCursorLogo] = useState<string | null>(null)
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
 
   return (
     <section
@@ -27,6 +40,18 @@ export function AboutSection() {
       id="about"
       className={`pt-[80px] pb-[96px] ${inView ? 'section-visible' : 'section-hidden'}`}
     >
+      {cursorLogo && createPortal(
+        <img
+          src={cursorLogo}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none fixed z-[9999] hidden md:block h-[48px] w-[48px] object-cover rounded-[12px] -translate-x-1/2 -translate-y-1/2"
+          style={{ left: cursorPos.x, top: cursorPos.y }}
+          draggable={false}
+        />,
+        document.body
+      )}
+
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px]">
 
         {/* ── ABOUT — intro + photo ───────────────────────────── */}
@@ -83,7 +108,7 @@ export function AboutSection() {
             Skills
           </span>
         </div>
-        <AppsTicker />
+        <SkillsTicker />
       </div>
 
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px]">
@@ -105,28 +130,19 @@ export function AboutSection() {
             {EXPERIENCE.map((e) => (
               <div
                 key={e.role}
-                className="group grid grid-cols-1 md:grid-cols-[1.5fr_1.5fr_0.8fr] gap-y-[8px] md:gap-x-[40px] items-baseline py-[28px] px-[16px] rounded-[2px] border-b border-[#e5e7ec] transition-colors duration-[200ms] hover:bg-[#F1F0F6]"
+                onMouseEnter={() => setCursorLogo(e.logo)}
+                onMouseLeave={() => setCursorLogo(null)}
+                onMouseMove={(ev) => setCursorPos({ x: ev.clientX, y: ev.clientY })}
+                className="group grid grid-cols-1 md:grid-cols-[1fr_0.8fr] gap-x-[20px] gap-y-[8px] md:gap-x-[40px] items-center md:items-baseline py-[28px] px-[16px] rounded-none border-b border-[#e5e7ec] transition-colors duration-[200ms] hover:bg-[#f3f4f6] md:hover:cursor-none"
               >
                 <div className="flex flex-col gap-[6px]">
-                  <div className="flex items-center gap-[14px]">
-                    <span className="font-['Open_Sans'] font-semibold text-[20px] text-[#0f0f0f] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[#422bd9]" style={{ fontVariationSettings: '"wdth" 100' }}>
-                      {e.role}
-                    </span>
-                    <img
-                      src={e.logo}
-                      alt={e.org}
-                      className="h-[26px] w-auto max-w-[120px] object-contain opacity-0 -translate-x-2 transition-all duration-[200ms] group-hover:opacity-100 group-hover:translate-x-0"
-                      loading="lazy"
-                      draggable={false}
-                    />
-                  </div>
-                  <span className="font-['Open_Sans'] font-light text-[15px] text-[#9ca1ad]" style={{ fontVariationSettings: '"wdth" 100' }}>
-                    {e.note}
+                  <span className="font-['Open_Sans'] font-semibold text-[20px] text-[#0f0f0f] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[#4b4f58]" style={{ fontVariationSettings: '"wdth" 100' }}>
+                    {e.role}
+                  </span>
+                  <span className="font-['Open_Sans'] font-normal text-[16px] text-[#4b4f58] transition-colors duration-[200ms] group-hover:text-[#6b6f7a]" style={{ fontVariationSettings: '"wdth" 100' }}>
+                    {e.org}
                   </span>
                 </div>
-                <span className="font-['Open_Sans'] font-normal text-[16px] text-[#4b4f58] transition-colors duration-[200ms] group-hover:text-[#422bd9]" style={{ fontVariationSettings: '"wdth" 100' }}>
-                  {e.org}
-                </span>
                 <span className="font-['Open_Sans'] font-normal text-[14px] text-[#9ca1ad] md:text-right transition-colors duration-[200ms] group-hover:text-[#6b6f7a]" style={{ fontVariationSettings: '"wdth" 100' }}>
                   {e.period}
                 </span>

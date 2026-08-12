@@ -97,7 +97,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
     return () => window.removeEventListener('scroll', update)
   }, [isHome, location.pathname])
 
-  const linkClass = "relative inline-block font-['Open_Sans'] text-[16px] leading-[1.2] font-normal text-[#737373] hover:text-[#422bd9] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+  const linkClass = "relative inline-block uppercase tracking-[2px] font-['Open_Sans'] text-[12px] leading-[1.2] font-normal text-[#737373] hover:text-[#422bd9] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
 
   return (
     <>

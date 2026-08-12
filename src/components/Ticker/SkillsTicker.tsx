@@ -1,22 +1,24 @@
 const skills = [
-  'Interaction Design', 'Visual Design', 'Branding',
-  'UI Design', 'UX Research', 'Prototyping', 'Design Systems',
+  'UX Design', 'UI Design', 'User Research',
+  'Prototyping', 'Design Systems', 'Branding',
 ]
 
 export function SkillsTicker() {
   const doubled = [...skills, ...skills]
 
   return (
-    <div className="w-full h-16 bg-[#1a1a1a] overflow-hidden flex items-center">
-      <div className="flex animate-ticker whitespace-nowrap">
+    <div className="w-full overflow-hidden py-[40px]">
+      <div className="flex w-max animate-ticker">
         {doubled.map((skill, i) => (
-          <span key={i} className="inline-flex items-center gap-[53px] px-[53px]">
-            <span className="font-['Open_Sans'] font-normal text-[17px] text-[#f6f7f9] leading-[1.2]"
-              style={{ fontVariationSettings: '"wdth" 100' }}>
+          <div key={i} className="flex items-center gap-[28px] px-[28px] shrink-0">
+            <span
+              className="font-['Open_Sans'] font-normal text-[18px] text-[#2f323a] whitespace-nowrap leading-[1.2]"
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            >
               {skill}
             </span>
-            <span className="text-[#f6f7f9] text-[17px]" aria-hidden="true">✦</span>
-          </span>
+            <span className="font-['Open_Sans'] italic text-[12px] text-[#c7ccd6] shrink-0" aria-hidden="true">&amp;</span>
+          </div>
         ))}
       </div>
     </div>

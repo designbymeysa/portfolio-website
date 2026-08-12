@@ -14,9 +14,10 @@ export function HomeFooter() {
     <footer
       ref={ref as React.RefObject<HTMLElement>}
       id="contact"
-      className={`relative bg-[#0e1014] ${inView ? 'section-visible' : 'section-hidden'}`}
+      className={`relative ${inView ? 'section-visible' : 'section-hidden'}`}
+      style={{ background: 'linear-gradient(180deg, rgba(92,110,255,0) 0%, rgba(123,118,245,0.28) 26%, rgba(110,107,240,0.7) 48%, #5C6EFF 70%, #4A34D6 100%)' }}
     >
-      <div className="reveal-stagger relative max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] pt-[96px] lg:pt-[140px] pb-[32px]">
+      <div className="reveal-stagger relative flex flex-col min-h-[560px] lg:min-h-[640px] max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] pt-[150px] lg:pt-[190px] pb-[32px]">
 
         {/* top — heading + email */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[48px] lg:gap-[80px]">
@@ -31,7 +32,7 @@ export function HomeFooter() {
             </h2>
 
             <p
-              className="font-['Open_Sans'] font-normal text-[17px] text-[#8b90a0] leading-[1.5] max-w-[420px] mb-[56px]"
+              className="font-['Open_Sans'] font-normal text-[17px] text-white/75 leading-[1.5] max-w-[420px] mb-[56px]"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               Currently open to full-time product design roles in Italy.
@@ -66,11 +67,11 @@ export function HomeFooter() {
         </div>
 
         {/* bottom meta */}
-        <div className="flex items-center justify-between pt-[28px] mt-[80px] lg:mt-[120px] border-t border-white/10">
-          <p className="font-['Open_Sans'] text-[14px] text-[#6b6f7a] leading-[1.2]">
+        <div className="flex items-center justify-between pt-[28px] mt-auto border-t border-white/20">
+          <p className="font-['Open_Sans'] text-[14px] text-white/60 leading-[1.2]">
             Designed and built by Meysa · Milan, Italy
           </p>
-          <p className="font-['Open_Sans'] text-[14px] text-[#6b6f7a] leading-[1.2]">
+          <p className="font-['Open_Sans'] text-[14px] text-white/60 leading-[1.2]">
             ©2026
           </p>
         </div>
