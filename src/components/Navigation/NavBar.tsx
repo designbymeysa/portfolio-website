@@ -1,11 +1,25 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 const navItems = [
-  { label: 'Projects', id: 'work' },
+  { label: 'Work', id: 'work' },
   { label: 'About',    id: 'about' },
   { label: 'Contact',  id: 'contact' },
 ]
+
+// the wordmark and the nav items share one type setting so they read as a set —
+// family, size, tracking and case are identical, only the colour differs
+const NAV_TYPE = "nav-type font-['Open_Sans'] text-[12px] leading-[1.2] font-semibold uppercase tracking-[2px]"
+
+// The sheet lists exactly what the bar lists — one set of destinations, so the phone
+// and the desktop never disagree about what the site is made of.
+// The sheet's own items. Not built from NAV_TYPE: that is 12px semibold caps for a
+// 48px bar, and a full screen wants the opposite — the display serif the rest of the
+// site sets its headings in, at the size a heading would take, tracking pulled back in
+// as it grows. No sliding underline either: a tap has nowhere to hover, so the accent
+// lands on the current section instead.
+const MOBILE_LINK_CLASS =
+  "text-left font-['Libre_Caslon_Text'] font-normal text-[clamp(38px,11vw,52px)] leading-[1.12] tracking-[-0.015em] transition-colors duration-[150ms]"
 
 interface NavBarProps {
   isDark: boolean
@@ -15,8 +29,10 @@ interface NavBarProps {
 export function NavBar({ isDark, onToggleDark }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [visible, setVisible]   = useState(false)
-  const [glassy, setGlassy]     = useState(false)
+  const [solid,  setSolid]      = useState(false)
   const [activeSection, setActiveSection] = useState('')
+  // the footer is its own full-screen thing — the bar stays out of it
+  const inFooterRef = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
   const isHome   = location.pathname === '/'
@@ -48,22 +64,29 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
 
       const inHero = isHome && y < window.innerHeight - 48
 
-      // glass background only once scrolled past the hero; off-home it's always on
-      setGlassy(!inHero)
+      // solid background only once scrolled past the hero; off-home it's always on
+      setSolid(!inHero)
+
+      // once the footer has reached the top of the screen the bar stays hidden —
+      // its dark type has nothing to sit on there, and the footer carries the links
+      const footer = document.getElementById('contact')
+      const inFooter = !!footer && footer.getBoundingClientRect().top <= 64
+      inFooterRef.current = inFooter
 
       // always visible in the hero; below it, hide while scrolling down, show on scroll up
-      if (inHero)                       setVisible(true)
+      if (inFooter)                     setVisible(false)
+      else if (inHero)                  setVisible(true)
       else if (y > 4 && dir === 'down') setVisible(false)
       else                              setVisible(true)
     }
 
     const onMouseMove = (e: MouseEvent) => {
-      if (e.clientY < 80) setVisible(true)
+      if (e.clientY < 80 && !inFooterRef.current) setVisible(true)
     }
 
     // initial state
     setVisible(true)
-    setGlassy(!isHome || window.scrollY >= window.innerHeight - 48)
+    setSolid(!isHome || window.scrollY >= window.innerHeight - 48)
 
     window.addEventListener('scroll',    update,      { passive: true })
     window.addEventListener('mousemove', onMouseMove, { passive: true })
@@ -76,7 +99,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
   // scroll-spy: highlight the nav item for the section currently in view
   useEffect(() => {
     if (!isHome) {
-      // off-home, the Projects page maps to the "Projects" (work) item
+      // off-home, the case studies page maps to the "Case studies" (work) item
       setActiveSection(location.pathname === '/projects' ? 'work' : '')
       return
     }
@@ -97,15 +120,46 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
     return () => window.removeEventListener('scroll', update)
   }, [isHome, location.pathname])
 
-  const linkClass = "relative inline-block uppercase tracking-[2px] font-['Open_Sans'] text-[12px] leading-[1.2] font-normal text-[#737373] hover:text-[#422bd9] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100"
+  // the same switch is needed in the header and inside the mobile sheet, where the
+  // header's copy is hidden — one definition so the two can never drift apart
+  const darkToggle = (extra: string) => (
+    <button
+      aria-label="Toggle dark mode"
+      onClick={onToggleDark}
+      className={`
+        relative shrink-0 w-[56px] h-[28px] rounded-full border border-[color:var(--line)]
+        transition-colors duration-[250ms]
+        bg-[color:var(--surface-2)]
+        ${extra}
+      `}
+    >
+      <span
+        className={`
+          absolute top-[3px] w-[22px] h-[22px] rounded-full bg-[color:var(--switch-knob)]
+          shadow-[0px_1px_1px_rgba(9,20,50,0.04)]
+          transition-transform duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)]
+          flex items-center justify-center text-[10px]
+          ${isDark ? 'translate-x-[29px]' : 'translate-x-[2px]'}
+        `}
+      >
+        {isDark ? '☽' : '✦'}
+      </span>
+    </button>
+  )
+
+  const linkClass = `relative inline-block ${NAV_TYPE} text-[color:var(--ink-muted)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms] after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out hover:after:scale-x-100`
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 h-[48px] transition-all duration-500 ${glassy ? 'backdrop-blur-[10px] bg-white/10' : 'bg-transparent'} ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
-        <div className={`absolute inset-0 transition-colors duration-500 ${glassy ? 'bg-white/10' : 'bg-transparent'}`} />
+      <header className={`fixed top-0 left-0 right-0 z-50 h-[48px] transition-all duration-500 ${solid ? 'bg-[color:var(--nav-veil)]' : 'bg-transparent'} ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-full pointer-events-none'}`}>
         <nav className="relative h-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] flex items-center justify-between">
 
-          <Link to="/" className="font-['Open_Sans'] font-semibold text-[12px] text-[#0f0f0f] tracking-[2px] leading-[1.2] whitespace-nowrap uppercase">
+          <Link
+            to="/"
+            /* the sheet carries the page's own ground, so the bar over it needs no
+               open-state colour of its own — the wordmark stays ink either way */
+            className={`${NAV_TYPE} whitespace-nowrap text-[color:var(--ink-strong)]`}
+          >
             DESIGNBYMEYSA
           </Link>
 
@@ -115,7 +169,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
                 <li key={label}>
                   <button
                     onClick={() => goToSection(id)}
-                    className={`${linkClass} ${activeSection === id ? '!text-[#422bd9] after:!scale-x-100' : ''}`}
+                    className={`${linkClass} ${activeSection === id ? '!text-[color:var(--accent)] after:!scale-x-100' : ''}`}
                   >
                     {label}
                   </button>
@@ -123,27 +177,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
               ))}
             </ul>
 
-            <button
-              aria-label="Toggle dark mode"
-              onClick={onToggleDark}
-              className={`
-                hidden md:block relative w-[56px] h-[28px] rounded-full border border-[#dcdfe5]
-                transition-colors duration-[250ms]
-                ${isDark ? 'bg-[#1a1c22]' : 'bg-[#eceef2]'}
-              `}
-            >
-              <span
-                className={`
-                  absolute top-[3px] w-[22px] h-[22px] rounded-full bg-white
-                  shadow-[0px_1px_1px_rgba(9,20,50,0.04)]
-                  transition-transform duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)]
-                  flex items-center justify-center text-[10px]
-                  ${isDark ? 'translate-x-[29px]' : 'translate-x-[2px]'}
-                `}
-              >
-                {isDark ? '☽' : '✦'}
-              </span>
-            </button>
+            {darkToggle('hidden md:block')}
 
             <button
               className="md:hidden relative w-8 h-8"
@@ -154,15 +188,17 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
                   so they share a single paint pass and are guaranteed the same weight.
                   open: shadows drop and it rotates into one diagonal of the X. */}
               <span
-                className="absolute left-[6px] top-[16px] block w-5 h-[1px] bg-[#0f0f0f] transition-all duration-300"
+                className="nav-bar-line absolute left-[6px] top-[16px] block w-5 h-[1px] transition-all duration-300 text-[color:var(--ink-strong)] bg-[color:var(--ink-strong)]"
                 style={{
-                  boxShadow: menuOpen ? '0 0 0 0 transparent' : '0 -6px 0 0 #0f0f0f, 0 6px 0 0 #0f0f0f',
+                  boxShadow: menuOpen ? '0 0 0 0 transparent' : '0 -6px 0 0 currentColor, 0 6px 0 0 currentColor',
                   transform: menuOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                 }}
               />
               {/* second diagonal of the X — hidden until open */}
               <span
-                className={`absolute left-[6px] top-[16px] block w-5 h-[1px] bg-[#0f0f0f] transition-all duration-300 ${menuOpen ? 'opacity-100 rotate-[-45deg]' : 'opacity-0'}`}
+                className={`nav-bar-line absolute left-[6px] top-[16px] block w-5 h-[1px] bg-[color:var(--ink-strong)] transition-all duration-300 ${
+                  menuOpen ? 'opacity-100 rotate-[-45deg]' : 'opacity-0'
+                }`}
               />
             </button>
           </div>
@@ -173,21 +209,24 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       <div
         className={`
           fixed inset-0 z-40 md:hidden flex flex-col
-          bg-white/80 backdrop-blur-[24px] transition-all duration-500 ease-[cubic-bezier(0,0,0.2,1)]
+          bg-[color:var(--sheet)] transition-opacity duration-500 ease-[cubic-bezier(0,0,0.2,1)]
           ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
         `}
       >
-        <div className="flex flex-col justify-between h-full px-8 pt-[80px] pb-12">
-          <nav className="flex flex-col gap-2">
+        {/* the same gutter the header uses, so the items start on the wordmark's edge.
+            The top pad clears the bar, which stays over the sheet and carries the close. */}
+        <div className="flex flex-col justify-between h-full px-6 sm:px-10 pt-[132px] pb-12">
+          <nav className="flex flex-col gap-[10px]">
             {navItems.map(({ label, id }, i) => (
               <button
                 key={label}
                 onClick={() => { setMenuOpen(false); goToSection(id) }}
-                className={`${linkClass} text-left`}
+                className={`${MOBILE_LINK_CLASS} ${
+                  isHome && activeSection === id
+                    ? 'text-[color:var(--accent)]'
+                    : 'text-[color:var(--ink-strong)]'
+                }`}
                 style={{
-                  fontSize: '22px',
-                  fontVariationSettings: '"wdth" 100',
-                  transitionDelay: menuOpen ? `${i * 60}ms` : '0ms',
                   transform: menuOpen ? 'translateY(0)' : 'translateY(24px)',
                   opacity: menuOpen ? 1 : 0,
                   transition: `transform 0.4s cubic-bezier(0,0,0.2,1) ${i * 60}ms, opacity 0.4s ease ${i * 60}ms, color 150ms`,
@@ -198,10 +237,8 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
             ))}
           </nav>
 
-          <div className="flex flex-col gap-3">
-            <a href="mailto:designbymeysa@gmail.com" className="font-['Open_Sans'] text-[13px] text-[#737373]">
-              designbymeysa@gmail.com
-            </a>
+          <div className="flex">
+            {darkToggle('')}
           </div>
         </div>
       </div>

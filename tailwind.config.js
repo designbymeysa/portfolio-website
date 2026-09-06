@@ -1,7 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  // the toggle in NavBar puts `dark` on <html>; theme colours resolve through the
+  // CSS variables in globals.css, so this is here for any `dark:` utility that follows
+  darkMode: 'class',
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   theme: {
+    // ── Breakpoints ──
+    // `md` is Tailwind's 768px by default, which lands exactly on an iPad in portrait
+    // (768–834px) — so a tablet held upright picked up every desktop layout in the
+    // site at its narrowest. Moved past that range, so portrait tablets read as
+    // phones: stacked cards, the hamburger menu, clamped copy. Landscape, and the
+    // 12.9" iPad's 1024px portrait, still get the wide layouts at `lg`.
+    screens: {
+      sm: '640px',
+      md: '900px',
+      lg: '1024px',
+      xl: '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         blue: {
@@ -84,17 +100,28 @@ export default {
         '6xl': '128px',
       },
 
+      // every curve on the site is a flat 2px — the named steps are kept so
+      // existing class names keep working; only the pill tokens stay rounded
       borderRadius: {
-        'none':     '0px',
+        'none':     '2px',
         'xsmall':   '2px',
-        'small':    '4px',
-        'medium':   '8px',
-        'large':    '12px',
-        'xlarge':   '16px',
-        'section':  '20px',
-        'icon-btn': '6px',
+        'small':    '2px',
+        'medium':   '2px',
+        'large':    '2px',
+        'xlarge':   '2px',
+        'section':  '2px',
+        'icon-btn': '2px',
+        // pills — the VIEW cursor and the tag chips — stay fully rounded
         'badge':    '9999px',
         'full':     '9999px',
+        // Tailwind's own scale, flattened to match
+        'sm':       '2px',
+        DEFAULT:    '2px',
+        'md':       '2px',
+        'lg':       '2px',
+        'xl':       '2px',
+        '2xl':      '2px',
+        '3xl':      '2px',
       },
 
       transitionDuration: {

@@ -64,12 +64,12 @@ export default function Typewriter({
       <span
         style={{
           display: 'inline-block',
-          width: '2px',
-          height: '0.85em',
+          width: '0.028em',
+          height: '0.78em',
           background: 'currentColor',
-          marginLeft: '6px',
+          marginLeft: '0.05em',
           verticalAlign: 'middle',
-          borderRadius: '1px',
+          borderRadius: '2px',
           animation: phase === 'waiting' ? 'tw-blink 0.8s step-end infinite' : 'none',
           opacity: phase === 'deleting' ? 0.4 : 1,
         }}

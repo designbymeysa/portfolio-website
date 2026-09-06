@@ -13,10 +13,10 @@ export function Button({ variant = 'primary', label, children, className = '', .
       <button
         className={`
           inline-flex items-center justify-center
-          w-8 h-8 rounded-[6px]
-          border border-primary text-primary
+          w-8 h-8 rounded-full
+          border border-[color:var(--ink-strong)] text-[color:var(--ink-strong)]
           transition-all duration-medium ease-standard
-          hover:bg-primary hover:text-white
+          hover:bg-[color:var(--btn-bg)] hover:text-[color:var(--btn-fg)] hover:border-[color:var(--btn-bg)]
           ${className}
         `}
         {...props}
@@ -29,17 +29,18 @@ export function Button({ variant = 'primary', label, children, className = '', .
   }
 
   const base = `
-    inline-flex items-center justify-center
-    h-10 px-lg rounded-small
+    inline-flex items-center justify-center origin-center will-change-transform
+    h-10 px-lg rounded-full
     font-sans text-ui-button
     transition-all duration-medium ease-standard
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
     disabled:opacity-40 disabled:cursor-not-allowed
   `
 
+  // no hover grey and no shrink: the cursor is the feedback now
   const variants: Record<'primary' | 'secondary', string> = {
-    primary:   'bg-primary text-white hover:bg-ink-700',
-    secondary: 'bg-transparent text-primary border border-primary hover:bg-primary hover:text-white',
+    primary:   'bg-[color:var(--btn-bg)] text-[color:var(--btn-fg)]',
+    secondary: 'bg-transparent text-[color:var(--ink-strong)] border border-[color:var(--btn-bg)] hover:bg-[color:var(--btn-bg)] hover:text-[color:var(--btn-fg)]',
   }
 
   return (

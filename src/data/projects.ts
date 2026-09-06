@@ -14,6 +14,8 @@ export interface Project {
   discipline?: string
   timeline?: string
   bg: string
+  /** shown pixelated in the pinned works card; falls back to a generated field when unset */
+  image?: string
   href: string
   externalHref?: string
 }
@@ -35,12 +37,13 @@ export const projects: Project[] = [
     ],
     tags: ['Healthcare', 'Redesign', 'UX Research'],
     year: '2026',
-    role: 'UX Research, UI Design, Digital Prototyping',
+    role: 'UX Research, UI Design, Digital Prototyping (Protopie)',
     team: 'Joana Bento, Ariana Cisternas, Sarah Cosentino',
     industry: 'Medical',
     discipline: 'UX Research & UI Design',
     timeline: '2025 – 2026',
-    bg: '#E8DDD7',
+    bg: '#242424',
+    image: '/about/photo_1.png',
     href: '/projects/d-heart-redesign',
     externalHref: 'https://designbymeysa.framer.website/d-heart-redesign',
   },
@@ -63,7 +66,8 @@ export const projects: Project[] = [
     industry: 'Museum / Cultural Institution',
     discipline: 'Interaction Design & Prototyping',
     timeline: '2025 – 2026',
-    bg: '#DCDFE5',
+    bg: '#242424',
+    image: '/about/photo_2.png',
     href: '/projects/art-beyond-dimension',
     externalHref: 'https://designbymeysa.framer.website/art-beyond-dimension',
   },
@@ -86,31 +90,10 @@ export const projects: Project[] = [
     industry: 'Politics / Civic Technology',
     discipline: 'User Research & UI Design',
     timeline: '2023 – 2024',
-    bg: '#E6E2FF',
+    bg: '#242424',
+    image: '/about/photo_3.png',
     href: '/projects/demos',
     externalHref: 'https://designbymeysa.framer.website/demos',
-  },
-  {
-    id: 'horizon',
-    title: 'Horizon',
-    subtitle: 'Autonomous Urban Mobility Concept',
-    description: 'A self-driving vehicle concept balancing user control with relaxation, transforming commuting into a pleasant adaptive journey.',
-    fullDescription: 'Explored fundamental autonomous vehicle needs, specifically balancing Competence vs. Relaxation — enabling user control while promoting stress-free travel. The scenario follows a user booking an autonomous taxi during a transit strike, experiencing personalised lighting, calming audio, and wellness features.',
-    problem: 'The brief explored the tension between Competence (sense of control over the environment) and Relaxation (feeling free from strain) in autonomous vehicle experiences.',
-    outcomes: [
-      'Interface screens mapping the full emotional journey',
-      'Personalised lighting and calming audio for a stress-free ride',
-      'Accessibility and wellness features for diverse passengers',
-      'Emotional journey documentation using the Premo assessment tool',
-    ],
-    tags: ['UX Research', 'Interaction Design', 'Concept'],
-    year: '2025',
-    role: 'User Research, Ideation',
-    team: 'Joana Bento, Gloria Gaggelli, Alice Kafrune, Marika Latini',
-    industry: 'Autonomous Vehicles',
-    bg: '#C4B5FD',
-    href: '/projects/horizon',
-    externalHref: 'https://designbymeysa.framer.website/horizon',
   },
 ]
 
@@ -120,6 +103,6 @@ export const bio = {
   tagline: 'A multidisciplinary designer who transforms research into experiences people actually enjoy using.',
   location: 'Milan, Italy',
   email: 'designbymeysa@gmail.com',
-  linkedin: 'https://www.linkedin.com/in/fatemeh-khosh/',
+  linkedin: 'https://www.linkedin.com/in/khoshbazan/',
   behance: 'https://www.behance.net/designbymeysa',
 }

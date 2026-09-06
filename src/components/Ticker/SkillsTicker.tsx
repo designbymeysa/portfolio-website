@@ -12,12 +12,12 @@ export function SkillsTicker() {
         {doubled.map((skill, i) => (
           <div key={i} className="flex items-center gap-[28px] px-[28px] shrink-0">
             <span
-              className="font-['Open_Sans'] font-normal text-[18px] text-[#2f323a] whitespace-nowrap leading-[1.2]"
+              className="font-['Open_Sans'] font-normal text-[18px] text-[color:var(--ink-strong)] whitespace-nowrap leading-[1.2]"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               {skill}
             </span>
-            <span className="font-['Open_Sans'] italic text-[12px] text-[#c7ccd6] shrink-0" aria-hidden="true">&amp;</span>
+            <span className="font-['Open_Sans'] italic text-[12px] text-[color:var(--ink-muted)] shrink-0" aria-hidden="true">&amp;</span>
           </div>
         ))}
       </div>

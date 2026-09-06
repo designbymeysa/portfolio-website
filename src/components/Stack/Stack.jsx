@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from 'motion/react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Stack.css';
 
 function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }) {
@@ -50,10 +50,23 @@ export default function Stack({
   autoplayDelay = 3000,
   pauseOnHover = false,
   mobileClickOnly = false,
-  mobileBreakpoint = 768
+  mobileBreakpoint = 768,
+  onTopCardChange
 }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+
+  // each card's tilt is drawn once and kept. Recomputing it during render would
+  // re-scramble the whole stack on every parent re-render — and AboutSection
+  // re-renders on every mousemove to place its cursor pill.
+  const rotationsRef = useRef(new Map());
+  const rotationFor = id => {
+    if (!randomRotation) return 0;
+    if (!rotationsRef.current.has(id)) {
+      rotationsRef.current.set(id, Math.random() * 10 - 5);
+    }
+    return rotationsRef.current.get(id);
+  };
 
   useEffect(() => {
     const checkMobile = () => {
@@ -133,6 +146,14 @@ export default function Stack({
     });
   };
 
+  const onTopCardChangeRef = useRef(onTopCardChange);
+  onTopCardChangeRef.current = onTopCardChange;
+  const topCardId = stack.length ? stack[stack.length - 1].id : null;
+
+  useEffect(() => {
+    onTopCardChangeRef.current?.(topCardId);
+  }, [topCardId]);
+
   useEffect(() => {
     if (autoplay && stack.length > 1 && !isPaused) {
       const interval = setInterval(() => {
@@ -151,7 +172,7 @@ export default function Stack({
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       {stack.map((card, index) => {
-        const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const randomRotate = rotationFor(card.id);
         return (
           <CardRotate
             key={card.id}
@@ -165,7 +186,14 @@ export default function Stack({
               animate={{
                 rotateZ: (stack.length - index - 1) * 4 + randomRotate,
                 scale: 1 + index * 0.06 - stack.length * 0.06,
-                transformOrigin: '90% 90%'
+                // on a phone the tilt alone leaves the deck reading as one card, so
+                // each one below is nudged out far enough to show an edge
+                x: isMobile ? (stack.length - index - 1) * 9 : 0,
+                y: isMobile ? (stack.length - index - 1) * -9 : 0,
+                // pivoting on the bottom-right corner throws the deck's visual mass
+                // off-centre in its box — fine beside copy on a wide screen, wrong on
+                // a phone where the stack is meant to sit centred on its own
+                transformOrigin: isMobile ? 'center' : '90% 90%'
               }}
               initial={false}
               transition={{

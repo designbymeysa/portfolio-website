@@ -11,6 +11,8 @@ export interface StackProps {
   pauseOnHover?: boolean
   mobileClickOnly?: boolean
   mobileBreakpoint?: number
+  /** fires with the id of the card currently on top */
+  onTopCardChange?: (id: number | null) => void
 }
 
 declare const Stack: FC<StackProps>

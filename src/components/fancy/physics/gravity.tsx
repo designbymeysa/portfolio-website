@@ -154,12 +154,14 @@ export function MatterBody({
     const w = el.offsetWidth  || 80
     const h = el.offsetHeight || 32
 
+    // matter-js types `chamfer` as nullable on the options it hands back, but not on
+    // the ones it accepts — the spread carries that nullability across
     const body = Matter.Bodies.rectangle(px, py, w, h, {
       friction: 0.4,
       restitution: 0.35,
       ...matterBodyOptions,
       angle: (angle * Math.PI) / 180,
-    })
+    } as Matter.IChamferableBodyDefinition)
     bodyRef.current = body
 
     register({ body, el })

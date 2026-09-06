@@ -4,18 +4,64 @@
 
 @layer base {
   :root {
-    --color-primary: #1C1C1E;
-    --color-surface-base: #FAFAF9;
-    --color-surface-card: #E8DDD7;
-    --color-surface-ticker: #1A1A1A;
-    --color-surface-footer: #111111;
-    --color-tag-bg: #EFEFEF;
-    --color-tag-text: #333333;
+    /* ── Theme ──
+       One grey ramp of seven steps, from the surface a card sits on to the ink on it.
+       Anything between two of these steps is a distinction nobody can see: the palette
+       carried eight near-whites inside nineteen luminance points before this. The dark
+       set redefines the same names, so no component knows which theme it is in. */
+    --page-grad: linear-gradient(160deg, #F3F2FF 0%, #FBFBFE 48%, #FBF5F1 100%);
+    --page-top:  #F6F7F9;     /* what the browser tints its own bars to; read from JS,
+                                 so it has to stay a literal rather than a var() */
 
-    --shadow-1: 0 1px 2px rgba(9, 20, 50, 0.04);
+    --surface:    #FFFFFF;    /* cards, sheets, the ground of a panel   */
+    --surface-2:  #F6F7F9;    /* insets, hovers, chips, the switch track */
+    --card-base:  #FAFAFA;    /* the cards: barely off white — they read as panels
+                                 by their edge and their cover, not by weight */
+    --line:       #E5E7EC;    /* every border on the site               */
+    --ink-muted:  #6B6F7A;    /* labels, captions, secondary type       */
+    --ink-body:   #4B4F58;    /* body copy                              */
+    --ink-strong: #0F0F0F;    /* headings, the wordmark, anything lead  */
+
+    /* the inverted pill — VIEW, the card badge, buttons — is the ramp's two ends */
+    --pill-bg: var(--ink-strong);
+    --pill-fg: var(--surface);
+    /* buttons carry their own fill rather than borrowing the pill's: on a dark ground
+       a white pill is the loudest thing on the page, so dark mode makes them purple */
+    --btn-bg:    var(--ink-strong);
+    --btn-fg:    var(--surface);
+    --frame: var(--surface);  /* the polaroid mounts around the About photos */
+    --cursor: var(--ink-strong);   /* the disc that replaces the pointer */
+    /* the labels that stand in for the cursor — VIEW over a project, the caption over
+       a photo. Kept apart from --pill-bg so the round badge and the filter chips can
+       take the brand purple without dragging these with them. */
+    --cursor-pill-bg: var(--ink-strong);
+    --cursor-pill-fg: var(--surface);
+    /* the bar's ground once it leaves the hero. Solid, not a veil: nothing shows
+       through and nothing is blurred behind it, so it takes the page gradient's own
+       mid tone and reads as the page rather than as a pane laid over it */
+    --nav-veil: #FBFBFE;
+    --switch-knob: #FFFFFF;   /* the dark-mode toggle's knob */
+
+    /* every purple that marks something — the current nav item, the menu's current
+       section, the bullets in a case study — is the brand purple itself, so the site
+       carries one purple rather than two that are nearly the same */
+    --accent:       var(--brand-purple);
+    /* the brand purple — footer, wash, the hero's accent word and every --accent mark
+       resolve here, in both themes (FOOTER_PURPLE in HomeFooter.tsx is the same
+       colour, where the wash needs it as a JS value) */
+    --brand-purple: #5B3FD4;
+    /* the closing screen: the footer, the wash it fades in with, and the mobile menu.
+       Read from JS as well as CSS, so it has to stay a literal hex. */
+    --footer-purple: #5B3FD4;
+    /* the full-screen mobile menu. It shares the bar's ground so the header sitting
+       over it reads as the same surface, not as a strip on top of a coloured pane */
+    --sheet:        #FBFBFE;
+    --grid-line:    rgba(120, 120, 120, 0.045);
+
     --shadow-2: 0 4px 12px rgba(9, 20, 50, 0.05), 0 1px 2px rgba(9, 20, 50, 0.03);
-    --shadow-3: 0 12px 32px rgba(9, 20, 50, 0.08), 0 2px 6px rgba(9, 20, 50, 0.04);
-    --shadow-accent: 0 8px 24px rgba(61, 82, 255, 0.14);
+
+    /* one vertical rhythm for every gap between sections */
+    --section-gap: clamp(96px, 14vw, 190px);
 
     --duration-short: 150ms;
     --duration-medium: 250ms;
@@ -25,8 +71,52 @@
     --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   }
 
+  .dark {
+    /* Anchored on #0F0F0F — a true near-black rather than the blue-grey this used to
+       be. The rest of the ramp is neutral to match: a blue-cast card on a neutral
+       black ground reads as a colour cast, not as depth. Each step is a real lift off
+       the one below it so panels still separate from the page. */
+    --page-grad: linear-gradient(160deg, #141414 0%, #0F0F0F 48%, #151211 100%);
+    --page-top:  #0F0F0F;
+
+    --surface:    #171717;
+    --surface-2:  #1E1E1E;
+    --card-base:  #232323;
+    --line:       #2F2F2F;
+    --ink-muted:  #9A9A9A;
+    --ink-body:   #C7C7C7;
+    --ink-strong: #F2F2F2;
+
+    --btn-bg:     var(--brand-purple);
+    --btn-fg:     #FFFFFF;
+    /* the VIEW cursor, the card badge and the active filter chip go with them: a white
+       disc on a near-black page is a hole punched in it */
+    --pill-bg:    var(--brand-purple);
+    --pill-fg:    #FFFFFF;
+    --cursor-pill-bg: #FFFFFF;
+    --cursor-pill-fg: #0F0F0F;
+
+    /* the same violet at full strength lights up the whole screen against a near-black
+       page — the closing purple sits deeper here */
+    --footer-purple: #38258C;
+    --sheet:         #0F0F0F;
+    --frame:      var(--line);
+    --nav-veil:   #0F0F0F;
+    --switch-knob: #9A9A9A;
+
+    /* the same hue as --brand-purple, lifted until it holds against the dark ground:
+       the brand value itself is too deep here to read as a highlight */
+    --accent:     #B4A4FF;
+    --grid-line:  rgba(255, 255, 255, 0.025);
+  }
+
   html {
     scroll-behavior: smooth;
+    /* iOS tints its own bars, and the overscroll area, from the document background —
+       not from any layer inside the page. Left at the off-white below, the top and
+       bottom of the screen read as pale bands against the page. Layout keeps this in
+       step with the purple wash as the footer arrives. */
+    background-color: var(--page-top);
   }
 
   * {
@@ -34,12 +124,341 @@
   }
 
   body {
-    background-color: var(--color-surface-base);
-    color: var(--color-primary);
+    /* Rotated cards and oversized type must never make the page scroll sideways —
+       on a phone that leaves the fixed nav spanning the screen while everything
+       sized to 100% falls short of the right edge. `clip` rather than `hidden`:
+       hidden would make the body a scroll container and break the hero's pin. */
+    overflow-x: clip;
+    background-color: transparent;
+    color: var(--ink-strong);
     font-family: 'Open Sans', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+}
+
+/* ── The page's own ground ──
+   With the hero pinned behind it, everything that scrolls over the top needs to be
+   opaque. `fixed` attachment keeps the gradient locked to the viewport, so it looks
+   identical to the fixed layer in Layout rather than sliding as the page moves. */
+.page-ground {
+  background-image: var(--page-grad);
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* ── Keyboard focus (WCAG 2.4.7 / 1.4.11) ──
+   :where() keeps specificity at 0 so components can still override.
+   7.8:1 on the light ground; the footer swaps to white for 8.4:1 on its blue. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid #422bd9;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+#contact :where(a, button):focus-visible {
+  outline-color: #ffffff;
+}
+
+/* ── Hero: copy over the colour trail ──
+   Black type sinks into the trail once the blob is genuinely behind it, so the copy
+   flips to white for as long as that lasts. The whole block turns together — switching
+   only the words that fail would read as a glitch — and eases across, so a blob passing
+   the edge of the line can never make it blink. Hero.tsx decides when, off a model of
+   how much ink is sitting over the copy. */
+.hero-copy,
+.hero-accent,
+.hero-sub {
+  transition: color 1100ms cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.hero-on-color .hero-copy { color: #ffffff; }
+.hero-on-color .hero-sub  { color: rgba(255, 255, 255, 0.82); }
+/* the accent keeps its identity but lifts off the purple it is sitting on */
+.hero-on-color .hero-accent { color: #dadfff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy,
+  .hero-accent,
+  .hero-sub { transition: none; }
+}
+
+/* ── Header over the hero's colour trail ──
+   The same read as the hero copy, driven by the same model in Hero.tsx: while the trail
+   sits behind the bar, its type lifts to white and eases back once the blob has gone.
+   Scoped to `header` so the full-screen mobile menu — purple sheet, white type — is never
+   caught by it. The menu button's bars are backgrounds, not text, so they switch too. */
+.nav-type,
+.nav-bar-line {
+  transition: color 1100ms cubic-bezier(0.33, 0, 0.2, 1),
+              background-color 1100ms cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.nav-on-color header .nav-type { color: #ffffff; }
+.nav-on-color header .nav-bar-line { background-color: #ffffff; color: #ffffff; }
+
+/* the SCROLL cue reads the same way, off its own patch of the model */
+.hero-cue {
+  transition: color 1100ms cubic-bezier(0.33, 0, 0.2, 1);
+}
+
+.hero-cue-on-color { color: #ffffff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-type,
+  .nav-bar-line { transition: none; }
+}
+
+/* ── CircleLink ──
+   A disc behind the last letters of a label, with the words repeated on top of it in
+   the disc's contrast colour and clipped to its exact shape. Both the disc and the
+   clip read the same four variables, so they can never drift out of register. */
+.circle-link {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.circle-link__disc {
+  position: absolute;
+  left: var(--cl-x);
+  top: var(--cl-y);
+  width: var(--cl-size);
+  height: var(--cl-size);
+  border-radius: 9999px;
+  background: var(--cl-color);
+  transform: translate(-50%, -50%) scale(0);
+  transform-origin: center;
+  transition: transform 380ms cubic-bezier(0.34, 1.3, 0.64, 1);
+  z-index: 0;
+}
+
+.circle-link:hover .circle-link__disc,
+.circle-link:focus-visible .circle-link__disc,
+.circle-link.is-on .circle-link__disc {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.circle-link__label {
+  position: relative;
+  z-index: 1;
+  white-space: nowrap;
+}
+
+/* the second copy sits exactly over the first and shows only inside the disc */
+.circle-link__label--on {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: var(--cl-on);
+  clip-path: circle(calc(var(--cl-size) / 2) at var(--cl-x) var(--cl-y));
+  opacity: 0;
+  transition: opacity 200ms ease 120ms;
+  pointer-events: none;
+}
+
+.circle-link:hover .circle-link__label--on,
+.circle-link:focus-visible .circle-link__label--on,
+.circle-link.is-on .circle-link__label--on {
+  opacity: 1;
+}
+
+/* the rule runs beneath the words and the disc alike, so it is never swallowed */
+.circle-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .circle-link__disc { transition: none; }
+  .circle-link__label--on { transition: none; }
+}
+
+/* ── The cursor ──
+   A ring that follows the pointer and changes for what it is over. Everything here is
+   behind the fine-pointer query: a touch device never hides its (absent) cursor, and
+   never pays for the element. */
+@media (hover: hover) and (pointer: fine) {
+  html, body, a, button, [role='button'], input, textarea, select, label {
+    cursor: none;
+  }
+
+  /* A solid disc that inverts what it covers while staying neutral itself. `difference`
+     against white is an inversion, but it inverts hue too — over the purple footer the
+     disc came out lime. Greyscaling the backdrop first takes hue out of the equation:
+     what the disc inverts is a grey, so the disc is a grey, and type crossing it flips.
+
+     The greyscale does not survive everywhere — browsers drop `backdrop-filter` on an
+     element that also carries `mix-blend-mode` — so over a saturated ground the blend
+     inverts hue as well and the disc goes lime against the purple. Rather than fight
+     that, the blend is switched off wherever the page turns purple: Layout marks the
+     document while the closing wash is up, and the footer claims it outright. There
+     the disc is a plain solid, and nothing beneath it flips. */
+  .site-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9998;
+    pointer-events: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background: var(--cursor);
+    opacity: 0;
+    will-change: transform;
+    transition:
+      width 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      height 260ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms ease;
+  }
+
+  .site-cursor[data-on='true'] { opacity: 1; }
+
+  /* on the purple nothing inverts, links included: difference against a saturated
+     ground reads as its complement, which is green here */
+  /* the footer is the exception: on that purple the disc stays white */
+  .wash-strong .site-cursor,
+  .site-cursor[data-state='plain'],
+  .site-cursor[data-state='plain-link'] {
+    mix-blend-mode: normal;
+    background: #ffffff;
+  }
+
+  /* it still swells for the footer's links — the growth is the effect there, without
+     the flip that would go green */
+  .site-cursor[data-state='plain-link'] {
+    width: 46px;
+    height: 46px;
+    mix-blend-mode: exclusion;
+  }
+
+  /* Over a link it swells and starts inverting: white in difference mode is exactly an
+     inversion, so the words it covers flip and stay readable inside it. Everywhere else
+     it is a plain solid — the blend has nothing useful to do over open page, and over a
+     saturated ground it would turn the disc into that colour's complement. */
+  .site-cursor[data-state='link'] {
+    width: 46px;
+    height: 46px;
+    background: #ffffff;
+    mix-blend-mode: difference;
+  }
+
+  /* Surfaces that carry their own label — the VIEW pill — take the cursor over. It
+     collapses to nothing rather than fading in place, so the disc and the label read
+     as one thing changing shape rather than two things swapping. */
+  .site-cursor[data-state='hide'],
+  .site-cursor[data-state='hide-link'] {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* the label the disc hands over to */
+  .cursor-pill {
+    transform-origin: center;
+    transition:
+      opacity 220ms cubic-bezier(0.4, 0, 0.2, 1),
+      scale 320ms cubic-bezier(0.34, 1.28, 0.64, 1);
+    opacity: 0;
+    scale: 0.7;
+  }
+
+  .cursor-pill[data-on='true'] {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* a press pulls it in */
+  .site-cursor[data-press='true'] { width: 10px; height: 10px; }
+  .site-cursor[data-state='link'][data-press='true'],
+  .site-cursor[data-state='plain-link'][data-press='true'] { width: 38px; height: 38px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-cursor { display: none; }
+  html, body, a, button, [role='button'], input, textarea, select, label { cursor: auto; }
+}
+
+/* ── Hero: SCROLL cue ──
+   a slow 4px drift rather than Tailwind's spring bounce, to sit with the pixel work */
+@keyframes scroll-drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+
+.scroll-cue {
+  animation: scroll-drift 2.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue { animation: none; }
+}
+
+
+/* ── Works: the card takes a wash of its own cover colour ──
+   `--card-tint` is set per card from the project's colour. The first declaration is
+   the fallback for browsers without color-mix; the second mixes a little of the tint
+   into whatever the theme's surface currently is, so the same rule works in dark mode
+   without a second palette. */
+.works-card {
+  background: var(--card-base);
+  background: color-mix(in srgb, var(--card-tint, transparent) 6%, var(--card-base));
+}
+
+/* ── Footer: the ground fading in at its top ──
+   A two-stop mask ramps alpha linearly, and a linear alpha ramp between a pale page and
+   a saturated purple does not read as linear — it lands hard at the top and drags at the
+   bottom, and the flat stretch between stops is where banding shows. These stops trace a
+   smoothstep instead, over a longer run than the padding above the first text. */
+.footer-ground {
+  --footer-fade: calc(var(--section-gap) * 1.25);
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0)    0,
+    rgba(0, 0, 0, 0.03) calc(var(--footer-fade) * 0.15),
+    rgba(0, 0, 0, 0.14) calc(var(--footer-fade) * 0.30),
+    rgba(0, 0, 0, 0.33) calc(var(--footer-fade) * 0.45),
+    rgba(0, 0, 0, 0.50) calc(var(--footer-fade) * 0.55),
+    rgba(0, 0, 0, 0.75) calc(var(--footer-fade) * 0.70),
+    rgba(0, 0, 0, 0.93) calc(var(--footer-fade) * 0.85),
+    rgba(0, 0, 0, 1)    var(--footer-fade)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0)    0,
+    rgba(0, 0, 0, 0.03) calc(var(--footer-fade) * 0.15),
+    rgba(0, 0, 0, 0.14) calc(var(--footer-fade) * 0.30),
+    rgba(0, 0, 0, 0.33) calc(var(--footer-fade) * 0.45),
+    rgba(0, 0, 0, 0.50) calc(var(--footer-fade) * 0.55),
+    rgba(0, 0, 0, 0.75) calc(var(--footer-fade) * 0.70),
+    rgba(0, 0, 0, 0.93) calc(var(--footer-fade) * 0.85),
+    rgba(0, 0, 0, 1)    var(--footer-fade)
+  );
+}
+
+/* ── Footer: the oversized line loops rather than ending ──
+   the track holds two identical copies, so -50% lands exactly on the seam */
+@keyframes footer-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.footer-marquee {
+  animation: footer-marquee 34s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-marquee { animation: none; }
 }
 
 /* ── Hero: Download CV button hover ── */
@@ -49,30 +468,20 @@
   background-color: rgba(45, 29, 158, 0.06);
 }
 
+/* ── About photo stack: the "Hi! that's me:)" pill stands in for the pointer ──
+   Stack.css sets `cursor: grab` on the cards and framer-motion sets `grabbing`
+   inline on tap, so this has to win over both. */
+@media (min-width: 768px) {
+  .about-photo-stack,
+  .about-photo-stack * {
+    cursor: none !important;
+  }
+}
+
 /* ── Stack: square cards in AboutSection ── */
-.about-stack .card {
-  border-radius: 0;
+.about-photo-stack .card {
+  border-radius: 2px;
   box-shadow: var(--shadow-2);
-}
-
-/* ── ScrollStack: neutralise default card chrome inside WorksSection ── */
-.works-scroll-stack.scroll-stack-scroller {
-  overflow-y: visible;
-  height: auto;
-}
-
-.works-scroll-stack .scroll-stack-inner {
-  padding: 0 0 16rem;
-  min-height: unset;
-}
-
-.works-scroll-stack .scroll-stack-card {
-  height: auto;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
-  transition: transform 80ms linear, filter 80ms linear;
 }
 
 @layer utilities {
