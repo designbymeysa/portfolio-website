@@ -1,0 +1,5 @@
+# Client-side routing: every route below is rendered by React Router, so the server
+# has to hand back index.html instead of looking for a file at that path. Without
+# this, /projects and every /projects/<id> 404 on a direct visit or a refresh —
+# only "/" would work. Real files (assets, /media/*) are served before this applies.
+/*  /index.html  200

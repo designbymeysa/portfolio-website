@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { Project } from '../../data/projects'
+import { coverFor } from '../Covers'
 
 /** Scroll-driven state shared with the pinned section: `i` is the outgoing
  *  project index, `t` the 0→1 crossfade progress toward project `i + 1`. */
@@ -13,6 +14,23 @@ interface ProjectMediaProps {
   /** live scroll state — read inside the draw loop so React never re-renders per frame */
   stateRef: React.MutableRefObject<MediaState>
   className?: string
+}
+
+/** What fills a project's frame: a drawn cover where the project names one, its
+ *  photograph otherwise, and the project's own colour where it has neither. */
+function Cover({ project }: { project: Project }) {
+  const Drawn = coverFor(project.cover)
+  if (Drawn) return <Drawn className="w-full h-full" />
+  if (!project.image) return null
+  return (
+    <img
+      src={project.image}
+      alt=""
+      aria-hidden="true"
+      draggable={false}
+      className="w-full h-full object-cover"
+    />
+  )
 }
 
 /** One layer per project, stacked and crossfaded by the pinned section's scroll.
@@ -43,15 +61,7 @@ export function ProjectMedia({ projects, stateRef, className }: ProjectMediaProp
           className="absolute inset-0"
           style={{ background: project.bg, opacity: idx === 0 ? 1 : 0 }}
         >
-          {project.image && (
-            <img
-              src={project.image}
-              alt=""
-              aria-hidden="true"
-              draggable={false}
-              className="w-full h-full object-cover"
-            />
-          )}
+          <Cover project={project} />
         </div>
       ))}
     </div>
@@ -65,15 +75,7 @@ export function ProjectStill({ project, className }: { project: Project; classNa
       className={`relative overflow-hidden ${className ?? ''}`}
       style={{ background: project.bg }}
     >
-      {project.image && (
-        <img
-          src={project.image}
-          alt=""
-          aria-hidden="true"
-          draggable={false}
-          className="w-full h-full object-cover"
-        />
-      )}
+      <Cover project={project} />
     </div>
   )
 }

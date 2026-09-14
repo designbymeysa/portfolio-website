@@ -1,12 +1,12 @@
 import { useInView } from '../../hooks/useInView'
-import { LeaveIcon } from '../ui/LinkIcons'
+import { LeaveIcon, UpIcon } from '../ui/LinkIcons'
 import type React from 'react'
 
-const links = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/khoshbazan/', download: false },
-  // opens on Drive rather than downloading, so it is a new tab, not a file
-  { label: 'CV', href: 'https://drive.google.com/file/d/1_N65Jsf7chdvHpVkT5p1fiKGRQNrqK0J/view?usp=sharing', download: false },
-]
+import site from '../../content/site.json'
+
+// `download: true` on an entry serves the file; false opens it in a new tab, which is
+// what the CV wants — it lives on Drive rather than in this repo
+const links = site.footer.links
 
 // the closing purple lives in CSS now (--footer-purple), so it can sit deeper in dark
 // mode; Layout reads the same token when it interpolates the wash
@@ -15,10 +15,21 @@ const links = [
 // The underline lives on the label rather than the anchor, so on the links that carry
 // an icon it runs under the words only.
 const LINK_CLASS = "group/link inline-flex items-center gap-[6px] font-['Open_Sans'] font-normal text-[14px] sm:text-[15px] text-white/80 hover:text-white transition-colors duration-[150ms]"
+// the bottom row is one run of small print — byline, year and the way back up all
+// read at the same size and ink, so the button never outweighs the line it sits on
+const META_CLASS = "font-['Open_Sans'] text-[14px] lg:text-[13px] text-white/70 leading-[1.2]"
+
 const LINK_TEXT = "relative inline-block after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover/link:after:scale-x-100"
 
 export function HomeFooter() {
   const { ref, inView } = useInView()
+
+  // `html` carries `scroll-behavior: smooth` with no reduced-motion guard on it, so the
+  // preference is honoured here instead — passing a behaviour explicitly beats the CSS.
+  const toTop = () => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, left: 0, behavior: (reduce ? 'instant' : 'smooth') as ScrollBehavior })
+  }
 
   return (
     <footer
@@ -38,7 +49,7 @@ export function HomeFooter() {
       <div className="reveal-stagger relative flex flex-col min-h-[100vh] max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] pt-[var(--section-gap)] pb-[calc(84px+env(safe-area-inset-bottom))] md:pb-[calc(32px+env(safe-area-inset-bottom))]">
 
         {/* the line itself — two copies drifting left on a loop, so it never runs out */}
-        <h2 className="sr-only">Let&apos;s keep in touch</h2>
+        <h2 className="sr-only">{site.footer.marquee}</h2>
         {/* the line leads the footer; the slack falls below the info under it */}
         <div className="mt-auto py-[14px] mb-[clamp(28px,4vw,48px)] -mx-6 sm:-mx-10 lg:-mx-[80px] overflow-hidden" aria-hidden="true">
           <div className="footer-marquee flex w-max">
@@ -50,7 +61,7 @@ export function HomeFooter() {
                    400 thickens the stems into the medium that sits between them */
                 style={{ fontSize: 'clamp(92px, 13.2vw, 260px)', WebkitTextStroke: '0.005em currentColor' }}
               >
-                Let&apos;s keep in touch
+                {site.footer.marquee}
               </span>
             ))}
           </div>
@@ -59,11 +70,11 @@ export function HomeFooter() {
         {/* the direct line on the left, the elsewheres on the right */}
         <div className="flex flex-col gap-[24px] sm:flex-row sm:items-baseline sm:justify-between">
           <a
-            href="mailto:designbymeysa@gmail.com"
+            href={`mailto:${site.footer.email}`}
             className={LINK_CLASS}
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
-            <span className={LINK_TEXT}>designbymeysa@gmail.com</span>
+            <span className={LINK_TEXT}>{site.footer.email}</span>
           </a>
 
           <div className="flex items-center gap-[40px]">
@@ -84,14 +95,25 @@ export function HomeFooter() {
             ))}
           </div>
         </div>
-        {/* bottom meta, under a rule of its own */}
-        <div className="mt-[36px] pt-[20px] border-t border-white/20 flex items-center justify-between">
-          <p className="font-['Open_Sans'] text-[13px] text-white/70 leading-[1.2]">
-            Designed &amp; built with care by Meysa
-          </p>
-          <p className="font-['Open_Sans'] text-[13px] text-white/70 leading-[1.2]">
-            ©2026
-          </p>
+        {/* bottom meta, under a rule of its own: the byline on the left, the way back
+            up on the right. The year is part of the byline's own sentence rather than a
+            second run beside it, so nothing sits between them but a word space.
+
+            The two need more room than a phone has, so the button falls to a second
+            line — and right-aligning it there parked it under the end of the byline,
+            reading as a stack. Below `sm` the row is a left-aligned column instead;
+            the spread only applies from the width where both fit. */}
+        <div className="mt-[36px] pt-[20px] border-t border-white/20 flex flex-col items-start gap-[14px] sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-x-[24px] sm:gap-y-[14px]">
+          <p className={META_CLASS}>{site.footer.byline}</p>
+
+          <button
+            type="button"
+            onClick={toTop}
+            className={`group/link inline-flex items-center gap-[6px] sm:ml-auto hover:text-white transition-colors duration-[150ms] ${META_CLASS}`}
+          >
+            <span className={LINK_TEXT}>{site.footer.backToTop}</span>
+            <UpIcon className="transition-transform duration-[200ms] group-hover/link:-translate-y-[2px]" />
+          </button>
         </div>
       </div>
     </footer>

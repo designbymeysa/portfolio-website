@@ -1,8 +1,9 @@
 import { useRef, useEffect, useState } from 'react'
 import Typewriter from '../fancy/text/typewriter'
+import site from '../../content/site.json'
 
 // the accent word in the headline types itself in and out through these
-const ACCENT_WORDS = ['Digital', 'Visual', 'Product']
+const ACCENT_WORDS = site.hero.accentWords
 
 // grid pitch for the background rule lines, in px
 const CELL = 28
@@ -361,10 +362,13 @@ export function Hero() {
       if (!cueLit && cueCover > COPY_ON_COLOR)      { cueLit = true;  setCueOnColor(true) }
       else if (cueLit && cueCover < COPY_OFF_COLOR) { cueLit = false; setCueOnColor(false) }
 
-      // the header is fixed and outlives this section, so it only follows the trail
-      // while the hero still holds the top of the screen
-      const overHero = container.getBoundingClientRect().bottom > window.innerHeight * 0.5
-      const navCover = overHero ? coverOf('nav') : 0
+      // The header is fixed and outlives this section, so it only follows the trail
+      // while the hero still holds the top of the screen. This cannot be read off the
+      // hero's own rect: it is `sticky top-0` inside a containing block that spans the
+      // document, so while pinned its bottom is always exactly one viewport down and
+      // any test against that is permanently true. Scroll position is the real signal,
+      // and it is the same one NavBar uses to go solid — so the two cannot disagree.
+      const navCover = window.scrollY < window.innerHeight - 48 ? coverOf('nav') : 0
       if (!navLit && navCover > COPY_ON_COLOR) {
         navLit = true
         document.documentElement.classList.add('nav-on-color')
@@ -375,11 +379,50 @@ export function Hero() {
 
       rafId = requestAnimationFrame(frame)
     }
-    rafId = requestAnimationFrame(frame)
+
+    // The trail costs a full-canvas fade and a sample decay every frame, and it went on
+    // paying that for the whole page — the canvas is scrolled to opacity 0 long before
+    // the footer, but the loop never noticed. An IntersectionObserver is no use here:
+    // the hero is sticky, so it is technically on screen the entire time. The same
+    // scroll maths that fades the ground decides it instead.
+    const coarse = window.matchMedia('(hover: none)')
+    const heroOnScreen = () => {
+      const hold = coarse.matches ? window.innerHeight * 0.5 : 0
+      return window.scrollY - hold < window.innerHeight * 0.9
+    }
+
+    let running = false
+    const start = () => {
+      if (running) return
+      running = true
+      rafId = requestAnimationFrame(frame)
+    }
+    const stop = () => {
+      if (!running) return
+      running = false
+      cancelAnimationFrame(rafId)
+      // leave nothing behind to come back to: a frozen blob would still be sitting
+      // there on the way up, and whatever flip the type had would be frozen with it
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      for (const smp of samples) smp.ink = 0
+      lit = navLit = cueLit = false
+      seen = false
+      idle = 0
+      wiped = false
+      setOnColor(false)
+      setCueOnColor(false)
+      document.documentElement.classList.remove('nav-on-color')
+    }
+
+    const onVisibility = () => { heroOnScreen() ? start() : stop() }
+    onVisibility()
+    window.addEventListener('scroll', onVisibility, { passive: true })
 
     return () => {
+      running = false
       cancelAnimationFrame(rafId)
       themeWatch.disconnect()
+      window.removeEventListener('scroll', onVisibility)
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMove)
       container.removeEventListener('touchstart', onTouchStart)
@@ -479,25 +522,31 @@ export function Hero() {
           style={{ fontSize: 'clamp(38px, 6.4vw, 92px)', letterSpacing: '-0.018em' }}
         >
           <span aria-hidden="true">
-            Hi! I'm Meysa,
+            {site.hero.greeting}
             <br />
-            a{' '}
-            <em className="hero-accent inline-block italic text-[color:var(--brand-purple)] whitespace-nowrap">
+            {site.hero.articleBeforeAccent}
+            {/* --accent, not --brand-purple: the two are the same colour in light mode, but
+                the brand value is too deep to read against the dark ground and --accent
+                is the lifted hue that holds there */}
+            <em className="hero-accent inline-block italic text-[color:var(--accent)] whitespace-nowrap">
               {reducedMotion
                 ? ACCENT_WORDS[0]
                 : <Typewriter text={ACCENT_WORDS} speed={95} deleteSpeed={45} waitTime={2100} />}
             </em>{' '}
-            Designer
+            {site.hero.role}
           </span>
-          <span className="sr-only">Hi! I'm Meysa, a digital designer</span>
+          <span className="sr-only">{site.hero.screenReaderHeadline}</span>
         </h1>
 
         <p
           className="hero-copy hero-sub font-['Open_Sans'] font-normal text-[color:var(--ink-muted)] leading-[1.45] max-w-[620px]"
-          style={{ fontSize: 'clamp(15px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
+          style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
         >
-          Shaping products and experiences that put{' '}
-          <span className="hero-copy font-semibold text-[color:var(--ink-strong)]">people's wellbeing</span> first.
+          {site.hero.subtitle.before}
+          <span className="hero-copy font-semibold text-[color:var(--ink-strong)]">
+            {site.hero.subtitle.emphasis}
+          </span>
+          {site.hero.subtitle.after}
         </p>
         </div>
       </div>
@@ -510,7 +559,7 @@ export function Hero() {
           aria-label="Scroll to the work"
           className={`hero-cue font-['Open_Sans'] text-[11px] text-[color:var(--ink-muted)] tracking-[0.18em] scroll-cue cursor-pointer ${cueOnColor ? 'hero-cue-on-color' : ''}`}
         >
-          SCROLL
+          {site.hero.scrollCue}
         </button>
       </div>
     </section>

@@ -32,6 +32,25 @@ export function BackIcon({ className = '' }: { className?: string }) {
   )
 }
 
+/** up — the onward arrow turned a quarter left: returns to the top */
+export function UpIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg {...SHARED} className={`h-[13px] w-[13px] shrink-0 ${className}`}>
+      <line x1="12" y1="20" x2="12" y2="5" />
+      <polyline points="6 11 12 5 18 11" />
+    </svg>
+  )
+}
+
+/** open — a chevron for anything that folds out; rotate it to close */
+export function ChevronIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg {...SHARED} className={`h-[13px] w-[13px] shrink-0 ${className}`}>
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  )
+}
+
 /** away — the same stroke, turned out of the corner: opens elsewhere */
 export function LeaveIcon({ className = '' }: { className?: string }) {
   return (

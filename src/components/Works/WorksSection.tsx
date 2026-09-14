@@ -9,6 +9,7 @@ import { SectionLabel } from '../ui/SectionLabel'
 import { ArrowIcon } from '../ui/LinkIcons'
 import { CardBadge } from '../ui/CardBadge'
 import { useTouchReveal } from '../../hooks/useTouchReveal'
+import site from '../../content/site.json'
 import type React from 'react'
 
 // The VIEW label follows a cursor, and a touch screen has none: iOS fires one synthetic
@@ -17,7 +18,7 @@ import type React from 'react'
 const FINE_POINTER =
   typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-const featured = allProjects.slice(0, 3)
+const featured = allProjects.slice(0, 4)
 
 // fraction of each scroll segment spent holding a project still before it dissolves
 const HOLD = 0.42
@@ -113,7 +114,10 @@ export function WorksSection() {
     const rect = track.getBoundingClientRect()
     const span = rect.height - window.innerHeight
     if (span <= 0) return
-    const p = Math.min(1, (idx + HOLD * 0.5) / Math.max(1, featured.length))
+    // the scroll timeline is split into handovers, not projects — `update` reads it as
+    // `p * segments`, so the same divisor has to be used here or the last dash lands short
+    const segments = Math.max(1, featured.length - 1)
+    const p = Math.min(1, (idx + HOLD * 0.5) / segments)
     window.scrollTo({ top: rect.top + window.scrollY + p * span, behavior: 'smooth' })
   }
 
@@ -136,7 +140,7 @@ export function WorksSection() {
 
           {/* header — stays in view for the whole run of projects */}
           <div className="shrink-0 max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] mb-[16px] md:mb-0">
-            <SectionLabel>Case studies</SectionLabel>
+            <SectionLabel>{site.works.label}</SectionLabel>
           </div>
 
           {/* the card fills whatever the header leaves on a phone, and is centred in it
@@ -153,10 +157,6 @@ export function WorksSection() {
               /* row-reverse rather than reordering the markup: the image still comes
                  first in the DOM, so it is read before the copy it belongs to */
               className="works-card group no-underline flex flex-col-reverse lg:flex-row-reverse lg:items-center overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px]"
-              style={{
-                // each card carries its own project's colour for the wash
-                ['--card-tint' as string]: project.bg,
-              } as React.CSSProperties}
               /* the VIEW pill is this card's cursor, so the ring stands down */
               data-cursor="hide"
               /* viewport coordinates, not card-relative: the pill is portalled to the
@@ -199,7 +199,7 @@ export function WorksSection() {
                     <p className="font-['Libre_Caslon_Text'] font-normal text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
                       {project.title}
                     </p>
-                    <p className="font-['Open_Sans'] font-light text-[14px] lg:text-[16px] text-[color:var(--ink-body)] leading-[21px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"
+                    <p className="font-['Open_Sans'] font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"
                       style={{ fontVariationSettings: '"wdth" 100' }}>
                       {project.description}
                     </p>
@@ -254,7 +254,7 @@ export function WorksSection() {
                 className="font-['Open_Sans'] font-semibold text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] flex items-center gap-1 shrink-0"
                 style={{ fontVariationSettings: '"wdth" 100' }}
               >
-                VIEW ALL <ArrowIcon />
+                {site.works.viewAll} <ArrowIcon />
               </Link>
             </div>
 

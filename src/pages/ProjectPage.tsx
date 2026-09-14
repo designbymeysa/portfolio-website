@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
-import { sectionsFor, projectById, headlineFor, accentFor } from '../data/caseStudies'
-import type { Figure } from '../data/caseStudies'
+import { sectionsFor, projectById, headlineFor, accentFor, caseStudies } from '../data/caseStudies'
+import { coverFor } from '../components/Covers'
+import { Blocks, Emphasis, FigureBlock } from '../components/CaseStudy/Blocks'
 import { Button } from '../components/Button/Button'
+import { projects } from '../data/projects'
 import { Tag } from '../components/Tag/Tag'
 import { ArrowIcon, BackIcon, LeaveIcon } from '../components/ui/LinkIcons'
 import type React from 'react'
@@ -11,45 +13,6 @@ import type React from 'react'
 /** the small tracked capital used for the eyebrow and the meta labels */
 const META_LABEL =
   "font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
-
-/** rough perceived lightness of a #rrggbb, 0–255 */
-function lightness(hex: string) {
-  const h = hex.replace('#', '')
-  if (h.length !== 6) return 255
-  const [r, g, b] = [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16))
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-
-function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) {
-  // the tile is the project's own colour, which may be pale or dark — the caption
-  // picks the side that reads against it rather than assuming a light ground
-  const onDark = lightness(tint) < 140
-  const label = onDark ? 'text-white/45' : 'text-black/40'
-  const caption = onDark ? 'text-white/70' : 'text-black/55'
-  return (
-    <div
-      className={`rounded-[2px] overflow-hidden ${figure.span === 'half' ? '' : 'w-full'}`}
-      style={{
-        aspectRatio: figure.span === 'half' ? '4 / 3' : '16 / 9',
-        background: figure.src ? undefined : tint,
-      }}
-    >
-      {figure.src ? (
-        <img src={figure.src} alt={figure.caption} className="w-full h-full object-cover" />
-      ) : (
-        // no asset yet: the frame still holds its place, and says what belongs in it
-        <div className="w-full h-full flex flex-col items-center justify-center gap-[6px] px-6 text-center">
-          {/* the tile is a light tint in both themes, so this type does not follow the
-              theme's ink — it would vanish in dark mode */}
-          <span className={`font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] ${label}`}>
-            Image
-          </span>
-          <span className={`font-['Open_Sans'] text-[13px] ${caption}`}>{figure.caption}</span>
-        </div>
-      )}
-    </div>
-  )
-}
 
 export default function ProjectPage() {
   const { id } = useParams()
@@ -65,7 +28,9 @@ export default function ProjectPage() {
   const { ref, inView } = useInView(0.03)
   const [active, setActive] = useState('')
 
-  const sections = project ? sectionsFor(project) : []
+  // a fresh array every render would re-subscribe the scroll listener below on every
+  // one of them — and `setActive` fires from that listener while scrolling
+  const sections = useMemo(() => (project ? sectionsFor(project) : []), [project])
 
   // which section the reader is in, for the sidebar
   useEffect(() => {
@@ -91,11 +56,17 @@ export default function ProjectPage() {
   if (!project) return <Navigate to="/projects" replace />
 
   const [before, accent, after] = headlineFor(project)
-  const meta = [
+  const Drawn = coverFor(project.cover)
+  const study = caseStudies[project.id]
+  const next = projects[(projects.indexOf(project) + 1) % projects.length]
+  // the study's own line wins; explicitly null means none; otherwise the project's
+  const subtitle = study?.subtitle === undefined ? project.subtitle : study.subtitle
+  // the case study can name its own credits — a thesis has a supervisor, not a team
+  const meta = study?.meta ?? [
     { label: 'Role', value: project.role },
     { label: 'Team', value: project.team },
     { label: 'Industry', value: project.industry },
-  ].filter(m => m.value)
+  ].filter((m): m is { label: string; value: string } => !!m.value)
 
   return (
     <div
@@ -140,10 +111,22 @@ export default function ProjectPage() {
           </nav>
         </aside>
 
-        {/* the case study itself */}
-        <article className="min-w-0">
-          <div className="flex items-center justify-between gap-4 mb-[18px]">
-            <span className={META_LABEL}>{project.title}</span>
+        {/* the case study itself. Where the study names an ink accent, the pair is set
+            here as custom properties and globals.css picks one per theme; every accent
+            mark inside falls back to the site's own when they are absent. */}
+        <article
+          className={`min-w-0 ${study?.inkAccent ? 'study-accent' : ''}`}
+          style={study?.inkAccent ? {
+            ['--study-accent-light' as string]: study.inkAccent.light,
+            ['--study-accent-dark'  as string]: study.inkAccent.dark,
+          } as React.CSSProperties : undefined}
+        >
+          <div className="flex items-center justify-between gap-4 mb-[28px]">
+            {/* the eyebrow takes the study's accent where it has one — the first mark
+                of the page's colour, before any of the content that carries it */}
+            <span className={`${META_LABEL} ${study?.inkAccent ? 'text-[color:var(--study-accent)]' : ''}`}>
+              {study?.eyebrow ?? project.title}
+            </span>
 
             {/* the way back out to the set, level with the project's own name */}
             <Link
@@ -155,7 +138,7 @@ export default function ProjectPage() {
           </div>
 
           <h1
-            className="font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.14] tracking-[-0.015em] mb-[16px]"
+            className="font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.14] tracking-[-0.015em] mb-[20px]"
             style={{ fontSize: 'clamp(30px, 4.4vw, 52px)' }}
           >
             {before}
@@ -163,29 +146,38 @@ export default function ProjectPage() {
             {after}
           </h1>
 
-          {project.subtitle && (
-            <p className="font-['Open_Sans'] text-[15px] text-[color:var(--ink-body)] mb-[36px]">
-              {project.subtitle}
+          {subtitle && (
+            <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[48px]">
+              {subtitle}
             </p>
           )}
 
-          {/* the opening image */}
+          {/* the opening image — unless the study reuses its cover further down */}
+          {!study?.hideBanner && (
           <div
             className="w-full rounded-[2px] overflow-hidden mb-[28px]"
             style={{ aspectRatio: '16 / 9', background: accentFor(project) }}
           >
-            {project.image && (
-              <img src={project.image} alt="" aria-hidden="true" className="w-full h-full object-cover" />
-            )}
+            {Drawn ? (
+              <Drawn className="w-full h-full" />
+            ) : (project.heroImage ?? project.image) ? (
+              <img
+                src={project.heroImage ?? project.image}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover"
+              />
+            ) : null}
           </div>
+          )}
 
           {/* credits */}
           {meta.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[20px] sm:gap-[40px] pb-[20px] border-b border-[color:var(--line)] mb-[var(--section-gap)]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[20px] sm:gap-[40px] pb-[36px] border-b border-[color:var(--line)] mb-[56px] lg:mb-[64px]">
               {meta.map(m => (
                 <div key={m.label}>
                   <span className={`${META_LABEL} block mb-[8px]`}>{m.label}</span>
-                  <p className="font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)]">
+                  <p className="font-['Open_Sans'] text-[14px] lg:text-[13px] leading-[1.5] text-[color:var(--ink-body)]">
                     {m.value}
                   </p>
                 </div>
@@ -196,14 +188,20 @@ export default function ProjectPage() {
           <div className="flex flex-col gap-[var(--section-gap)]">
             {sections.map(s => (
               <section key={s.id} id={s.id} className="scroll-mt-[100px]">
-                <h2 className="font-['Libre_Caslon_Text'] font-normal text-[clamp(22px,2.4vw,30px)] text-[color:var(--ink-strong)] leading-[1.25] mb-[16px]">
+                <h2 className="font-['Libre_Caslon_Text'] font-normal text-[clamp(22px,2.4vw,30px)] text-[color:var(--ink-strong)] leading-[1.25] mb-[24px]">
                   {s.heading}
                 </h2>
 
                 {s.body && (
-                  <p className="font-['Open_Sans'] font-light text-[15px] leading-[1.7] text-[color:var(--ink-body)] max-w-[720px]">
-                    {s.body}
+                  <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]">
+                    <Emphasis text={s.body} />
                   </p>
+                )}
+
+                {s.blocks && (
+                  <div className="mt-[20px]">
+                    <Blocks blocks={s.blocks} tint={project.bg} />
+                  </div>
                 )}
 
                 {s.figuresFirst && s.figures && (
@@ -217,14 +215,14 @@ export default function ProjectPage() {
                 )}
 
                 {s.bullets && (
-                  <ul className="flex flex-col gap-[10px] mt-[20px] max-w-[720px] list-none">
+                  <ul className="flex flex-col gap-[10px] mt-[20px] list-none">
                     {s.bullets.map(b => (
                       <li key={b} className="flex items-start gap-[12px]">
                         <span
                           aria-hidden="true"
-                          className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--accent)]"
+                          className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--study-accent,var(--accent))]"
                         />
-                        <span className="font-['Open_Sans'] text-[14px] leading-[1.6] text-[color:var(--ink-body)]">
+                        <span className="font-['Open_Sans'] text-[16px] lg:text-[14px] leading-[1.6] text-[color:var(--ink-body)]">
                           {b}
                         </span>
                       </li>
@@ -233,7 +231,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.highlight && (
-                  <p className="font-['Open_Sans'] font-semibold text-[14px] text-[color:var(--accent)] mt-[20px]">
+                  <p className="font-['Open_Sans'] font-semibold text-[14px] text-[color:var(--study-accent,var(--accent))] mt-[20px]">
                     {s.highlight}
                   </p>
                 )}
@@ -249,34 +247,50 @@ export default function ProjectPage() {
                 )}
 
                 {s.outro && (
-                  <p className="font-['Open_Sans'] font-light text-[15px] leading-[1.7] text-[color:var(--ink-body)] max-w-[720px] mt-[20px]">
+                  <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mt-[20px]">
                     {s.outro}
                   </p>
                 )}
 
                 {s.action && (
                   <div className="mt-[28px]">
-                    <a
-                      href={s.action.href}
-                      {...(s.action.download
-                        ? { download: true }
-                        : { target: '_blank', rel: 'noopener noreferrer' })}
-                    >
-                      <Button variant="primary">
-                        <span className="inline-flex items-center gap-[8px]">
-                          {s.action.label}
-                          {/* these leave the site — the turned arrow, not the onward one */}
-                          {s.action.download ? <ArrowIcon /> : <LeaveIcon />}
-                        </span>
-                      </Button>
-                    </a>
+                    {s.action.lead && (
+                      <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[16px]">
+                        {s.action.lead}
+                      </p>
+                    )}
+                    <div className="flex flex-wrap items-center gap-x-[20px] gap-y-[12px]">
+                      <a
+                        href={s.action.href}
+                        {...(s.action.download
+                          ? { download: true }
+                          : { target: '_blank', rel: 'noopener noreferrer' })}
+                      >
+                        <Button variant="primary">
+                          <span className="inline-flex items-center gap-[8px]">
+                            {s.action.label}
+                            {/* a download or an external site both take the reader out —
+                                the turned arrow, not the onward one */}
+                            <LeaveIcon />
+                          </span>
+                        </Button>
+                      </a>
+                      {s.action.aside && (
+                        <a
+                          href={s.action.aside.href}
+                          className="font-['Open_Sans'] text-[15px] text-[color:var(--ink-strong)] underline underline-offset-[4px] decoration-[color:var(--line)] hover:decoration-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+                        >
+                          {s.action.aside.label}
+                        </a>
+                      )}
+                    </div>
                   </div>
                 )}
               </section>
             ))}
           </div>
 
-          <div className="mt-[var(--section-gap)] pt-[20px] border-t border-[color:var(--line)] flex flex-col gap-[28px] sm:flex-row-reverse sm:items-center sm:justify-between">
+          <div className="mt-[var(--section-gap)] pt-[20px] border-t border-[color:var(--line)] flex flex-col gap-[28px] sm:flex-row sm:items-center sm:justify-between">
             {project.tags?.length > 0 && (
               <div className="flex flex-wrap gap-[8px]">
                 {project.tags.map(t => (
@@ -292,10 +306,16 @@ export default function ProjectPage() {
               </div>
             )}
 
-            {/* the way on, once the reader reaches the end */}
-            <Link to="/projects" className="shrink-0">
-              <Button variant="primary" label="View all case studies" />
-            </Link>
+            {/* the way on, once the reader reaches the end: the next study in the set,
+                wrapping back to the first after the last */}
+            {next && (
+              <Link
+                to={next.href}
+                className={`${META_LABEL} flex items-center gap-[6px] shrink-0 hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]`}
+              >
+                Next case study <ArrowIcon className="h-[11px] w-[11px]" />
+              </Link>
+            )}
           </div>
 
         </article>

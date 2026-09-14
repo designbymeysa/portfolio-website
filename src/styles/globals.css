@@ -87,10 +87,11 @@
     --ink-body:   #C7C7C7;
     --ink-strong: #F2F2F2;
 
-    --btn-bg:     var(--brand-purple);
-    --btn-fg:     #FFFFFF;
-    /* the VIEW cursor, the card badge and the active filter chip go with them: a white
-       disc on a near-black page is a hole punched in it */
+    /* white on the dark page, as they are ink-on-paper in the light one */
+    --btn-bg:     #FFFFFF;
+    --btn-fg:     #0F0F0F;
+    /* the card badge and the active filter chip keep the violet: a white disc on a
+       near-black page is a hole punched in it */
     --pill-bg:    var(--brand-purple);
     --pill-fg:    #FFFFFF;
     --cursor-pill-bg: #FFFFFF;
@@ -186,16 +187,19 @@
 /* ── Header over the hero's colour trail ──
    The same read as the hero copy, driven by the same model in Hero.tsx: while the trail
    sits behind the bar, its type lifts to white and eases back once the blob has gone.
-   Scoped to `header` so the full-screen mobile menu — purple sheet, white type — is never
-   caught by it. The menu button's bars are backgrounds, not text, so they switch too. */
+   Scoped to `header` so the full-screen mobile menu is never caught by it, and held off
+   entirely while that menu is up: the sheet was a purple one when this was written, but
+   `--sheet` is now near-white in light mode, and a white close button on it disappears
+   (1.03:1). Once the sheet is the ground, the bar reads against that, not against the
+   trail behind it. The menu button's bars are backgrounds, not text, so they switch too. */
 .nav-type,
 .nav-bar-line {
   transition: color 1100ms cubic-bezier(0.33, 0, 0.2, 1),
               background-color 1100ms cubic-bezier(0.33, 0, 0.2, 1);
 }
 
-.nav-on-color header .nav-type { color: #ffffff; }
-.nav-on-color header .nav-bar-line { background-color: #ffffff; color: #ffffff; }
+.nav-on-color:not(.menu-open) header .nav-type { color: #ffffff; }
+.nav-on-color:not(.menu-open) header .nav-bar-line { background-color: #ffffff; color: #ffffff; }
 
 /* the SCROLL cue reads the same way, off its own patch of the model */
 .hero-cue {
@@ -207,80 +211,6 @@
 @media (prefers-reduced-motion: reduce) {
   .nav-type,
   .nav-bar-line { transition: none; }
-}
-
-/* ── CircleLink ──
-   A disc behind the last letters of a label, with the words repeated on top of it in
-   the disc's contrast colour and clipped to its exact shape. Both the disc and the
-   clip read the same four variables, so they can never drift out of register. */
-.circle-link {
-  position: relative;
-  display: inline-block;
-  isolation: isolate;
-  color: inherit;
-  text-decoration: none;
-  padding-bottom: 2px;
-}
-
-.circle-link__disc {
-  position: absolute;
-  left: var(--cl-x);
-  top: var(--cl-y);
-  width: var(--cl-size);
-  height: var(--cl-size);
-  border-radius: 9999px;
-  background: var(--cl-color);
-  transform: translate(-50%, -50%) scale(0);
-  transform-origin: center;
-  transition: transform 380ms cubic-bezier(0.34, 1.3, 0.64, 1);
-  z-index: 0;
-}
-
-.circle-link:hover .circle-link__disc,
-.circle-link:focus-visible .circle-link__disc,
-.circle-link.is-on .circle-link__disc {
-  transform: translate(-50%, -50%) scale(1);
-}
-
-.circle-link__label {
-  position: relative;
-  z-index: 1;
-  white-space: nowrap;
-}
-
-/* the second copy sits exactly over the first and shows only inside the disc */
-.circle-link__label--on {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  color: var(--cl-on);
-  clip-path: circle(calc(var(--cl-size) / 2) at var(--cl-x) var(--cl-y));
-  opacity: 0;
-  transition: opacity 200ms ease 120ms;
-  pointer-events: none;
-}
-
-.circle-link:hover .circle-link__label--on,
-.circle-link:focus-visible .circle-link__label--on,
-.circle-link.is-on .circle-link__label--on {
-  opacity: 1;
-}
-
-/* the rule runs beneath the words and the disc alike, so it is never swallowed */
-.circle-link::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 1px;
-  background: currentColor;
-  z-index: 3;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .circle-link__disc { transition: none; }
-  .circle-link__label--on { transition: none; }
 }
 
 /* ── The cursor ──
@@ -404,14 +334,76 @@
 }
 
 
-/* ── Works: the card takes a wash of its own cover colour ──
-   `--card-tint` is set per card from the project's colour. The first declaration is
-   the fallback for browsers without color-mix; the second mixes a little of the tint
-   into whatever the theme's surface currently is, so the same rule works in dark mode
-   without a second palette. */
+/* ── Case study ink accent ──
+   A study can name the colour its content marks take — bullets, numbers, pulled-out
+   lines — as a light/dark pair set on the article by ProjectPage. The theme resolves
+   the pair to the one `--study-accent` the blocks read; a study without one never sets
+   these, and every mark falls through to the site's own `--accent`. */
+.study-accent       { --study-accent: var(--study-accent-light); }
+.dark .study-accent { --study-accent: var(--study-accent-dark); }
+
+/* ── Wellbeing cover: the loop assembles itself ──
+   The ring is drawn rather than faded — a mask in WellbeingLoop.tsx sweeps a solid arc
+   clockwise from twelve o'clock — and everything else is timed off that sweep. One lap
+   takes 3400ms, so the line covers a quarter every 850ms and reaches each stage exactly
+   as that stage's own delay comes up: the loop looks travelled, with each pill arriving
+   under the line rather than beside it. Linear easing is what keeps the two in step; an
+   eased sweep would drift away from the stage timings at the middle of each quarter.
+
+   `transform-box: fill-box` is what makes a stage scale about its own centre — without
+   it an SVG group scales about the viewBox origin and flies in from the corner.
+   WellbeingLoop.tsx adds `wl-on` when the cover first comes into view. */
+.wl-arrow { opacity: 0; }
+
+.wl-step {
+  opacity: 0;
+  transform: scale(0.86);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.wl-on .wl-draw {
+  animation: wl-draw 3400ms linear forwards;
+}
+
+.wl-on .wl-step {
+  animation: wl-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: calc(var(--i) * 850ms);
+}
+
+/* each arrowhead sits at the midpoint of its segment, so it lands half a quarter on */
+.wl-on .wl-arrow {
+  animation: wl-fade 600ms ease forwards;
+  animation-delay: calc(425ms + var(--i) * 850ms);
+}
+
+@keyframes wl-fade { to { opacity: 1; } }
+@keyframes wl-rise { to { opacity: 1; transform: scale(1); } }
+@keyframes wl-draw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  /* the sequence is the whole point, and it cannot be conveyed standing still — so the
+     finished loop is shown outright. The ring needs its offset cleared explicitly: the
+     mask is hidden by an attribute, and only a declaration can override that. */
+  .wl-arrow,
+  .wl-step {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .wl-draw {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}
+
+/* ── Works: the project cards ──
+   One ground for every card, from the theme. These used to take a 6% wash of their own
+   project's colour, which read as each card being a slightly different grey — and once
+   one project's colour was a saturated blue, as one card being a different colour. */
 .works-card {
   background: var(--card-base);
-  background: color-mix(in srgb, var(--card-tint, transparent) 6%, var(--card-base));
 }
 
 /* ── Footer: the ground fading in at its top ──

@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
-const navItems = [
-  { label: 'Work', id: 'work' },
-  { label: 'About',    id: 'about' },
-  { label: 'Contact',  id: 'contact' },
-]
+import site from '../../content/site.json'
+
+const navItems = site.nav
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
@@ -28,6 +26,7 @@ interface NavBarProps {
 
 export function NavBar({ isDark, onToggleDark }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
   const [visible, setVisible]   = useState(false)
   const [solid,  setSolid]      = useState(false)
   const [activeSection, setActiveSection] = useState('')
@@ -95,6 +94,38 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       window.removeEventListener('mousemove', onMouseMove)
     }
   }, [isHome])
+
+  // ── while the sheet is up ──
+  // The page went on scrolling behind it, and the only way out was the button that
+  // opened it. Both are undone the moment it closes, and the lock records what it
+  // replaced rather than assuming — `body` carries `overflow-x: clip` from the
+  // stylesheet, which has to come back exactly as it was.
+  useEffect(() => {
+    if (!menuOpen) return
+
+    const body = document.body.style.overflow
+    const root = document.documentElement.style.overflow
+    document.body.style.overflow = 'hidden'
+    document.documentElement.style.overflow = 'hidden'
+    // the sheet is the ground now, so the bar stops following the hero's trail —
+    // white type over a near-white sheet is a close button nobody can see
+    document.documentElement.classList.add('menu-open')
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      setMenuOpen(false)
+      // focus would otherwise be left on a sheet that is no longer there
+      menuButtonRef.current?.focus()
+    }
+    window.addEventListener('keydown', onKey)
+
+    return () => {
+      document.body.style.overflow = body
+      document.documentElement.style.overflow = root
+      document.documentElement.classList.remove('menu-open')
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [menuOpen])
 
   // scroll-spy: highlight the nav item for the section currently in view
   useEffect(() => {
@@ -180,9 +211,12 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
             {darkToggle('hidden md:block')}
 
             <button
+              ref={menuButtonRef}
               className="md:hidden relative w-8 h-8"
               onClick={() => setMenuOpen(!menuOpen)}
               aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
             >
               {/* closed: all three bars drawn from ONE element (center bar + two box-shadow copies)
                   so they share a single paint pass and are guaranteed the same weight.
@@ -205,13 +239,27 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
         </nav>
       </header>
 
-      {/* full-screen mobile menu */}
+      {/* full-screen mobile menu.
+
+          `pointer-events-none` alone left the closed sheet in the tab order: it stops
+          the mouse, not the keyboard, and below `md` this element is still displayed.
+          Tabbing a phone page walked into three invisible links and a second theme
+          toggle. `visibility: hidden` takes the whole subtree out of the tab order and
+          the accessibility tree at once — and, transitioned with a delay that matches
+          the fade, only after the sheet has finished going. */}
       <div
+        id="mobile-menu"
         className={`
           fixed inset-0 z-40 md:hidden flex flex-col
-          bg-[color:var(--sheet)] transition-opacity duration-500 ease-[cubic-bezier(0,0,0.2,1)]
-          ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
+          bg-[color:var(--sheet)]
+          ${menuOpen ? 'opacity-100' : 'opacity-0'}
         `}
+        style={{
+          visibility: menuOpen ? 'visible' : 'hidden',
+          transition: menuOpen
+            ? 'opacity 500ms cubic-bezier(0,0,0.2,1)'
+            : 'opacity 500ms cubic-bezier(0,0,0.2,1), visibility 0s 500ms',
+        }}
       >
         {/* the same gutter the header uses, so the items start on the wordmark's edge.
             The top pad clears the bar, which stays over the sheet and carries the close. */}

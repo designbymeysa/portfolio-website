@@ -1,0 +1,64 @@
+{
+  "bio": {
+    "name": "Meysa",
+    "fullName": "Fatemeh Khosh",
+    "tagline": "A multidisciplinary designer who transforms research into experiences people actually enjoy using.",
+    "location": "Milan, Italy",
+    "email": "designbymeysa@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/khoshbazan/",
+    "behance": "https://www.behance.net/designbymeysa"
+  },
+
+  "nav": [
+    { "label": "Work", "id": "work" },
+    { "label": "About", "id": "about" },
+    { "label": "Contact", "id": "contact" }
+  ],
+
+  "hero": {
+    "greeting": "Hi! I'm Meysa,",
+    "articleBeforeAccent": "a ",
+    "accentWords": ["UX", "Visual", "Product"],
+    "role": "Designer",
+    "screenReaderHeadline": "Hi! I'm Meysa, a UX designer",
+    "subtitle": {
+      "before": "focused on designing for ",
+      "emphasis": "health and wellbeing",
+      "after": ", one interface at a time."
+    },
+    "scrollCue": "SCROLL"
+  },
+
+  "works": {
+    "label": "Case studies",
+    "viewAll": "VIEW ALL"
+  },
+
+  "workPage": {
+    "label": "Work",
+    "heading": "Case studies",
+    "allFilterLabel": "All"
+  },
+
+  "footer": {
+    "marquee": "Let's keep in touch",
+    "email": "designbymeysa@gmail.com",
+    "links": [
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/khoshbazan/", "download": false },
+      {
+        "label": "CV",
+        "href": "https://drive.google.com/file/d/1_N65Jsf7chdvHpVkT5p1fiKGRQNrqK0J/view?usp=sharing",
+        "download": false
+      }
+    ],
+    "byline": "Designed & built with care by Meysa ©2026",
+    "backToTop": "Back to top"
+  },
+
+  "notFound": {
+    "code": "404",
+    "heading": "This page took a wrong turn.",
+    "body": "The address you followed doesn't lead anywhere on this site — it may have moved, or it may never have existed.",
+    "backLabel": "Back to home"
+  }
+}

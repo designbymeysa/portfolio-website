@@ -7,32 +7,36 @@ import { SectionLabel } from '../ui/SectionLabel'
 import { LeaveIcon } from '../ui/LinkIcons'
 import Stack from '../Stack/Stack'
 import { SkillsTicker } from '../Ticker/SkillsTicker'
+import about from '../../content/about.json'
 import type React from 'react'
 
-const EXPERIENCE = [
-  { role: 'Designer',           note: 'Biotechnology Research',      org: 'Empatica',                      period: '2025 — Present', logo: '/logos/empatica_logo.jpeg', url: 'https://www.empatica.com' },
-  { role: 'Research Assistant', note: 'Sustainable design research', org: 'LeNS Lab, Politecnico di Milano', period: '2024',           logo: '/logos/lenslab_polimi_logo.jpg', url: 'https://www.lenslab.polimi.it' },
-  { role: 'MSc of Digital and Interaction Design', note: "Master's degree",   org: 'Politecnico di Milano',         period: '2023 — 2025',    logo: '/logos/polimi_logo.jpeg', url: 'https://www.polimi.it/en' },
-]
-
-// Photos for the About stack — drop your images in public/about/ with these names.
-// Add or remove entries here to match how many photos you have; each carries the
-// caption its cursor pill shows while that photo is the one on top.
-const photos = [
-  { src: '/about/photo_1.png', caption: "Hi! That's me :)" },
-  { src: '/about/photo_2.png', caption: "A day I'm proud of" },
-  { src: '/about/photo_3.png', caption: "OOO, I'm here" },
-  { src: '/about/photo_4.png', caption: 'Or doing yoga' },
-]
+// Every word and every path in this section comes from `src/content/about.json`.
+// Photos: drop the files in public/about/ and list them there; each carries the caption
+// its cursor pill shows while that photo is the one on top. Add or remove entries to
+// match how many you have — nothing here counts them.
+const EXPERIENCE = about.experience.items
+const photos = about.photos
 
 // Stack paints the last card on top, so reverse — photo_1 is the one on show by default.
 // Stack numbers cards 1..n by their position in this deck, so a card's id indexes it.
 const photoDeck = [...photos].reverse()
 
-const ABOUT_COPY = [
-  "Hi, I'm Meysa, a designer based in Milan, originally drawn to design because I like untangling complex problems into solutions centered on people's wellbeing.",
-  "Right now I'm at Empatica, working on wearable health tech and moving fluidly between UX, UI, and the messier in-between: clinical iconography, test-flow design for patients and clinicians alike, data visualization, marketing graphics, and documentation.",
-]
+// one weight and one ink across the whole block — no phrase is set apart
+const ABOUT_COPY = about.copy
+
+/** `*like this*` in the copy becomes an italic run — the one piece of inline markup the
+ *  JSON gets, so an aside can be set in the voice of an aside. */
+function Italics({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(/(\*[^*]+\*)/g).map((part, i) =>
+        part.startsWith('*') && part.endsWith('*')
+          ? <em key={i}>{part.slice(1, -1)}</em>
+          : <span key={i}>{part}</span>,
+      )}
+    </>
+  )
+}
 
 // same pitch as the hero's grid, so the two sections rule to one another
 const CELL = 28
@@ -227,20 +231,20 @@ export function AboutSection() {
         {/* ── ABOUT — intro + photo ───────────────────────────── */}
         <div className="flex flex-col lg:flex-row lg:items-center gap-[56px] lg:gap-[96px]">
           <div ref={introRef} className="flex-1">
-            <SectionLabel className="mb-[20px]">About</SectionLabel>
+            <SectionLabel className="mb-[20px]">{about.label}</SectionLabel>
 
             <h2 className="font-['Libre_Caslon_Text'] font-normal text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[32px]">
-              A Few Things About Me
+              {about.heading}
             </h2>
 
             <div className="flex flex-col gap-[24px] max-w-[520px]">
               {ABOUT_COPY.map(para => (
                 <p
                   key={para.slice(0, 32)}
-                  className="font-['Open_Sans'] font-light text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
+                  className="font-['Open_Sans'] font-normal text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
                   style={{ fontVariationSettings: '"wdth" 100' }}
                 >
-                  {para}
+                  <Italics text={para} />
                 </p>
               ))}
             </div>
@@ -287,7 +291,7 @@ export function AboutSection() {
       {/* ── TOOLS — apps I work with ─────────────────────────── */}
       <div ref={skillsRef} className="mt-[112px] lg:mt-[160px]">
         <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px]">
-          <SectionLabel className="mb-[24px]">Skills</SectionLabel>
+          <SectionLabel className="mb-[24px]">{about.skills.label}</SectionLabel>
         </div>
         <SkillsTicker />
       </div>
@@ -296,10 +300,10 @@ export function AboutSection() {
 
         {/* ── EXPERIENCE — where I've worked ───────────────────── */}
         <div ref={expRef} id="experience-end" className="mt-[56px] lg:mt-[80px] pb-[56px] lg:pb-[80px]">
-          <SectionLabel className="mb-[20px]">Experience</SectionLabel>
+          <SectionLabel className="mb-[20px]">{about.experience.label}</SectionLabel>
 
           <h2 className="font-['Libre_Caslon_Text'] font-normal text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[40px]">
-            Journey so far
+            {about.experience.heading}
           </h2>
 
           <div className="border-t border-[color:var(--line)]">

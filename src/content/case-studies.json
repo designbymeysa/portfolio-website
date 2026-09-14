@@ -1,0 +1,698 @@
+{
+  "art-beyond-dimension": {
+    "headline": [
+      "Turning the museum into a ",
+      "living",
+      " canvas."
+    ],
+    "accent": "#3D52FF",
+    "sections": [
+      {
+        "id": "introduction",
+        "label": "Introduction",
+        "heading": "Introduction",
+        "body": "This project reimagines the museum visit as an interactive, creative journey. Visitors explore artworks and ask personalized questions to deepen their understanding. Through a generative AI system, they transform selected paintings using custom prompts, blending classic works with their imagination. Transformed creations are displayed on a projected screen, and visitors can download or print their artwork — turning engagement into a lasting memory.",
+        "figures": [
+          {
+            "caption": "Storyboard — the visitor journey",
+            "src": "/media/art/10.png"
+          }
+        ]
+      },
+      {
+        "id": "design-focus",
+        "label": "Design Focus",
+        "heading": "Design Focus",
+        "body": "We began by exploring the future of museum experiences, bridging the gap between younger audiences and traditional institutions. Through field visits, literature reviews, and technology trend analysis, we identified key pain points such as static displays and low engagement at Museo del Novecento. User interviews and surveys surfaced three core values — personalization, emotional connection, and shared experiences — which guided our concepts."
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "heading": "Impact",
+        "body": "During the initial exhibition, 30 users interacted with the first MVP — exploring the UI, gathering information, and transforming a painting. We gathered feedback through a UEQ-based survey with 27 participants.",
+        "bullets": [
+          "All users expressed some level of enjoyment in museum visits",
+          "The transformation feature was the most appreciated aspect",
+          "Users who valued education preferred asking their own questions",
+          "Unpredictability added surprise and delight, enhancing engagement"
+        ],
+        "highlight": "Average user rating: 4.33 / 5"
+      },
+      {
+        "id": "preview",
+        "label": "Preview",
+        "heading": "Preview",
+        "body": "The interface evolved through iterative testing from low to high fidelity in Figma — choosing artworks, getting information, transforming them, and projecting or printing the result.",
+        "figures": [
+          {
+            "caption": "Choose & explore artworks",
+            "src": "/media/art/26.png"
+          },
+          {
+            "caption": "Transform artworks",
+            "span": "half",
+            "src": "/media/art/27.png"
+          },
+          {
+            "caption": "Project & print",
+            "span": "half",
+            "src": "/media/art/28.png"
+          }
+        ]
+      },
+      {
+        "id": "prototype",
+        "label": "Prototype",
+        "heading": "Prototype",
+        "body": "In the final Design Studio exhibition at Politecnico di Milano, each visitor’s approved creation joins a collective, ever-evolving digital gallery — making every visit a participatory part of the museum narrative.",
+        "figures": [
+          {
+            "caption": "Final exhibition + collective gallery",
+            "src": "/media/art/30.png"
+          }
+        ],
+        "action": {
+          "label": "Try the digital prototype on Figma",
+          "href": "https://designbymeysa.framer.website/art-beyond-dimension"
+        }
+      },
+      {
+        "id": "challenges",
+        "label": "Challenges",
+        "heading": "Challenges",
+        "body": "Static museum displays and lack of engagement at Museo del Novecento were identified as key pain points, particularly for younger audiences disconnected from traditional institutions."
+      },
+      {
+        "id": "full-case-study",
+        "label": "Full Case study",
+        "heading": "Full Case study",
+        "body": "Download the full project development presentation covering research, concept, and final design.",
+        "action": {
+          "label": "Download project presentation",
+          "href": "https://designbymeysa.framer.website/art-beyond-dimension"
+        }
+      },
+      {
+        "id": "reflection",
+        "label": "Reflection",
+        "heading": "Reflection",
+        "body": "Blending generative AI with a physical exhibition showed me how playful interaction can re-engage audiences who feel distant from traditional institutions. The collective gallery became the emotional heart of the experience."
+      }
+    ]
+  },
+  "d-heart-redesign": {
+    "headline": [
+      "Making the ECG feel ",
+      "effortless",
+      "."
+    ],
+    "accent": "#5B2EE5",
+    "sections": [
+      {
+        "id": "introduction",
+        "label": "Introduction",
+        "heading": "Introduction",
+        "body": "D-Heart is a portable ECG device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience. Using task analysis, user testing, and prototyping, the team identified and addressed key issues — resulting in dual interfaces for patients and doctors, AR-guided electrode placement, integrated tutorials, and enhanced usability.",
+        "figures": [
+          {
+            "caption": "(Re)Design methodology",
+            "src": "/media/d-heart/Slide%2016_9%20-%20305.png"
+          }
+        ]
+      },
+      {
+        "id": "design-focus",
+        "label": "Design Focus",
+        "heading": "Design Focus",
+        "body": "We began with expert evaluations, user interviews, and testing, which surfaced confusing electrode placement, unintuitive app navigation, limited accessibility for diverse body types, and missing features for emergency ECGs. This shaped three design requirements:",
+        "bullets": [
+          "Enhanced guidance through the app interface and the device’s physical features, such as intuitive light systems",
+          "Adaptability to the individual needs of both primary (patients) and secondary (clinicians) users",
+          "Inclusive design for various body sizes and shapes, plus a rapid ECG for emergency situations"
+        ]
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "heading": "Impact",
+        "body": "We created seamless connections between the device’s physical affordances and the app’s digital guidance, ensuring a unified and intuitive user experience.",
+        "bullets": [
+          "Extended electrode cables for greater accessibility and comfort",
+          "Clear, color-coded indicators and an ergonomic dial",
+          "Color-coded light feedback for connection, recording, and error states",
+          "Dual UI — distinct interfaces for patients and health professionals",
+          "AR camera overlay for real-time electrode placement guidance",
+          "Integrated tutorials with skip options for experienced users"
+        ],
+        "figures": [
+          {
+            "caption": "Dual UI",
+            "span": "half",
+            "src": "/media/d-heart/21.png"
+          },
+          {
+            "caption": "AR camera overlay",
+            "span": "half",
+            "src": "/media/d-heart/22.png"
+          }
+        ]
+      },
+      {
+        "id": "preview",
+        "label": "Preview",
+        "heading": "Preview",
+        "body": "Key screens from the redesigned app and the device’s integrated tutorials.",
+        "figures": [
+          {
+            "caption": "App + device interface",
+            "src": "/media/d-heart/1.png"
+          }
+        ]
+      },
+      {
+        "id": "prototype",
+        "label": "Prototype",
+        "heading": "Prototype",
+        "body": "An interactive Protopie prototype walks through the full ECG experience — from electrode placement to reading the results.",
+        "action": {
+          "label": "Try the app prototype on Protopie",
+          "href": "https://designbymeysa.framer.website/d-heart-redesign"
+        }
+      },
+      {
+        "id": "challenges",
+        "label": "Challenges",
+        "heading": "Challenges",
+        "body": "The current system lacks scalability concerning various users with varying degrees of knowledge and experience, and has a high entry barrier regarding the complexity of performing an ECG."
+      },
+      {
+        "id": "full-case-study",
+        "label": "Full Case study",
+        "heading": "Full Case study",
+        "body": "Read the complete UX report covering research, information architecture, testing, and final design.",
+        "action": {
+          "label": "View the full UX report",
+          "href": "https://designbymeysa.framer.website/d-heart-redesign"
+        }
+      },
+      {
+        "id": "reflection",
+        "label": "Reflection",
+        "heading": "Reflection",
+        "body": "Designing for both first-time patients and clinicians taught me how much careful structure and progressive disclosure can lower the barrier to a complex medical task. If I revisited it, I’d push the AR guidance further with on-device testing."
+      }
+    ]
+  },
+  "demos": {
+    "headline": [
+      "Helping young voters feel ",
+      "confident",
+      "."
+    ],
+    "accent": "#7B5CF5",
+    "sections": [
+      {
+        "id": "introduction",
+        "label": "Introduction",
+        "heading": "Introduction",
+        "body": "Dèmos is an AI-powered voting advisory application designed to increase political engagement among young European voters. Addressing declining turnout driven by disconnection, lack of knowledge, and political apathy, Dèmos leverages AI — BERT-based sentiment analysis and Retrieval-Augmented Generation (RAG) — to provide personalized, accessible, and unbiased voting guidance.",
+        "figures": [
+          {
+            "caption": "Dèmos — final UI",
+            "src": "/media/demos/Demos.png"
+          }
+        ]
+      },
+      {
+        "id": "design-focus",
+        "label": "Design Focus",
+        "heading": "Design Focus",
+        "body": "We started by analyzing the challenges young people face and where AI could help. The political landscape can be overwhelming, so the challenge was to simplify complex processes with an intuitive UX/UI for sensitive political information. Through literature review, semi-structured interviews, and surveys, we learned about young people’s lack of political knowledge, confusion about how voting works, and frustration with the complexity of party platforms.",
+        "figuresFirst": true,
+        "figures": [
+          {
+            "caption": "System journey — five core sections",
+            "src": "/media/demos/DEMOS%20s.png"
+          }
+        ],
+        "bullets": [
+          "Onboarding — secure login via SPID / CIE with consent",
+          "Home — localized election events and party details",
+          "AI Chat — LLM-powered personalized political dialogue",
+          "Affinity Results — alignment with party platforms",
+          "Profile & Threads — a personal democracy dashboard"
+        ]
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "heading": "Impact",
+        "body": "The UI was tested with 5 users, iterated, then validated with users and experts. 11 participants aged 18–27, all of whom voted in the last European elections, evaluated the high-fidelity prototype using the Single Ease Question (SEQ) metric.",
+        "bullets": [
+          "Mid-fidelity UI: 5.7 (SEQ)",
+          "High-fidelity UI: 6.5 (SEQ)",
+          "A more intuitive, satisfying experience in the final prototype"
+        ],
+        "highlight": "SEQ improved 5.7 → 6.5 across iterations",
+        "figures": [
+          {
+            "caption": "SEQ results — mid- vs high-fidelity",
+            "span": "half",
+            "src": "/media/demos/user%20journey.png"
+          },
+          {
+            "caption": "AI system — RAG + affinity diagram",
+            "span": "half",
+            "src": "/media/demos/AI%20System.png"
+          }
+        ]
+      },
+      {
+        "id": "preview",
+        "label": "Preview",
+        "heading": "Preview",
+        "body": "The UI process began with information architecture, informing wireframes and then mid- and high-fidelity prototypes in Figma.",
+        "figures": [
+          {
+            "caption": "Wireframes & UI process",
+            "src": "/media/demos/Frame%2051613.png"
+          },
+          {
+            "caption": "High-fidelity UI",
+            "span": "half",
+            "src": "/media/demos/DEMOS%20Description-1.png"
+          },
+          {
+            "caption": "Final screens",
+            "span": "half",
+            "src": "/media/demos/DEMOS%20Descrsiption.png"
+          }
+        ]
+      },
+      {
+        "id": "prototype",
+        "label": "Prototype",
+        "heading": "Prototype",
+        "body": "Explore the final, high-fidelity UI prototype — from onboarding questions through to matched candidates and affinity results.",
+        "action": {
+          "label": "Try the Dèmos prototype on Figma",
+          "href": "https://designbymeysa.framer.website/demos"
+        }
+      },
+      {
+        "id": "challenges",
+        "label": "Challenges",
+        "heading": "Challenges",
+        "body": "Declining voter turnout among young Europeans caused by disconnection, insufficient political knowledge, and apathy toward civic participation."
+      },
+      {
+        "id": "full-case-study",
+        "label": "Full Case study",
+        "heading": "Full Case study",
+        "body": "Download the full project report covering research, the AI system, and the design process.",
+        "action": {
+          "label": "Download full project report",
+          "href": "https://designbymeysa.framer.website/demos"
+        }
+      },
+      {
+        "id": "reflection",
+        "label": "Reflection",
+        "heading": "Reflection",
+        "body": "Turning dense political information into a calm, trustworthy flow was the hardest and most rewarding part. The jump in ease-of-use scores confirmed that clarity — not more features — was what young voters needed."
+      }
+    ]
+  },
+  "digital-wellbeing": {
+    "headline": [
+      "Designing for ",
+      "Wellbeing",
+      " in Task Management Apps"
+    ],
+    "eyebrow": "Thesis research project",
+    "accent": "#5685EE",
+    "hideBanner": true,
+    "subtitle": "From productivity norms to prioritizing wellbeing in task management apps",
+    "inkAccent": {
+      "light": "#5685EE",
+      "dark": "#5685EE"
+    },
+    "meta": [
+      {
+        "label": "Role",
+        "value": "UX Researcher"
+      },
+      {
+        "label": "Type",
+        "value": "MSc Thesis, Politecnico di Milano"
+      },
+      {
+        "label": "Supervisor",
+        "value": "Prof. Margherita Pillan"
+      }
+    ],
+    "sections": [
+      {
+        "id": "context",
+        "label": "Context",
+        "heading": "Context",
+        "body": "Personal digital task management (PTM) applications have become widespread tools for coping with multitasking, time pressure, and increasing organizational complexity. Although primarily designed to enhance productivity and efficiency, many of these tools are marketed as supporting stress reduction and enhancing wellbeing. This research set out to answer one main question: how current PTM design patterns support or undermine wellbeing, and what wellbeing-oriented principles could guide something better."
+      },
+      {
+        "id": "research-approach",
+        "label": "Research Approach",
+        "heading": "Research Approach",
+        "body": "Taking a design-centered approach, I followed the literature review with three methods run in parallel: competitive benchmarking, digital ethnography, and expert heuristic evaluation, to weigh lived user experience against structural design patterns, surfacing not just what users said, but why the systems produced those reactions.",
+        "blocks": [
+          {
+            "kind": "lead",
+            "number": "01",
+            "lead": "Benchmarking",
+            "body": "Comparative analysis of Todoist, TickTick, and Microsoft To Do across features and target users."
+          },
+          {
+            "kind": "slider",
+            "slides": [
+              {
+                "src": "/media/digital/benchmarking/todoist.png",
+                "alt": "Todoist — features, target user, and rating"
+              },
+              {
+                "src": "/media/digital/benchmarking/ticktick.png",
+                "alt": "TickTick — features, target user, and rating"
+              },
+              {
+                "src": "/media/digital/benchmarking/todo.png",
+                "alt": "Microsoft To Do — features, target user, and rating"
+              }
+            ],
+            "caption": "Sourced from each app's official website",
+            "ratio": "1080 / 555"
+          },
+          {
+            "kind": "lead",
+            "number": "02",
+            "lead": "Digital Ethnography",
+            "body": "Sentiment and co-occurrence analysis of 1,334 real user posts across r/todoist, r/ticktick, and r/microsofttodo, mapping stress and autonomy-loss language to the specific features that triggered them."
+          },
+          {
+            "kind": "subheading",
+            "text": "Digital Ethnography Phases"
+          },
+          {
+            "kind": "phases",
+            "phases": [
+              {
+                "label": "Data Collection",
+                "steps": [
+                  "Primary subreddits: r/todoist, r/ticktick, r/microsofttodo",
+                  "Define keyword groups: stress, autonomy, overload",
+                  "Collect posts and comments"
+                ]
+              },
+              {
+                "label": "Data Cleaning",
+                "steps": [
+                  "Clean and structure the textual data",
+                  "Remove punctuation and non-alphabetic characters",
+                  "Prepare the dataset for manual analysis"
+                ]
+              },
+              {
+                "label": "Analysis",
+                "steps": [
+                  "Lexical scanning and feature co-occurrence analysis",
+                  "Topic modeling and sentiment analysis",
+                  "Thematic interpretation of user experiences"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "slider",
+            "slides": [
+              {
+                "src": "/media/digital/digital%20ethnography/todoist.png",
+                "alt": "Todoist — stress and autonomy-loss markers across 771 posts, with feature co-occurrence"
+              },
+              {
+                "src": "/media/digital/digital%20ethnography/ticktick.png",
+                "alt": "TickTick — stress and autonomy-loss markers, with feature co-occurrence"
+              },
+              {
+                "src": "/media/digital/digital%20ethnography/todo.png",
+                "alt": "Microsoft To Do — stress and autonomy-loss markers, with feature co-occurrence"
+              }
+            ],
+            "caption": "Digital ethnography results",
+            "ratio": "1003 / 565"
+          },
+          {
+            "kind": "lead",
+            "number": "03",
+            "lead": "Expert Evaluation",
+            "body": "I ran scenario-based walkthroughs of Todoist, TickTick, and Microsoft To Do against a heuristic framework I built by combining Nielsen's usability principles with Self-Determination Theory, tested across archetypal user personas."
+          },
+          {
+            "kind": "accordion",
+            "items": [
+              {
+                "title": "Autonomy",
+                "bullets": [
+                  "Empathetic alignment",
+                  "Meaningful rationale",
+                  "Volitional engagement",
+                  "Supportive communication"
+                ]
+              },
+              {
+                "title": "Competence",
+                "bullets": [
+                  "Effective and relevant feedback",
+                  "User control and freedom",
+                  "Efficiency of use"
+                ]
+              },
+              {
+                "title": "Cognitive Load",
+                "bullets": [
+                  "Recognition over recall",
+                  "Aesthetic and minimalist design",
+                  "Mindful attention and flow"
+                ]
+              },
+              {
+                "title": "System Reliability",
+                "bullets": [
+                  "Consistency and standards",
+                  "Visibility of system status"
+                ]
+              },
+              {
+                "title": "Relatedness",
+                "bullets": [
+                  "Healthy social boundaries",
+                  "Meaningful connection"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "synthesis",
+        "label": "Synthesis",
+        "heading": "Synthesis",
+        "blocks": [
+          {
+            "kind": "text",
+            "body": "Across all three apps, none achieves a balanced digital wellbeing profile. They're optimized for productivity, but systematically undermine digital wellbeing, scoring high on feature density and productivity weight, low on user autonomy."
+          },
+          {
+            "kind": "text",
+            "body": "The ethnographic data backs this up: stress markers were most prevalent in Todoist (19.9%) and TickTick (15.6%) — the two more feature-dense tools — while Microsoft To Do's negativity (89.9% of posts) traced back less to complexity and more to unreliability, like inconsistent syncing."
+          },
+          {
+            "kind": "diagram",
+            "name": "wellbeing-radar",
+            "ratio": "2 / 1",
+            "caption": "How the three apps score across the six wellbeing dimensions",
+            "legend": [
+              {
+                "label": "Todoist",
+                "color": "#EA7374"
+              },
+              {
+                "label": "TickTick",
+                "color": "#10959E"
+              },
+              {
+                "label": "Microsoft To Do",
+                "color": "#2E53A4"
+              }
+            ],
+            "description": "Radar chart of Todoist, TickTick, and Microsoft To Do across six dimensions: cognitive load, restricted user autonomy, technostress, feature density, system friction, and weight of productivity. Todoist reaches furthest on technostress and feature density. TickTick reaches furthest on feature density and cognitive load, and high on weight of productivity and technostress. Microsoft To Do reaches furthest on restricted user autonomy and system friction, and stays low on cognitive load, technostress, and weight of productivity."
+          },
+          {
+            "kind": "subheading",
+            "text": "Current Interaction Model"
+          },
+          {
+            "kind": "text",
+            "body": "Despite differences in features and interface complexity, task management is organized around the same underlying logic: plan, execute, repair. The system assumes you can predict your capacity, execute on schedule, and rationally \"repair\" any deviation by rescheduling or reprioritizing. In practice, life doesn't work that way, and when it doesn't, these systems treat the mismatch as your failure, not theirs."
+          },
+          {
+            "kind": "cards",
+            "cards": [
+              {
+                "title": "Planning Phase",
+                "works": [
+                  "Review planned tasks",
+                  "Adjust priorities",
+                  "Auto-sort",
+                  "Surface today's reality"
+                ],
+                "breaks": "Anticipatory stress, set against a fragile sense of control.",
+                "assumption": "Users can accurately predict their future capacity."
+              },
+              {
+                "title": "Execution & Interruption Phase",
+                "works": [
+                  "Capture new tasks",
+                  "Assign dates or attributes",
+                  "Send reminders and notifications",
+                  "Schedule"
+                ],
+                "breaks": "Rising cognitive load, and no way to respond to what actually matters in the moment.",
+                "assumption": "Attention is continuously available and interruptible."
+              },
+              {
+                "title": "Reflect & Repair Phase",
+                "works": [
+                  "Roll over incomplete tasks",
+                  "Remove and reschedule",
+                  "Flag overdue items",
+                  "Re-impose temporal structure"
+                ],
+                "breaks": "Self-evaluation as success or failure, with control only ever conditional.",
+                "assumption": "Missed tasks should be corrected — never questioned or discarded."
+              }
+            ]
+          },
+          {
+            "kind": "subheading",
+            "text": "Key Insights"
+          },
+          {
+            "kind": "text",
+            "body": "Across all three applications, the same pattern emerges. PTM apps prioritize efficiency and productivity over wellbeing. Users experience stress, overload, and pressure as a result. And rigid system logic constrains user workflows, reinforcing control in a way that frustrates autonomy rather than supporting it."
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "Cognitive Load",
+                "body": "Increases through continuous planning, tracking, and correction"
+              },
+              {
+                "label": "Technostress",
+                "body": "Emerges because of pressure from visibility, metrics, and expectations"
+              },
+              {
+                "label": "Autonomy",
+                "body": "Constrained because system logic overrides personal strategies"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "recommendations",
+        "label": "Recommendations",
+        "heading": "Recommendations",
+        "body": "The evidence pointed to one clear recommendation: build a model that expects deviation instead of punishing it, rather than one that assumes constant attention and predictable capacity.",
+        "blocks": [
+          {
+            "kind": "subheading",
+            "text": "Digital Wellbeing-centered Interaction Model"
+          },
+          {
+            "kind": "text",
+            "body": "This model reframes task management as a context-sensitive and adaptive process. It separates capture from commitment, protects attention during execution, and treats interruptions and incomplete tasks as natural, supporting flexibility rather than penalizing users."
+          },
+          {
+            "kind": "diagram",
+            "name": "wellbeing-loop",
+            "caption": "The interaction model: capture, select, execute, transition, and round again",
+            "description": "A loop of four stages, read clockwise: Contextual Capture (capture without commitment), Intentional Selection (choose what matters now), Deep Execution (protected attention), and Guilt-Free Transition (adapt without penalty), which leads back to capture."
+          },
+          {
+            "kind": "accordion",
+            "title": "Digital Wellbeing-centered Design Principles",
+            "intro": "I synthesized the research findings into six wellbeing-centered design principles, organized around three goals: mitigating technostress, reducing cognitive load, and supporting user autonomy. None of them ask users to manage their own wellbeing better. Instead, each shifts a specific piece of adaptive work — predicting capacity, filtering relevance, absorbing failure — from the person onto the system, where it was always the design's job to handle.",
+            "numbered": true,
+            "items": [
+              {
+                "title": "Personalized System Logic",
+                "bullets": [
+                  "Enable adaptive workflows based on recurring user patterns.",
+                  "Avoid enforcing a single “optimal” productivity model."
+                ]
+              },
+              {
+                "title": "Non-judgmental Task Structures",
+                "bullets": [
+                  "Replace binary completion states with flexible task outcomes.",
+                  "Normalize postponement, delegation, and recalibration."
+                ]
+              },
+              {
+                "title": "Context-aware Task Surfacing",
+                "bullets": [
+                  "Surface tasks based on temporal and situational relevance.",
+                  "Design task visibility to protect attentional capacity."
+                ]
+              },
+              {
+                "title": "Achievable Focus Scoping",
+                "bullets": [
+                  "Encourage duration awareness alongside due dates.",
+                  "Support realistic capacity calibration in planning views."
+                ]
+              },
+              {
+                "title": "Progressive Disclosure of Complexity",
+                "bullets": [
+                  "Reveal commitments incrementally rather than simultaneously.",
+                  "Implement intelligent grouping and collapsible structures."
+                ]
+              },
+              {
+                "title": "Sensitive Feedback Loops",
+                "bullets": [
+                  "Support gentle reminders and silent rollovers.",
+                  "Minimize punitive alerts and persistent overdue signals."
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "heading": "Impact",
+        "body": "This project's contribution isn't a shipped feature, it's a reframe. Digital wellbeing isn't an individual responsibility that users are expected to manage through willpower or better habits; it's a design-mediated outcome, shaped by the interaction logic teams choose to build. I turned that argument into something usable: a hybrid heuristic framework, a four-stage interaction model that treats interruption and incompletion as normal rather than as failure, and six design principles a team could apply today.",
+        "action": {
+          "lead": "Interested in learning more?",
+          "label": "Download thesis PDF",
+          "href": "https://drive.google.com/file/d/1DMG43r6Rpa0Sy-E0ljvx27MPW5jEIhwk/view?usp=share_link",
+          "aside": {
+            "label": "or ask me!",
+            "href": "mailto:designbymeysa@gmail.com"
+          }
+        }
+      }
+    ]
+  }
+}

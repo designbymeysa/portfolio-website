@@ -1,0 +1,67 @@
+{
+  "label": "About",
+  "heading": "A Few Things About Me",
+  "copy": [
+    "Hi, I'm Meysa *(Fatemeh Khoshbazan, if we're being official about it)*, a designer based in Milan who fell in love with untangling messy problems into solutions that actually put people's wellbeing first.",
+    "These days you'll find me at Empatica, deep in health tech and happily bouncing between UX, UI, and all the fun in-between bits: clinical iconography, test-flow design for patients and clinicians alike, data visualization, marketing graphics, and *(yes, even)* documentation."
+  ],
+  "photos": [
+    {
+      "src": "/about/photo_1.png",
+      "caption": "Hi! That's me :)"
+    },
+    {
+      "src": "/about/photo_2.png",
+      "caption": "A day I'm proud of"
+    },
+    {
+      "src": "/about/photo_3.png",
+      "caption": "OOO, I'm here"
+    },
+    {
+      "src": "/about/photo_4.png",
+      "caption": "Or doing yoga"
+    }
+  ],
+  "skills": {
+    "label": "Skills",
+    "items": [
+      "UX Design",
+      "UI Design",
+      "User Research",
+      "Prototyping",
+      "Design Systems",
+      "Branding"
+    ]
+  },
+  "experience": {
+    "label": "Experience",
+    "heading": "Journey so far",
+    "items": [
+      {
+        "role": "Junior Designer",
+        "note": "Biotechnology Research",
+        "org": "Empatica",
+        "period": "2025 — Present",
+        "logo": "/logos/empatica_logo.jpeg",
+        "url": "https://www.empatica.com"
+      },
+      {
+        "role": "Research Assistant",
+        "note": "Sustainable design research",
+        "org": "LeNS Lab, Politecnico di Milano",
+        "period": "2024",
+        "logo": "/logos/lenslab_polimi_logo.jpg",
+        "url": "https://www.lenslab.polimi.it"
+      },
+      {
+        "role": "MSc of Digital and Interaction Design",
+        "note": "Master's degree",
+        "org": "Politecnico di Milano",
+        "period": "2023 — 2025",
+        "logo": "/logos/polimi_logo.jpeg",
+        "url": "https://www.polimi.it/en"
+      }
+    ]
+  }
+}
