@@ -533,7 +533,7 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
       {/* the same controls as the homepage's pinned card: a counter and a dash per
           slide, each dash a 28×16 target around a 2px mark. The active mark takes the
           study's accent, which is what "active" is on this page. */}
-      <div className="flex items-center justify-between gap-4 mt-[14px]">
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-[8px] mt-[14px]">
         <div className="flex items-center gap-3">
         <span
           className="font-['Open_Sans'] text-[12px] text-[color:var(--ink-muted)] tracking-[0.08em] tabular-nums"
@@ -566,7 +566,7 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
         {/* the caption takes the right of the same row — where the homepage's card
             puts its way out — rather than a line of its own beneath */}
         {caption && (
-          <figcaption className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)] text-right shrink-0" style={WDTH}>
+          <figcaption className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)] text-right ml-auto min-w-0" style={WDTH}>
             {caption}
           </figcaption>
         )}
@@ -591,7 +591,7 @@ function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { nam
       {/* the row beneath: a legend on the left, in line with the text column, and the
           caption on the right — the same split as the slider's controls */}
       {(legend || caption) && (
-        <div className="flex items-start justify-between gap-4 mt-[10px]">
+        <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-[8px] mt-[10px]">
           {legend && (
             <ul className="flex flex-wrap items-center gap-x-[16px] gap-y-[6px]">
               {legend.map(l => (
@@ -607,7 +607,7 @@ function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { nam
             </ul>
           )}
           {caption && (
-            <figcaption className={`${CAPTION} mt-0 ml-auto shrink-0`} style={WDTH}>
+            <figcaption className={`${CAPTION} mt-0 ml-auto min-w-0`} style={WDTH}>
               {caption}
             </figcaption>
           )}

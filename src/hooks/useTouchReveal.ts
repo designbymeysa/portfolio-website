@@ -16,8 +16,10 @@ export function useTouchReveal(ref: RefObject<HTMLElement | null>): boolean {
 
     const observer = new IntersectionObserver(
       ([entry]) => setActive(entry.isIntersecting),
-      // a band across the middle of the viewport — items light as they pass through
-      { threshold: 0, rootMargin: '-35% 0px -35% 0px' },
+      // a band across most of the viewport — items light as they pass through, and
+      // since a phone shows one thing at a time, they should be lit for most of the
+      // scroll, only going dark as they near the top or bottom
+      { threshold: 0, rootMargin: '-20% 0px -20% 0px' },
     )
     observer.observe(el)
     return () => observer.disconnect()

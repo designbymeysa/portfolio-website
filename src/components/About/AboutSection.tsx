@@ -50,9 +50,12 @@ const CELL = 28
 const FINE_POINTER =
   typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-/** a spot inside the photo, kept clear of the edges and the corner it is tilted from */
+/** a spot inside the photo, kept clear of the edges and the corner it is tilted from —
+ *  and of the middle, where the face is: the caption lands in the band across the top
+ *  or the one across the bottom, never over what the photo is of */
 function randomSpot() {
-  return { left: 24 + Math.random() * 46, top: 22 + Math.random() * 44 }
+  const top = Math.random() < 0.5 ? 14 + Math.random() * 12 : 60 + Math.random() * 14
+  return { left: 26 + Math.random() * 42, top }
 }
 
 const photoCards = photoDeck.map(({ src }, i) => (
