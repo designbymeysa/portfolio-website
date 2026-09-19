@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { projects } from '../data/projects'
+import { headlineFor, eyebrowFor } from '../data/caseStudies'
 import site from '../content/site.json'
 import { useInView } from '../hooks/useInView'
 import { useTouchReveal } from '../hooks/useTouchReveal'
@@ -39,15 +40,15 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         <ProjectStill project={project} className="w-full h-full" />
       </div>
 
-      {project.subtitle && (
-        <p className="font-['Open_Sans'] font-normal text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.12em] mb-[10px]"
-          style={{ fontVariationSettings: '"wdth" 100' }}>
-          {project.subtitle}
-        </p>
-      )}
+      {/* the same two lines the case study opens with, so the card and the page
+          agree on what the work is called */}
+      <p className="font-['Open_Sans'] font-normal text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.12em] mb-[10px]"
+        style={{ fontVariationSettings: '"wdth" 100' }}>
+        {eyebrowFor(project)}
+      </p>
 
       <h2 className="font-['Libre_Caslon_Text'] font-normal text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.5px] mb-[12px]">
-        {project.title}
+        {headlineFor(project)}
       </h2>
 
       <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[14px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[22px] mb-[20px] flex-1"

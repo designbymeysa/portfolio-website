@@ -292,6 +292,33 @@
     height: 0;
   }
 
+  /* Over a carousel the disc grows to the badge size and shows the arrow it has been
+     carrying: a solid in the pill's colours rather than an inversion, since it sits
+     over photographs. The arrow fades in only once the disc is big enough to hold it. */
+  .site-cursor {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .site-cursor-icon {
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+  .site-cursor[data-state='slide'],
+  .site-cursor[data-state='slide-link'] {
+    width: 40px;
+    height: 40px;
+    mix-blend-mode: normal;
+    background: var(--cursor-pill-bg);
+    color: var(--cursor-pill-fg);
+  }
+  .site-cursor[data-state='slide'] .site-cursor-icon,
+  .site-cursor[data-state='slide-link'] .site-cursor-icon {
+    opacity: 1;
+    transition-delay: 120ms;
+  }
+
   /* the label the disc hands over to */
   .cursor-pill {
     transform-origin: center;
@@ -311,6 +338,8 @@
   .site-cursor[data-press='true'] { width: 10px; height: 10px; }
   .site-cursor[data-state='link'][data-press='true'],
   .site-cursor[data-state='plain-link'][data-press='true'] { width: 38px; height: 38px; }
+  /* a drag on a carousel keeps the badge, pulled in a touch */
+  .site-cursor[data-state='slide'][data-press='true'] { width: 34px; height: 34px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

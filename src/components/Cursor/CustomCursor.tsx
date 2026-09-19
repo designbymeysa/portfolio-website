@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { SlideIcon } from '../ui/LinkIcons'
 
 /** The pointer, replaced by a small circle that changes shape for what is under it.
  *
@@ -9,6 +10,7 @@ import { useEffect, useRef } from 'react'
  *  `data-cursor="…"` claims the cursor while the pointer is inside it:
  *    hide   nothing, for surfaces that show their own label (the VIEW pill)
  *    plain  a solid disc that does not invert, for saturated grounds
+ *    slide  the disc grown to a badge with a two-way arrow in it, for carousels
  *  A link inside a claimed surface reports as `<claim>-link`, so the disc can still
  *  react to it. Anything else gets `link` or `default`. */
 
@@ -77,7 +79,13 @@ export function CustomCursor() {
     }
   }, [])
 
-  return <div ref={ref} className="site-cursor" data-state="default" data-on="false" aria-hidden="true" />
+  return (
+    <div ref={ref} className="site-cursor" data-state="default" data-on="false" aria-hidden="true">
+      {/* the arrow lives inside the disc the whole time and is shown only when the
+          disc has grown to hold it, so the change is one shape resizing */}
+      <SlideIcon className="site-cursor-icon h-[16px] w-[16px]" />
+    </div>
+  )
 }
 
 export { HIDE_AFTER }

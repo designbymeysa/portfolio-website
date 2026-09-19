@@ -44,12 +44,7 @@
     "marquee": "Let's keep in touch",
     "email": "designbymeysa@gmail.com",
     "links": [
-      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/khoshbazan/", "download": false },
-      {
-        "label": "CV",
-        "href": "https://drive.google.com/file/d/1_N65Jsf7chdvHpVkT5p1fiKGRQNrqK0J/view?usp=sharing",
-        "download": false
-      }
+      { "label": "LinkedIn", "href": "https://www.linkedin.com/in/khoshbazan/", "download": false }
     ],
     "byline": "Designed & built with care by Meysa ©2026",
     "backToTop": "Back to top"

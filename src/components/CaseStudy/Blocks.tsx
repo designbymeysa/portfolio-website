@@ -84,6 +84,35 @@ export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) 
 
 // ── the blocks ──
 
+/** A small bordered rectangle of quieter type, for the things a reader should know
+ *  before going on. `[text](url)` in the copy becomes a link. */
+function Note({ body }: { body: string }) {
+  const parts = body.split(/(\[[^\]]+\]\([^)]+\))/g)
+  return (
+    <aside className="rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] px-[16px] py-[12px]">
+      <p className="font-['Open_Sans'] text-[13px] leading-[1.6] text-[color:var(--ink-muted)]" style={WDTH}>
+        {parts.map((part, i) => {
+          const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
+          return m
+            ? (
+              <a
+                key={i}
+                href={m[2]}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[color:var(--ink-body)] underline underline-offset-[3px] decoration-[1px] decoration-[color:var(--line)] hover:text-[color:var(--ink-strong)] hover:decoration-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+              >
+                {m[1]}
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            )
+            : <span key={i}>{part}</span>
+        })}
+      </p>
+    </aside>
+  )
+}
+
 /** A subheading opens a new run inside the section, so it stands a line clear of
  *  whatever came before it — on top of the gap every block already gets. */
 function Subheading({ text }: { text: string }) {
@@ -475,14 +504,10 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
     render(pos.current, false)
   }
   // which half of the frame the pointer is over — a click on the left goes back, on
-  // the right goes on, and the cursor says so before the click
+  // the right goes on
   const side = (e: React.PointerEvent<HTMLDivElement>) => {
     const r = frame.current?.getBoundingClientRect()
     return r && e.clientX - r.left < r.width / 2 ? -1 : 1
-  }
-  const onPointerHover = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (drag.current || !frame.current) return
-    frame.current.style.cursor = side(e) < 0 ? 'w-resize' : 'e-resize'
   }
   const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!drag.current) return
@@ -501,9 +526,11 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
       <div
         ref={frame}
         onPointerDown={onPointerDown}
-        onPointerMove={e => { onPointerMove(e); onPointerHover(e) }}
+        onPointerMove={onPointerMove}
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
+        /* the cursor grows into a badge with a two-way arrow over the frame */
+        data-cursor="slide"
         className="overflow-hidden select-none rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)]"
         style={{ aspectRatio: ratio, touchAction: 'pan-y' }}
         aria-roledescription="carousel"
@@ -617,6 +644,29 @@ function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { nam
   )
 }
 
+/** A YouTube player in a figure's frame — privacy-enhanced host, no related videos
+ *  from other channels at the end. The id is pulled from whichever link shape the
+ *  content carries (watch?v=, youtu.be/, embed/). */
+function Video({ url, title, caption, ratio = '16 / 9' }: { url: string; title: string; caption?: string; ratio?: string }) {
+  const id = url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]{11})/)?.[1]
+  if (!id) return null
+  return (
+    <figure className="w-full">
+      <div className="rounded-[2px] overflow-hidden w-full bg-black" style={{ aspectRatio: ratio }}>
+        <iframe
+          src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`}
+          title={title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+          className="w-full h-full border-0"
+        />
+      </div>
+      {caption && <figcaption className={CAPTION} style={WDTH}>{caption}</figcaption>}
+    </figure>
+  )
+}
+
 /** Renders a section's blocks in order. `tint` is the project colour the figure
  *  placeholders take. */
 export function Blocks({ blocks, tint }: { blocks: Block[]; tint: string }) {
@@ -625,6 +675,7 @@ export function Blocks({ blocks, tint }: { blocks: Block[]; tint: string }) {
       {blocks.map((b, i): ReactNode => {
         switch (b.kind) {
           case 'text':       return <p key={i} className={BODY} style={WDTH}><Emphasis text={b.body} /></p>
+          case 'note':       return <Note key={i} body={b.body} />
           case 'subheading': return <Subheading key={i} text={b.text} />
           case 'lead':       return <Lead key={i} lead={b.lead} body={b.body} number={b.number} />
           case 'chips':      return <Chips key={i} groups={b.groups} />
@@ -637,6 +688,7 @@ export function Blocks({ blocks, tint }: { blocks: Block[]; tint: string }) {
           case 'slider':     return <Slider key={i} slides={b.slides} caption={b.caption} ratio={b.ratio} />
           case 'diagram':    return <Diagram key={i} name={b.name} caption={b.caption} ratio={b.ratio} legend={b.legend} description={b.description} />
           case 'figure':     return <FigureBlock key={i} figure={b.figure} tint={tint} />
+          case 'video':      return <Video key={i} url={b.url} title={b.title} caption={b.caption} ratio={b.ratio} />
         }
       })}
     </div>

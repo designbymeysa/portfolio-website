@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
-import { sectionsFor, projectById, headlineFor, accentFor, caseStudies } from '../data/caseStudies'
+import { sectionsFor, projectById, headlineFor, eyebrowFor, accentFor, caseStudies } from '../data/caseStudies'
 import { coverFor } from '../components/Covers'
 import { Blocks, Emphasis, FigureBlock } from '../components/CaseStudy/Blocks'
 import { Button } from '../components/Button/Button'
@@ -55,17 +55,16 @@ export default function ProjectPage() {
 
   if (!project) return <Navigate to="/projects" replace />
 
-  const [before, accent, after] = headlineFor(project)
+  const headline = headlineFor(project)
   const Drawn = coverFor(project.cover)
   const study = caseStudies[project.id]
   const next = projects[(projects.indexOf(project) + 1) % projects.length]
-  // the study's own line wins; explicitly null means none; otherwise the project's
-  const subtitle = study?.subtitle === undefined ? project.subtitle : study.subtitle
   // the case study can name its own credits — a thesis has a supervisor, not a team
   const meta = study?.meta ?? [
     { label: 'Role', value: project.role },
     { label: 'Team', value: project.team },
     { label: 'Industry', value: project.industry },
+    { label: 'Timeframe', value: project.timeline },
   ].filter((m): m is { label: string; value: string } => !!m.value)
 
   return (
@@ -121,11 +120,16 @@ export default function ProjectPage() {
             ['--study-accent-dark'  as string]: study.inkAccent.dark,
           } as React.CSSProperties : undefined}
         >
-          <div className="flex items-center justify-between gap-4 mb-[28px]">
+          {/* the page carries no visible title — the cards have already said what
+              the work is called, and the eyebrow keeps the name on the page. The
+              heading still exists for assistive technology and the tab. */}
+          <h1 className="sr-only">{headline}</h1>
+
+          <div className="flex items-center justify-between gap-4 mb-[48px]">
             {/* the eyebrow takes the study's accent where it has one — the first mark
                 of the page's colour, before any of the content that carries it */}
             <span className={`${META_LABEL} ${study?.inkAccent ? 'text-[color:var(--study-accent)]' : ''}`}>
-              {study?.eyebrow ?? project.title}
+              {eyebrowFor(project)}
             </span>
 
             {/* the way back out to the set, level with the project's own name */}
@@ -137,32 +141,26 @@ export default function ProjectPage() {
             </Link>
           </div>
 
-          <h1
-            className="font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.14] tracking-[-0.015em] mb-[20px]"
-            style={{ fontSize: 'clamp(30px, 4.4vw, 52px)' }}
-          >
-            {before}
-            <em className="italic">{accent}</em>
-            {after}
-          </h1>
-
-          {subtitle && (
-            <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[48px]">
-              {subtitle}
-            </p>
-          )}
-
           {/* the opening image — unless the study reuses its cover further down */}
           {!study?.hideBanner && (
           <div
             className="w-full rounded-[2px] overflow-hidden mb-[28px]"
             style={{ aspectRatio: '16 / 9', background: accentFor(project) }}
           >
-            {Drawn ? (
-              <Drawn className="w-full h-full" />
-            ) : (project.heroImage ?? project.image) ? (
+            {/* a banner named for the page wins over the drawn cover, which still
+                fronts the cards */}
+            {project.heroImage ? (
               <img
-                src={project.heroImage ?? project.image}
+                src={project.heroImage}
+                alt=""
+                aria-hidden="true"
+                className="w-full h-full object-cover"
+              />
+            ) : Drawn ? (
+              <Drawn className="w-full h-full" />
+            ) : project.image ? (
+              <img
+                src={project.image}
                 alt=""
                 aria-hidden="true"
                 className="w-full h-full object-cover"
@@ -171,9 +169,9 @@ export default function ProjectPage() {
           </div>
           )}
 
-          {/* credits */}
+          {/* credits — one row on desktop however many there are, two-up on tablet */}
           {meta.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-[20px] sm:gap-[40px] pb-[36px] border-b border-[color:var(--line)] mb-[56px] lg:mb-[64px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-none lg:grid-flow-col lg:auto-cols-fr gap-[20px] sm:gap-[40px] pb-[36px] border-b border-[color:var(--line)] mb-[56px] lg:mb-[64px]">
               {meta.map(m => (
                 <div key={m.label}>
                   <span className={`${META_LABEL} block mb-[8px]`}>{m.label}</span>
@@ -188,7 +186,16 @@ export default function ProjectPage() {
           <div className="flex flex-col gap-[var(--section-gap)]">
             {sections.map(s => (
               <section key={s.id} id={s.id} className="scroll-mt-[100px]">
-                <h2 className="font-['Libre_Caslon_Text'] font-normal text-[clamp(22px,2.4vw,30px)] text-[color:var(--ink-strong)] leading-[1.25] mb-[24px]">
+                {/* every section opens the same way: the sidebar's own word as a small
+                    tracked capital, then the heading as a statement beneath it — what
+                    the section says, not what it is called. The eyebrow is skipped
+                    where the two would read the same word twice. */}
+                {s.heading !== s.label && (
+                  <span className={`${META_LABEL} block text-[12px] tracking-[0.22em] mb-[14px]`} style={{ fontVariationSettings: '"wdth" 100' }}>
+                    {s.label}
+                  </span>
+                )}
+                <h2 className="font-['Libre_Caslon_Text'] font-normal text-[clamp(24px,2.6vw,34px)] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.01em] mb-[24px]">
                   {s.heading}
                 </h2>
 

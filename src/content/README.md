@@ -24,7 +24,6 @@ in this order. The rest still appear on `/projects`.
 {
   "id": "demos",                        // the URL slug — must match `href` below
   "title": "Dèmos",
-  "subtitle": "AI-Powered Voting Advisory App",
   "description": "…",                   // the card, 2–3 lines
   "fullDescription": "…",               // opens the case study page
   "problem": "…",                       // optional — becomes a "Challenges" section
@@ -69,7 +68,7 @@ from its `fullDescription`, `outcomes` and `problem`.
 
 ```json
 "demos": {
-  "headline": ["Helping young voters feel ", "confident", "."],   // middle run is italic
+  "headline": "Dèmos",                                            // the big title, on the page and the cards
   "accent": "#7B5CF5",
   "sections": [
     {

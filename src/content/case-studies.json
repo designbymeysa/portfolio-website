@@ -1,16 +1,13 @@
 {
   "art-beyond-dimension": {
-    "headline": [
-      "Turning the museum into a ",
-      "living",
-      " canvas."
-    ],
+    "headline": "Art Beyond Dimension",
+    "eyebrow": "Interactive Museum Experience",
     "accent": "#3D52FF",
     "sections": [
       {
         "id": "introduction",
         "label": "Introduction",
-        "heading": "Introduction",
+        "heading": "A museum visit you can talk to and remake",
         "body": "This project reimagines the museum visit as an interactive, creative journey. Visitors explore artworks and ask personalized questions to deepen their understanding. Through a generative AI system, they transform selected paintings using custom prompts, blending classic works with their imagination. Transformed creations are displayed on a projected screen, and visitors can download or print their artwork — turning engagement into a lasting memory.",
         "figures": [
           {
@@ -22,13 +19,13 @@
       {
         "id": "design-focus",
         "label": "Design Focus",
-        "heading": "Design Focus",
+        "heading": "Younger visitors wanted a hand in the art, not a plaque beside it",
         "body": "We began by exploring the future of museum experiences, bridging the gap between younger audiences and traditional institutions. Through field visits, literature reviews, and technology trend analysis, we identified key pain points such as static displays and low engagement at Museo del Novecento. User interviews and surveys surfaced three core values — personalization, emotional connection, and shared experiences — which guided our concepts."
       },
       {
         "id": "impact",
         "label": "Impact",
-        "heading": "Impact",
+        "heading": "Thirty visitors, one painting each, a 4.33 rating",
         "body": "During the initial exhibition, 30 users interacted with the first MVP — exploring the UI, gathering information, and transforming a painting. We gathered feedback through a UEQ-based survey with 27 participants.",
         "bullets": [
           "All users expressed some level of enjoyment in museum visits",
@@ -41,7 +38,7 @@
       {
         "id": "preview",
         "label": "Preview",
-        "heading": "Preview",
+        "heading": "From choosing a painting to printing a new one",
         "body": "The interface evolved through iterative testing from low to high fidelity in Figma — choosing artworks, getting information, transforming them, and projecting or printing the result.",
         "figures": [
           {
@@ -63,7 +60,7 @@
       {
         "id": "prototype",
         "label": "Prototype",
-        "heading": "Prototype",
+        "heading": "Every approved creation joins a gallery that keeps growing",
         "body": "In the final Design Studio exhibition at Politecnico di Milano, each visitor’s approved creation joins a collective, ever-evolving digital gallery — making every visit a participatory part of the museum narrative.",
         "figures": [
           {
@@ -79,13 +76,13 @@
       {
         "id": "challenges",
         "label": "Challenges",
-        "heading": "Challenges",
+        "heading": "Static displays were losing the audience the museum needed most",
         "body": "Static museum displays and lack of engagement at Museo del Novecento were identified as key pain points, particularly for younger audiences disconnected from traditional institutions."
       },
       {
         "id": "full-case-study",
         "label": "Full Case study",
-        "heading": "Full Case study",
+        "heading": "The full story, from research to final design",
         "body": "Download the full project development presentation covering research, concept, and final design.",
         "action": {
           "label": "Download project presentation",
@@ -95,24 +92,31 @@
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Reflection",
+        "heading": "Play is what brought a distant audience back",
         "body": "Blending generative AI with a physical exhibition showed me how playful interaction can re-engage audiences who feel distant from traditional institutions. The collective gallery became the emotional heart of the experience."
       }
     ]
   },
   "d-heart-redesign": {
-    "headline": [
-      "Making the ECG feel ",
-      "effortless",
-      "."
-    ],
-    "accent": "#5B2EE5",
+    "headline": "D-Heart",
+    "eyebrow": "Product Redesign",
+    "inkAccent": {
+      "light": "#FF973C",
+      "dark": "#FF973C"
+    },
+    "accent": "#FF973C",
     "sections": [
       {
         "id": "introduction",
         "label": "Introduction",
-        "heading": "Introduction",
-        "body": "D-Heart is a portable ECG device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience. Using task analysis, user testing, and prototyping, the team identified and addressed key issues — resulting in dual interfaces for patients and doctors, AR-guided electrode placement, integrated tutorials, and enhanced usability.",
+        "heading": "One device, two kinds of user, a simpler ECG",
+        "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience. Using task analysis, user testing, and prototyping, the team identified and addressed key issues, resulting in dual interfaces for patients and doctors, AR-guided electrode placement, integrated tutorials, and enhanced usability.",
+        "blocks": [
+          {
+            "kind": "note",
+            "body": "D-Heart is a real product. The original app and device can be explored at [d-heartcare.com](https://www.d-heartcare.com). What follows is our team's redesign of that ecosystem for a university studio project at Politecnico di Milano."
+          }
+        ],
         "figures": [
           {
             "caption": "(Re)Design methodology",
@@ -123,27 +127,21 @@
       {
         "id": "design-focus",
         "label": "Design Focus",
-        "heading": "Design Focus",
-        "body": "We began with expert evaluations, user interviews, and testing, which surfaced confusing electrode placement, unintuitive app navigation, limited accessibility for diverse body types, and missing features for emergency ECGs. This shaped three design requirements:",
-        "bullets": [
-          "Enhanced guidance through the app interface and the device’s physical features, such as intuitive light systems",
-          "Adaptability to the individual needs of both primary (patients) and secondary (clinicians) users",
-          "Inclusive design for various body sizes and shapes, plus a rapid ECG for emergency situations"
-        ]
+        "heading": "Three words drove every decision: Learnability. Intuitiveness. Scalability.",
+        "body": "D-Heart works, it's a real, hospital-grade ECG you can take at home. But of 15 first-time users we tested, 9 made significant errors just trying to record one: wrong electrode placement, missed connection states, not realizing they had to press a button to start. And the app tried to serve two very different people with one interface:",
+        "blocks": [
+          { "kind": "lead", "lead": "A patient", "body": "doing this for the first few times." },
+          { "kind": "lead", "lead": "A doctor", "body": "moving fast across dozens of patients in a day." }
+        ],
+        "outro": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day."
       },
       {
         "id": "impact",
         "label": "Impact",
-        "heading": "Impact",
-        "body": "We created seamless connections between the device’s physical affordances and the app’s digital guidance, ensuring a unified and intuitive user experience.",
-        "bullets": [
-          "Extended electrode cables for greater accessibility and comfort",
-          "Clear, color-coded indicators and an ergonomic dial",
-          "Color-coded light feedback for connection, recording, and error states",
-          "Dual UI — distinct interfaces for patients and health professionals",
-          "AR camera overlay for real-time electrode placement guidance",
-          "Integrated tutorials with skip options for experienced users"
-        ],
+        "heading": "Task directedness went from 44–56% to 75–100%",
+        "body": "Tree-test task directedness moved from 44–56% on the original navigation structure to 75–100% once it was rebuilt around how people actually think about the content.",
+        "highlight": "Tested with 40 participants in card sorting, validated with 16 in tree testing.",
+        "outro": "Final think-aloud and SEQ testing with both patients and doctors confirmed the dual UI and in-flow tutorials resolved the confusion we'd seen in the original app.",
         "figures": [
           {
             "caption": "Dual UI",
@@ -160,8 +158,14 @@
       {
         "id": "preview",
         "label": "Preview",
-        "heading": "Preview",
-        "body": "Key screens from the redesigned app and the device’s integrated tutorials.",
+        "heading": "Four decisions carry the redesign",
+        "body": "Four decisions carry the redesign:",
+        "blocks": [
+          { "kind": "lead", "lead": "Dual UI:", "body": "separate homepages and navigation for patients and doctors." },
+          { "kind": "lead", "lead": "Camera-guided electrode placement:", "body": "an AR overlay that matches the diagram to the user's body in real time." },
+          { "kind": "lead", "lead": "Integrated tutorials:", "body": "guidance embedded at each step, instead of a wall of onboarding text up front." },
+          { "kind": "lead", "lead": "Device-triggered ECG start:", "body": "moved the start action to the device's own button, so pressing “start” on the phone no longer disturbs the reading." }
+        ],
         "figures": [
           {
             "caption": "App + device interface",
@@ -172,49 +176,90 @@
       {
         "id": "prototype",
         "label": "Prototype",
-        "heading": "Prototype",
-        "body": "An interactive Protopie prototype walks through the full ECG experience — from electrode placement to reading the results.",
-        "action": {
-          "label": "Try the app prototype on Protopie",
-          "href": "https://designbymeysa.framer.website/d-heart-redesign"
-        }
+        "heading": "Three stages, tested at each one",
+        "body": "We ran the app's redesign through three stages, testing at each one.",
+        "blocks": [
+          {
+            "kind": "lead",
+            "number": "01",
+            "lead": "Information architecture",
+            "body": "Card sorting with 40 participants showed how people actually grouped the app's content, not how it happened to be organized. A first draft of the resulting tree was tested with 16 more users across five core tasks; that's where “add a reminder” (44% directedness) and “find video tutorials” (56%) showed up as the weak points to fix."
+          },
+          {
+            "kind": "lead",
+            "number": "02",
+            "lead": "Low and mid-fidelity wireframes",
+            "body": "Built and tested in-person with think-aloud sessions. Three UX experts on the wireframes themselves, then separate qualitative rounds on the physical device prototype (electrode visibility, dial ergonomics, light affordance) to work out the device-side signals the app would need to speak to."
+          },
+          {
+            "kind": "lead",
+            "number": "03",
+            "lead": "High-fidelity prototype",
+            "body": "Built in Protopie, tested across three rounds, 12 users total, plus a focus-group round with doctors and medical students, using think-aloud, SEQ, and task success rate to validate the dual UI, the tutorials, and the camera-guided setup before final design."
+          }
+        ]
       },
       {
         "id": "challenges",
         "label": "Challenges",
-        "heading": "Challenges",
-        "body": "The current system lacks scalability concerning various users with varying degrees of knowledge and experience, and has a high entry barrier regarding the complexity of performing an ECG."
+        "heading": "Three trade-offs, and what we chose",
+        "blocks": [
+          {
+            "kind": "lead",
+            "lead": "Dual UI cost real build complexity for real clarity.",
+            "body": "Two navigation systems and two homepages is more surface area than one adaptive interface. I chose it anyway: doctors and patients weren't a matter of degree, they were different jobs entirely, and one interface kept forcing bad compromises for one side or the other."
+          },
+          {
+            "kind": "lead",
+            "lead": "Camera-guided setup didn't replace the old method, it sits next to it.",
+            "body": "AR placement tested well when it worked, but depends on lighting, angle, and phone positioning we couldn't fully control for. Rather than force everyone through it, the static template guide stayed as a fallback, so a device limitation doesn't block someone from finishing the exam."
+          },
+          {
+            "kind": "lead",
+            "lead": "Step-by-step tutorials help a first-timer and slow down a returning user.",
+            "body": "I made every guided step skippable once someone's shown they know it, so the learning curve doesn't become a permanent tax on people who've already done this fifty times."
+          }
+        ]
+      },
+      {
+        "id": "video",
+        "label": "Video",
+        "heading": "The redesign in motion",
+        "blocks": [
+          {
+            "kind": "video",
+            "url": "https://youtu.be/oMZuYoMLCyc",
+            "title": "D-Heart redesign — project video"
+          }
+        ]
       },
       {
         "id": "full-case-study",
         "label": "Full Case study",
-        "heading": "Full Case study",
+        "heading": "The complete UX report",
         "body": "Read the complete UX report covering research, information architecture, testing, and final design.",
         "action": {
           "label": "View the full UX report",
-          "href": "https://designbymeysa.framer.website/d-heart-redesign"
+          "href": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
         }
       },
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Reflection",
+        "heading": "Structure and progressive disclosure lowered the barrier",
         "body": "Designing for both first-time patients and clinicians taught me how much careful structure and progressive disclosure can lower the barrier to a complex medical task. If I revisited it, I’d push the AR guidance further with on-device testing."
       }
     ]
   },
   "demos": {
-    "headline": [
-      "Helping young voters feel ",
-      "confident",
-      "."
-    ],
+    "headline": "Dèmos",
+    "eyebrow": "AI-Powered Voting Advisory App",
     "accent": "#7B5CF5",
     "sections": [
       {
         "id": "introduction",
         "label": "Introduction",
-        "heading": "Introduction",
+        "heading": "AI guidance that meets young voters where they are",
         "body": "Dèmos is an AI-powered voting advisory application designed to increase political engagement among young European voters. Addressing declining turnout driven by disconnection, lack of knowledge, and political apathy, Dèmos leverages AI — BERT-based sentiment analysis and Retrieval-Augmented Generation (RAG) — to provide personalized, accessible, and unbiased voting guidance.",
         "figures": [
           {
@@ -226,7 +271,7 @@
       {
         "id": "design-focus",
         "label": "Design Focus",
-        "heading": "Design Focus",
+        "heading": "Making sensitive political information feel simple",
         "body": "We started by analyzing the challenges young people face and where AI could help. The political landscape can be overwhelming, so the challenge was to simplify complex processes with an intuitive UX/UI for sensitive political information. Through literature review, semi-structured interviews, and surveys, we learned about young people’s lack of political knowledge, confusion about how voting works, and frustration with the complexity of party platforms.",
         "figuresFirst": true,
         "figures": [
@@ -246,7 +291,7 @@
       {
         "id": "impact",
         "label": "Impact",
-        "heading": "Impact",
+        "heading": "Ease of use rose from 5.7 to 6.5 across iterations",
         "body": "The UI was tested with 5 users, iterated, then validated with users and experts. 11 participants aged 18–27, all of whom voted in the last European elections, evaluated the high-fidelity prototype using the Single Ease Question (SEQ) metric.",
         "bullets": [
           "Mid-fidelity UI: 5.7 (SEQ)",
@@ -270,7 +315,7 @@
       {
         "id": "preview",
         "label": "Preview",
-        "heading": "Preview",
+        "heading": "From information architecture to high fidelity",
         "body": "The UI process began with information architecture, informing wireframes and then mid- and high-fidelity prototypes in Figma.",
         "figures": [
           {
@@ -292,7 +337,7 @@
       {
         "id": "prototype",
         "label": "Prototype",
-        "heading": "Prototype",
+        "heading": "From onboarding to matched candidates",
         "body": "Explore the final, high-fidelity UI prototype — from onboarding questions through to matched candidates and affinity results.",
         "action": {
           "label": "Try the Dèmos prototype on Figma",
@@ -302,13 +347,13 @@
       {
         "id": "challenges",
         "label": "Challenges",
-        "heading": "Challenges",
+        "heading": "Disconnection, confusion, and apathy were keeping young voters home",
         "body": "Declining voter turnout among young Europeans caused by disconnection, insufficient political knowledge, and apathy toward civic participation."
       },
       {
         "id": "full-case-study",
         "label": "Full Case study",
-        "heading": "Full Case study",
+        "heading": "The full project report",
         "body": "Download the full project report covering research, the AI system, and the design process.",
         "action": {
           "label": "Download full project report",
@@ -318,21 +363,15 @@
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Reflection",
+        "heading": "Clarity, not more features, was what young voters needed",
         "body": "Turning dense political information into a calm, trustworthy flow was the hardest and most rewarding part. The jump in ease-of-use scores confirmed that clarity — not more features — was what young voters needed."
       }
     ]
   },
   "digital-wellbeing": {
-    "headline": [
-      "Designing for ",
-      "Wellbeing",
-      " in Task Management Apps"
-    ],
+    "headline": "Designing for Wellbeing in Task Management Apps",
     "eyebrow": "Thesis research project",
     "accent": "#5685EE",
-    "hideBanner": true,
-    "subtitle": "From productivity norms to prioritizing wellbeing in task management apps",
     "inkAccent": {
       "light": "#5685EE",
       "dark": "#5685EE"
@@ -355,13 +394,13 @@
       {
         "id": "context",
         "label": "Context",
-        "heading": "Context",
+        "heading": "Productivity tools promise wellbeing but are not designed for it",
         "body": "Personal digital task management (PTM) applications have become widespread tools for coping with multitasking, time pressure, and increasing organizational complexity. Although primarily designed to enhance productivity and efficiency, many of these tools are marketed as supporting stress reduction and enhancing wellbeing. This research set out to answer one main question: how current PTM design patterns support or undermine wellbeing, and what wellbeing-oriented principles could guide something better."
       },
       {
         "id": "research-approach",
         "label": "Research Approach",
-        "heading": "Research Approach",
+        "heading": "Three methods in parallel, weighing what users said against why",
         "body": "Taking a design-centered approach, I followed the literature review with three methods run in parallel: competitive benchmarking, digital ethnography, and expert heuristic evaluation, to weigh lived user experience against structural design patterns, surfacing not just what users said, but why the systems produced those reactions.",
         "blocks": [
           {
@@ -502,7 +541,7 @@
       {
         "id": "synthesis",
         "label": "Synthesis",
-        "heading": "Synthesis",
+        "heading": "None of the three apps achieves a balanced wellbeing profile",
         "blocks": [
           {
             "kind": "text",
@@ -609,7 +648,7 @@
       {
         "id": "recommendations",
         "label": "Recommendations",
-        "heading": "Recommendations",
+        "heading": "A model that expects deviation instead of punishing it",
         "body": "The evidence pointed to one clear recommendation: build a model that expects deviation instead of punishing it, rather than one that assumes constant attention and predictable capacity.",
         "blocks": [
           {
@@ -681,7 +720,7 @@
       {
         "id": "impact",
         "label": "Impact",
-        "heading": "Impact",
+        "heading": "The contribution is a reframe, not a shipped feature",
         "body": "This project's contribution isn't a shipped feature, it's a reframe. Digital wellbeing isn't an individual responsibility that users are expected to manage through willpower or better habits; it's a design-mediated outcome, shaped by the interaction logic teams choose to build. I turned that argument into something usable: a hybrid heuristic framework, a four-stage interaction model that treats interruption and incompletion as normal rather than as failure, and six design principles a team could apply today.",
         "action": {
           "lead": "Interested in learning more?",

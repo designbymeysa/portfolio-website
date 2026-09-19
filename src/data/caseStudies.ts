@@ -16,6 +16,9 @@ export interface Figure {
 export type Block =
   /** a paragraph; `**bold**` runs are set in the strong ink */
   | { kind: 'text'; body: string }
+  /** a small bordered aside in smaller type — a disclaimer, a credit. `[text](url)`
+   *  runs become links */
+  | { kind: 'note'; body: string }
   /** a heading within the section, one step down from the section's own */
   | { kind: 'subheading'; text: string }
   /** a bullet that opens with a bold lead — "Benchmarking: comparative analysis of…".
@@ -53,6 +56,9 @@ export type Block =
   | { kind: 'diagram'; name: string; caption?: string; ratio?: string; legend?: { label: string; color: string }[]; description?: string }
   /** a picture, or a captioned placeholder until it exists */
   | { kind: 'figure'; figure: Figure }
+  /** an embedded YouTube player, in the same frame a figure gets. `url` is any
+   *  youtube.com / youtu.be link; `ratio` as the slider's, 16:9 when unset */
+  | { kind: 'video'; url: string; title: string; caption?: string; ratio?: string }
 
 export interface CaseSection {
   /** anchor + sidebar key */
@@ -83,8 +89,8 @@ export interface CaseSection {
 }
 
 export interface CaseStudy {
-  /** the display headline, split so the middle run can be set in italic */
-  headline?: [string, string, string]
+  /** the display headline; the project's title when unset */
+  headline?: string
   /** the small tracked line above the headline; the project's title when unset */
   eyebrow?: string
   /** the credits under the headline; derived from the project's role/team/industry
@@ -94,9 +100,6 @@ export interface CaseStudy {
   /** leave out the opening image block — for a page whose cover is reused further
    *  down, so it is not shown twice */
   hideBanner?: boolean
-  /** the line under the headline, where it differs from the project's own subtitle —
-   *  which still serves as the card's eyebrow on /projects. `null` shows nothing. */
-  subtitle?: string | null
   /** the colour the content inside takes — bullets, numbers, pulled-out lines. The
    *  site's own accent when unset. A pair, because one value cannot hold against both
    *  grounds: the light one is the colour as chosen, the dark one the same hue lifted
@@ -151,8 +154,16 @@ export function projectById(id?: string): Project | undefined {
   return projects.find(p => p.id === id)
 }
 
-export function headlineFor(project: Project): [string, string, string] {
-  return caseStudies[project.id]?.headline ?? ['', project.title, '']
+/** the display headline. The cards on the home page and /projects read this too, so
+ *  a project is called the same thing everywhere it appears */
+export function headlineFor(project: Project): string {
+  return caseStudies[project.id]?.headline ?? project.title
+}
+
+/** the small tracked line above the headline — the project's name, unless the study
+ *  names something else (a thesis says what kind of work it is). Cards and page alike */
+export function eyebrowFor(project: Project): string {
+  return caseStudies[project.id]?.eyebrow ?? project.title
 }
 
 /** the opening image block's colour; the project's own tint is the fallback */

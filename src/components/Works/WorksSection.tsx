@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { useInView } from '../../hooks/useInView'
 import { projects as allProjects } from '../../data/projects'
+import { headlineFor, eyebrowFor } from '../../data/caseStudies'
 import { ProjectMedia, type MediaState } from './ProjectMedia'
 import { Tag } from '../Tag/Tag'
 import { SectionLabel } from '../ui/SectionLabel'
 import { ArrowIcon } from '../ui/LinkIcons'
 import { CardBadge } from '../ui/CardBadge'
+import { useCursorPill } from '../ui/CursorPill'
 import { useTouchReveal } from '../../hooks/useTouchReveal'
 import site from '../../content/site.json'
 import type React from 'react'
-
-// The VIEW label follows a cursor, and a touch screen has none: iOS fires one synthetic
-// mousemove on tap and never a mouseleave, so the pill would appear at the tap and stay
-// there for the rest of the session. Only show it where there is a real pointer.
-const FINE_POINTER =
-  typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
 const featured = allProjects.slice(0, 4)
 
@@ -34,7 +29,7 @@ export function WorksSection() {
 
   // the project whose copy is currently rendered — flips at the midpoint of a dissolve
   const [active, setActive] = useState(0)
-  const [pill, setPill] = useState({ visible: false, x: 0, y: 0 })
+  const view = useCursorPill('View')
   const cardRef = useRef<HTMLAnchorElement>(null)
   // no hover on touch: the pinned card lights while it holds the screen
   const touchActive = useTouchReveal(cardRef)
@@ -157,27 +152,10 @@ export function WorksSection() {
               /* row-reverse rather than reordering the markup: the image still comes
                  first in the DOM, so it is read before the copy it belongs to */
               className="works-card group no-underline flex flex-col-reverse lg:flex-row-reverse lg:items-center overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px]"
-              /* the VIEW pill is this card's cursor, so the ring stands down */
-              data-cursor="hide"
-              /* viewport coordinates, not card-relative: the pill is portalled to the
-                 body so the card's overflow-hidden cannot crop it */
-              onMouseMove={e => {
-                if (!FINE_POINTER) return
-                setPill({ visible: true, x: e.clientX, y: e.clientY })
-              }}
-              onMouseLeave={() => setPill(p => ({ ...p, visible: false }))}
+              /* the VIEW pill is this card's cursor */
+              {...view.bind}
             >
-              {(pill.x > 0 || pill.y > 0) && createPortal(
-                <span
-                  aria-hidden="true"
-                  data-on={pill.visible || undefined}
-                  className="cursor-pill pointer-events-none fixed z-[9999] inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-['Open_Sans'] font-semibold text-[12px] tracking-[0.02em] px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
-                  style={{ left: pill.x, top: pill.y }}
-                >
-                  View
-                </span>,
-                document.body,
-              )}
+              {view.pill}
 
               {/* image — crossfades between projects on scroll */}
               <ProjectMedia
@@ -190,14 +168,13 @@ export function WorksSection() {
               <div className="flex flex-col justify-between flex-none lg:flex-1 px-5 py-6 sm:px-8 sm:py-8 lg:px-[48px] lg:py-[48px] h-auto lg:h-full">
                 <div ref={textRef} className="flex flex-col justify-between h-auto lg:h-full">
                   <div className="flex flex-col gap-[10px] lg:gap-[16px]">
-                    {project.subtitle && (
-                      <p className="font-['Open_Sans'] font-normal text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.12em]"
-                        style={{ fontVariationSettings: '"wdth" 100' }}>
-                        {project.subtitle}
-                      </p>
-                    )}
+                    {/* the same two lines the case study opens with */}
+                    <p className="font-['Open_Sans'] font-normal text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.12em]"
+                      style={{ fontVariationSettings: '"wdth" 100' }}>
+                      {eyebrowFor(project)}
+                    </p>
                     <p className="font-['Libre_Caslon_Text'] font-normal text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
-                      {project.title}
+                      {headlineFor(project)}
                     </p>
                     <p className="font-['Open_Sans'] font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"
                       style={{ fontVariationSettings: '"wdth" 100' }}>

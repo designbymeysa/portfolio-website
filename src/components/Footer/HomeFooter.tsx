@@ -4,8 +4,8 @@ import type React from 'react'
 
 import site from '../../content/site.json'
 
-// `download: true` on an entry serves the file; false opens it in a new tab, which is
-// what the CV wants — it lives on Drive rather than in this repo
+// `download: true` on an entry serves a file from this repo; false opens the link in
+// a new tab
 const links = site.footer.links
 
 // the closing purple lives in CSS now (--footer-purple), so it can sit deeper in dark
@@ -50,8 +50,14 @@ export function HomeFooter() {
 
         {/* the line itself — two copies drifting left on a loop, so it never runs out */}
         <h2 className="sr-only">{site.footer.marquee}</h2>
-        {/* the line leads the footer; the slack falls below the info under it */}
-        <div className="mt-auto py-[14px] mb-[clamp(28px,4vw,48px)] -mx-6 sm:-mx-10 lg:-mx-[80px] overflow-hidden" aria-hidden="true">
+        {/* the line leads the footer; the slack falls below the info under it.
+
+            The column stops at 1280px but the line is sized off the viewport, so on
+            wider screens it has to bleed past the column or it gets cut at the column's
+            edges. `50% - 50vw` pulls each side out to the viewport edge from wherever
+            the column sits; only the x-axis is clipped so ascenders and the descender
+            on "p" never get shaved off. */}
+        <div className="mt-auto py-[14px] mb-[clamp(28px,4vw,48px)] mx-[calc(50%-50vw)] overflow-x-clip" aria-hidden="true">
           <div className="footer-marquee flex w-max">
             {[0, 1].map(i => (
               <span
@@ -67,8 +73,8 @@ export function HomeFooter() {
           </div>
         </div>
 
-        {/* the direct line on the left, the elsewheres on the right */}
-        <div className="flex flex-col gap-[24px] sm:flex-row sm:items-baseline sm:justify-between">
+        {/* one line: the direct line on the left, the elsewheres pushed to the right */}
+        <div className="flex flex-wrap items-baseline justify-between gap-x-[40px] gap-y-[16px]">
           <a
             href={`mailto:${site.footer.email}`}
             className={LINK_CLASS}
@@ -77,23 +83,21 @@ export function HomeFooter() {
             <span className={LINK_TEXT}>{site.footer.email}</span>
           </a>
 
-          <div className="flex items-center gap-[40px]">
-            {links.map(({ label, href, download }) => (
-              <a
-                key={label}
-                href={href}
-                {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
-                className={LINK_CLASS}
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                <span className={LINK_TEXT}>{label}</span>
-                <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
-                <span className="sr-only">
-                  {download ? '(downloads a file)' : '(opens in a new tab)'}
-                </span>
-              </a>
-            ))}
-          </div>
+          {links.map(({ label, href, download }) => (
+            <a
+              key={label}
+              href={href}
+              {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+              className={LINK_CLASS}
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            >
+              <span className={LINK_TEXT}>{label}</span>
+              <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
+              <span className="sr-only">
+                {download ? '(downloads a file)' : '(opens in a new tab)'}
+              </span>
+            </a>
+          ))}
         </div>
         {/* bottom meta, under a rule of its own: the byline on the left, the way back
             up on the right. The year is part of the byline's own sentence rather than a

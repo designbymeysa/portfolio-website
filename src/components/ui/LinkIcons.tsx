@@ -42,6 +42,17 @@ export function UpIcon({ className = '' }: { className?: string }) {
   )
 }
 
+/** either way — the onward arrow and its reflection on one line: something slides */
+export function SlideIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg {...SHARED} className={`h-[13px] w-[13px] shrink-0 ${className}`}>
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <polyline points="8 7 3 12 8 17" />
+      <polyline points="16 7 21 12 16 17" />
+    </svg>
+  )
+}
+
 /** open — a chevron for anything that folds out; rotate it to close */
 export function ChevronIcon({ className = '' }: { className?: string }) {
   return (

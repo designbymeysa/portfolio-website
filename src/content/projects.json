@@ -2,8 +2,7 @@
   {
     "id": "d-heart-redesign",
     "title": "D-Heart Redesign",
-    "subtitle": "Portable ECG · Medical Device + App",
-    "description": "D-Heart is a portable ECG device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts.",
+    "description": "Redesign of D-Heart, a portable ECG device and app, so patients can use it alone and doctors can trust what it sends them.",
     "fullDescription": "The redesign effort involved task analysis, user testing, and prototyping to address identified issues. The final design incorporates dual interfaces for patients and doctors, AR-guided electrode placement, integrated tutorials, and enhanced usability features.",
     "problem": "The current system lacks scalability concerning various users with varying degrees of knowledge and experience and has a high entry barrier regarding the complexity of performing an ECG.",
     "outcomes": [
@@ -20,21 +19,20 @@
     ],
     "year": "2026",
     "role": "UX Research, UI Design, Digital Prototyping (Protopie)",
-    "team": "Joana Bento, Ariana Cisternas, Sarah Cosentino",
+    "team": "Joana Bento, Ariana Cisternas, Sarah Cosentino and I",
     "industry": "Medical",
     "discipline": "UX Research & UI Design",
-    "timeline": "2025 – 2026",
+    "timeline": "5 months",
     "bg": "#242424",
     "image": "/media/covers/D-HEART%20Project%20Cover-1.png",
     "heroImage": "/media/d-heart/D-HEART%20Description.png",
     "href": "/projects/d-heart-redesign",
-    "externalHref": "https://designbymeysa.framer.website/d-heart-redesign"
+    "externalHref": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
   },
   {
     "id": "digital-wellbeing",
     "title": "Designing for wellbeing in task management apps",
-    "subtitle": "Research on current task management apps",
-    "description": "A research thesis examining the effects of task management apps on people's wellbeing, to propose a wellbeing-centered interaction model along with a set of design principles for designers to positively impact it.",
+    "description": "Examining the effects of task management apps on people's wellbeing, to propose a wellbeing-centered interaction model along with a set of design principles for designers to positively impact it.",
     "fullDescription": "An MSc thesis examining the relationship between personal task management applications and digital wellbeing. The work looks at three factors together — the cognitive load these tools impose, the technostress they can generate, and the degree of autonomy they leave the person using them — and asks how interface and interaction decisions shape each.",
     "problem": "Task management tools are meant to reduce mental burden, yet notification pressure, feature density, and prescriptive structure can add to it — raising cognitive load and technostress while narrowing the user’s sense of control.",
     "tags": [
@@ -48,12 +46,12 @@
     "timeline": "2025 – 2026",
     "bg": "#5685EE",
     "href": "/projects/digital-wellbeing",
-    "cover": "wellbeing-loop"
+    "cover": "wellbeing-loop",
+    "heroImage": "/media/digital/wellbeing%20cover.png"
   },
   {
     "id": "demos",
     "title": "Dèmos",
-    "subtitle": "AI-Powered Voting Advisory App",
     "description": "An AI-powered voting advisory application designed to increase political engagement among young European voters.",
     "fullDescription": "Addresses declining voter turnout among young people in Europe caused by disconnection, insufficient political knowledge, and apathy toward civic participation. Uses BERT-based sentiment analysis, Retrieval Augmented Generation, and cosine similarity analysis to match voters with aligned candidates.",
     "problem": "Declining voter turnout among young Europeans caused by disconnection, insufficient political knowledge, and apathy toward civic participation.",
@@ -82,7 +80,6 @@
   {
     "id": "art-beyond-dimension",
     "title": "Art Beyond Dimension",
-    "subtitle": "Interactive Museum Experience",
     "description": "Reimagining the museum visit as an interactive, creative journey where visitors explore artworks and use generative AI to transform paintings based on custom prompts.",
     "fullDescription": "Visitors explore artworks, ask personalised questions, and use generative AI to transform paintings based on custom prompts. Created works display on projection screens and can be downloaded or printed. The final exhibition integrated a collective digital gallery where visitor creations become part of an evolving museum narrative.",
     "problem": "Static museum displays and lack of engagement at Museo del Novecento were identified as key pain points, particularly for younger audiences disconnected from traditional institutions.",
