@@ -1,11 +1,12 @@
+import { Link } from 'react-router-dom'
 import { useInView } from '../../hooks/useInView'
 import { LeaveIcon, UpIcon } from '../ui/LinkIcons'
 import type React from 'react'
 
 import site from '../../content/site.json'
 
-// `download: true` on an entry serves a file from this repo; false opens the link in
-// a new tab
+// `download: true` on an entry serves a file from this repo, `internal: true` is a page
+// on this site; anything else opens the link in a new tab
 const links = site.footer.links
 
 // the closing purple lives in CSS now (--footer-purple), so it can sit deeper in dark
@@ -83,21 +84,34 @@ export function HomeFooter() {
             <span className={LINK_TEXT}>{site.footer.email}</span>
           </a>
 
-          {links.map(({ label, href, download }) => (
-            <a
-              key={label}
-              href={href}
-              {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
-              className={LINK_CLASS}
-              style={{ fontVariationSettings: '"wdth" 100' }}
-            >
-              <span className={LINK_TEXT}>{label}</span>
-              <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
-              <span className="sr-only">
-                {download ? '(downloads a file)' : '(opens in a new tab)'}
-              </span>
-            </a>
-          ))}
+          {/* the links travel as one group, so a longer list still reads as a
+              left/right pair rather than spreading evenly across the line */}
+          <div className="flex flex-wrap items-baseline gap-x-[32px] gap-y-[12px]">
+            {links.map(({ label, href, download, internal }) => internal ? (
+              <Link
+                key={label}
+                to={href}
+                className={LINK_CLASS}
+                style={{ fontVariationSettings: '"wdth" 100' }}
+              >
+                <span className={LINK_TEXT}>{label}</span>
+              </Link>
+            ) : (
+              <a
+                key={label}
+                href={href}
+                {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+                className={LINK_CLASS}
+                style={{ fontVariationSettings: '"wdth" 100' }}
+              >
+                <span className={LINK_TEXT}>{label}</span>
+                <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
+                <span className="sr-only">
+                  {download ? '(downloads a file)' : '(opens in a new tab)'}
+                </span>
+              </a>
+            ))}
+          </div>
         </div>
         {/* bottom meta, under a rule of its own: the byline on the left, the way back
             up on the right. The year is part of the byline's own sentence rather than a

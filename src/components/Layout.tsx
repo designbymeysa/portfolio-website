@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { NavBar } from './Navigation/NavBar'
 import { HomeFooter } from './Footer/HomeFooter'
 import { CustomCursor } from './Cursor/CustomCursor'
+import { HERO_PEEK } from './Hero/peek'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -150,9 +151,9 @@ export function Layout({ children, hero }: LayoutProps) {
       {/* A phone-only hold: this scrolls past transparently, so the pinned hero stays
           whole for another half screen and there is room to draw on it before the
           page proper slides up. Nothing sits in it — the hero shows through. */}
-      {hero && <div aria-hidden="true" className="h-[50vh] md:hidden" />}
+      {hero && !HERO_PEEK && <div aria-hidden="true" className="h-[50vh] md:hidden" />}
 
-      <div className={`relative z-10 ${hero ? 'page-ground' : ''}`}>
+      <div className={`relative z-10 ${hero ? (HERO_PEEK ? 'page-ground-peek' : 'page-ground') : ''}`}>
         {/* The wash has to live inside this wrapper, not beside it: `z-10` here makes
             a stacking context, so the footer's own z-index is scoped to it and could
             never climb over a sibling layer. Fixed still resolves to the viewport —

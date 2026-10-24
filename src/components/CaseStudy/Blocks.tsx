@@ -54,8 +54,12 @@ export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) 
   return (
     <figure className={figure.span === 'half' ? '' : 'w-full'}>
     <div
-      className="rounded-[2px] overflow-hidden w-full"
-      style={{ aspectRatio: '16 / 9', background: figure.src ? undefined : tint }}
+      className={`rounded-[2px] overflow-hidden w-full${figure.src && figure.darkBg ? ' dark:bg-[color:var(--figure-dark-bg)]' : ''}`}
+      style={{
+        aspectRatio: '16 / 9',
+        background: figure.src ? undefined : tint,
+        ...(figure.darkBg && { '--figure-dark-bg': figure.darkBg }),
+      } as React.CSSProperties}
     >
       {figure.src ? (
         <img

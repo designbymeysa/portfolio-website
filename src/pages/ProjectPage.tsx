@@ -125,7 +125,7 @@ export default function ProjectPage() {
               heading still exists for assistive technology and the tab. */}
           <h1 className="sr-only">{headline}</h1>
 
-          <div className="flex items-center justify-between gap-4 mb-[48px]">
+          <div className="flex items-center justify-between gap-4 mb-[24px]">
             {/* the eyebrow takes the study's accent where it has one — the first mark
                 of the page's colour, before any of the content that carries it */}
             <span className={`${META_LABEL} ${study?.inkAccent ? 'text-[color:var(--study-accent)]' : ''}`}>

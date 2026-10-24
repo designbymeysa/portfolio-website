@@ -25,6 +25,9 @@
     /* the inverted pill — VIEW, the card badge, buttons — is the ramp's two ends */
     --pill-bg: var(--ink-strong);
     --pill-fg: var(--surface);
+    /* the round arrow badge on a project card — the pill's colours in light mode */
+    --badge-bg: var(--pill-bg);
+    --badge-fg: var(--pill-fg);
     /* buttons carry their own fill rather than borrowing the pill's: on a dark ground
        a white pill is the loudest thing on the page, so dark mode makes them purple */
     --btn-bg:    var(--ink-strong);
@@ -90,10 +93,13 @@
     /* white on the dark page, as they are ink-on-paper in the light one */
     --btn-bg:     #FFFFFF;
     --btn-fg:     #0F0F0F;
-    /* the card badge and the active filter chip keep the violet: a white disc on a
-       near-black page is a hole punched in it */
+    /* the active filter chip keeps the violet: a white chip on a near-black page is a
+       hole punched in it */
     --pill-bg:    var(--brand-purple);
     --pill-fg:    #FFFFFF;
+    /* the card badge goes white, like the VIEW pill that appears with it */
+    --badge-bg:   #FFFFFF;
+    --badge-fg:   #0F0F0F;
     --cursor-pill-bg: #FFFFFF;
     --cursor-pill-fg: #0F0F0F;
 
@@ -146,6 +152,39 @@
   background-image: var(--page-grad);
   background-attachment: fixed;
   background-size: cover;
+}
+
+/* ── The page's ground, peeking into the hero ──
+   The HERO_PEEK variant: the page is lifted so the first card's top shows inside the
+   hero's first screen. The lift is the card's pinned offset (mirrored from .works-stack)
+   plus how much of the card shows. The ground fades in over that lifted stretch rather
+   than starting as a hard edge, so the label floats over the hero and the card lands on
+   an opaque ground; once the page moves past the fade, it covers the hero as before. */
+:root {
+  --hero-peek: 80px;
+  --hero-peek-stack-top: calc(72px + 18px + 16px);
+}
+@media (min-width: 1024px) {
+  :root {
+    --hero-peek: 100px;
+    --hero-peek-stack-top: max(calc(88px + 18px + 24px), calc((100svh - 480px) / 2));
+  }
+}
+.page-ground-peek {
+  --hero-peek-lift: calc(var(--hero-peek-stack-top) + var(--hero-peek));
+  margin-top: calc(-1 * var(--hero-peek-lift));
+}
+.page-ground-peek::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--page-grad);
+  background-attachment: fixed;
+  background-size: cover;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 var(--hero-peek-stack-top));
+  mask-image: linear-gradient(to bottom, transparent 0, #000 var(--hero-peek-stack-top));
 }
 
 /* ── Keyboard focus (WCAG 2.4.7 / 1.4.11) ──
@@ -381,8 +420,12 @@
 
    `transform-box: fill-box` is what makes a stage scale about its own centre — without
    it an SVG group scales about the viewBox origin and flies in from the corner.
-   WellbeingLoop.tsx adds `wl-on` when the cover first comes into view. */
+   WellbeingLoop.tsx adds `wl-on` while the cover is on screen, and `wl-out` for the
+   last 600ms of each pass, when the finished loop fades before it assembles again. */
 .wl-arrow { opacity: 0; }
+
+.wl-scene { transition: opacity 600ms ease; }
+.wl-out .wl-scene { opacity: 0; }
 
 .wl-step {
   opacity: 0;
@@ -427,12 +470,141 @@
   }
 }
 
+/* ── D-HEART cover: the dotted ring ──
+   One slow revolution a minute, and only while the cover is on screen — DHeartScreens.tsx
+   adds `dh-ring-on` for that. `transform-box: fill-box` turns the circle about its own
+   centre rather than the viewBox origin. */
+.dh-ring {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dh-ring-on {
+  animation: dh-turn 60s linear infinite;
+}
+
+@keyframes dh-turn { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .dh-ring-on { animation: none; }
+}
+
 /* ── Works: the project cards ──
    One ground for every card, from the theme. These used to take a 6% wash of their own
    project's colour, which read as each card being a slightly different grey — and once
    one project's colour was a saturated blue, as one card being a different colour. */
 .works-card {
   background: var(--card-base);
+}
+
+/* ── Works: the stack ──
+   Every card is sticky at the same spot inside one grid, so each one rides up over the
+   one before and holds there; the grid rows (set inline, one per project) are what
+   space the arrivals a screen apart. The JS only writes --stack-p — how many cards are
+   on top of this one, fractional while one is still arriving — and everything visual
+   comes off that here: a scale and a dim, transform and opacity and nothing else. */
+.works-stack {
+  /* where the label pins: just under the nav */
+  --stack-nav: 72px;
+  /* where the cards pin: under the label and its gap */
+  --stack-top: calc(var(--stack-nav) + var(--stack-label-h) + var(--stack-label-gap));
+  --stack-label-h: 18px;
+  --stack-label-gap: 16px;
+  --stack-card-h: calc(100dvh - var(--stack-top) - 20px);
+  /* the scroll each card gets to arrive: from the bottom of the screen to its pin */
+  --stack-step: calc(100svh - var(--stack-top));
+  /* how much lower than the last each card pins — 0 on a phone, where they fill the
+     screen; a deck edge from lg up, where they are 480px tall and there is room */
+  --stack-peek: 0px;
+  /* how much smaller each covering card makes the one beneath */
+  --stack-scale: 0.03;
+  --stack-scrim: rgb(9 20 50);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  position: relative;
+}
+.dark .works-stack {
+  --stack-scrim: rgb(0 0 0);
+}
+
+.works-stack-label {
+  position: sticky;
+  top: var(--stack-nav);
+  height: var(--stack-label-h);
+  line-height: var(--stack-label-h);
+  /* the row runs down to exactly where the cards pin, so the first card's resting
+     place is its pinned place — landing here (from the nav, say) shows the stack
+     as it holds, with nothing yet arriving */
+  padding-bottom: calc(var(--stack-top) - var(--stack-nav) - var(--stack-label-h));
+  box-sizing: content-box;
+}
+
+.works-stack-item {
+  position: sticky;
+  top: calc(var(--stack-top) + var(--i, 0) * var(--stack-peek));
+  height: var(--stack-card-h);
+  --stack-p: 0;
+}
+
+.works-stack-card {
+  transform: scale(calc(1 - var(--stack-p) * var(--stack-scale)));
+  transform-origin: 50% 50%;
+  box-shadow: var(--shadow-2), 0 -12px 40px rgba(9, 20, 50, 0.06);
+  will-change: transform;
+}
+
+.works-stack-scrim {
+  position: absolute;
+  inset: 0;
+  background: var(--stack-scrim);
+  opacity: min(0.55, calc(var(--stack-p) * 0.32));
+  pointer-events: none;
+  will-change: opacity;
+}
+
+@media (min-width: 1024px) {
+  .works-stack {
+    /* the card sits centred in the screen where there is room, and never under the nav */
+    --stack-card-h: 480px;
+    --stack-nav: 88px;
+    --stack-label-gap: 24px;
+    /* centred in the screen where there is room, and never up against the label */
+    --stack-top: max(
+      calc(var(--stack-nav) + var(--stack-label-h) + var(--stack-label-gap)),
+      calc((100svh - var(--stack-card-h)) / 2)
+    );
+    --stack-peek: 14px;
+    --stack-scale: 0.04;
+  }
+  .works-stack-card {
+    /* scale from the top edge so the covered card's edge stays where it peeks out */
+    transform-origin: 50% 0%;
+  }
+}
+
+/* no motion: a plain column of cards, nothing pinned, nothing scaled */
+@media (prefers-reduced-motion: reduce) {
+  .works-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .works-stack-label,
+  .works-stack-item {
+    position: static;
+  }
+  .works-stack-label {
+    padding-bottom: 0;
+    margin-bottom: calc(var(--stack-label-gap) - 24px);
+  }
+  .works-stack-card {
+    transform: none;
+    will-change: auto;
+  }
+  .works-stack-scrim {
+    display: none;
+  }
 }
 
 /* ── Footer: the ground fading in at its top ──

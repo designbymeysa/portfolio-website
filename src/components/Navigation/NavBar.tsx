@@ -40,9 +40,16 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
     const scroll = () => {
       if (id === 'home') {
         window.scrollTo({ top: 0, behavior: 'smooth' })
-      } else {
-        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+        return
       }
+      const el = document.getElementById(id)
+      if (!el) return
+      // aim at the section's layout position, not where it is drawn: one still playing
+      // its reveal sits 56px lower than it will, and scrollIntoView would take that at
+      // face value and land 56px past it
+      let top = 0
+      for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) top += n.offsetTop
+      window.scrollTo({ top, behavior: 'smooth' })
     }
     if (location.pathname !== '/') {
       navigate('/')

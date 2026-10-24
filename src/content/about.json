@@ -2,8 +2,8 @@
   "label": "About",
   "heading": "A Few Things About Me",
   "copy": [
-    "Hi, I'm Meysa *(Fatemeh Khoshbazan, if we're being official about it)*, a designer based in Milan who fell in love with untangling messy problems into solutions that actually put people's wellbeing first.",
-    "These days you'll find me at Empatica, deep in health tech and happily bouncing between UX, UI, and all the fun in-between bits: clinical iconography, test-flow design for patients and clinicians alike, data visualization, marketing graphics, and *(yes, even)* documentation."
+    "Hi, I'm Meysa *(Fatemeh Khoshbazan, if we're being official)*. I'm a designer based in Milan who loves untangling messy problems and turning them into solutions that put people's wellbeing first.",
+    "These days I'm at Empatica, deep in health tech and happily moving between UX, UI and everything in between: clinical iconography, test flows for patients and clinicians alike, data visualization, marketing graphics, and yes, even documentation."
   ],
   "photos": [
     {
@@ -43,7 +43,7 @@
         "role": "Junior Designer",
         "note": "Biotechnology Research",
         "org": "Empatica",
-        "period": "2025 — Present",
+        "period": "2026 — Present",
         "logo": "/logos/empatica_logo.jpeg",
         "url": "https://www.empatica.com"
       },
@@ -51,7 +51,7 @@
         "role": "Research Assistant",
         "note": "Sustainable design research",
         "org": "LeNS Lab, Politecnico di Milano",
-        "period": "2024",
+        "period": "2025",
         "logo": "/logos/lenslab_polimi_logo.jpg",
         "url": "https://www.lenslab.polimi.it"
       },

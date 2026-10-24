@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import Typewriter from '../fancy/text/typewriter'
 import site from '../../content/site.json'
+import { HERO_PEEK } from './peek'
 
 // the accent word in the headline types itself in and out through these
 const ACCENT_WORDS = site.hero.accentWords
@@ -45,6 +46,12 @@ const TRAIL_SCALE  = 0.5    // buffer resolution relative to layout px
 const TRAIL_RADIUS = 132    // brush radius in layout px, before the speed stretch
 const TRAIL_ALPHA  = 0.2    // peak alpha of a single stamp — overlaps build the body
 const TRAIL_FADE   = 0.009  // alpha lifted off the whole buffer each frame — halves the trail every ~1.3s
+// The fade is applied every few frames rather than every one. The buffer holds 8-bit
+// premultiplied colour, and a 0.9% cut rounds back to itself on any channel below ~60:
+// the weak channels froze while the blue kept fading, so the tail drained to a flat
+// grey that read as green against the violet. Fewer, larger cuts survive the rounding
+// down to a few units, so the tail keeps its hue all the way out. Same overall decay.
+const TRAIL_FADE_EVERY = 4
 const TRAIL_IDLE_CLEAR = 900 // frames of a parked pointer before the buffer is wiped outright
 const TRAIL_MIN_MOVE = 0.15 // buffer px below which the pointer counts as parked
 const TRAIL_CYCLE  = 1500   // ms for one pass through the palette
@@ -193,6 +200,7 @@ export function Hero() {
     let seen  = false        // no stamps until the pointer has been somewhere
     let idle  = 0            // frames since the last stamp
     let wiped = false        // whether the idle wipe has already run for this pause
+    let fadeTick = 0         // frames since the buffer was last faded
     let touching = false     // a real touch has been seen; ignore the synthetic mouse
     let markNow  = false     // lay one stamp on the next frame, wherever the point is
     let lastTouch = -1e9     // when the last touch happened, for handing back to drift
@@ -284,10 +292,12 @@ export function Hero() {
           ctx.clearRect(0, 0, canvas.width, canvas.height)
           wiped = true
         }
-      } else {
-        // lift a sliver of alpha off the whole buffer — an even, edge-free decay
+      } else if (++fadeTick >= TRAIL_FADE_EVERY) {
+        // lift a sliver of alpha off the whole buffer — an even, edge-free decay,
+        // banked over TRAIL_FADE_EVERY frames so the cut is big enough to round down
+        fadeTick = 0
         ctx.globalCompositeOperation = 'destination-out'
-        ctx.fillStyle = `rgba(0,0,0,${fade})`
+        ctx.fillStyle = `rgba(0,0,0,${1 - Math.pow(1 - fade, TRAIL_FADE_EVERY)})`
         ctx.fillRect(0, 0, canvas.width, canvas.height)
         ctx.globalCompositeOperation = 'source-over'
       }
@@ -387,7 +397,7 @@ export function Hero() {
     // scroll maths that fades the ground decides it instead.
     const coarse = window.matchMedia('(hover: none)')
     const heroOnScreen = () => {
-      const hold = coarse.matches ? window.innerHeight * 0.5 : 0
+      const hold = coarse.matches && !HERO_PEEK ? window.innerHeight * 0.5 : 0
       return window.scrollY - hold < window.innerHeight * 0.9
     }
 
@@ -444,7 +454,7 @@ export function Hero() {
       queued = false
       // on a phone the first half screen is the hold below the hero — it stays whole
       // through that, and only starts leaving once the page is actually on its way
-      const hold = coarse.matches ? window.innerHeight * 0.5 : 0
+      const hold = coarse.matches && !HERO_PEEK ? window.innerHeight * 0.5 : 0
       const p = Math.min(1, Math.max(0, (window.scrollY - hold) / (window.innerHeight * 0.8)))
 
       if (contentRef.current) {
@@ -515,11 +525,13 @@ export function Hero() {
         }}
       />
 
-      <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px] will-change-transform">
+      <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px] will-change-transform"
+        /* with the first card peeking in, the copy centres in what is left above it */
+        style={HERO_PEEK ? { paddingBottom: 'var(--hero-peek)' } : undefined}>
         <div ref={copyRef} className={`flex flex-col items-center ${onColor ? 'hero-on-color' : ''}`}>
         <h1
           className="hero-copy font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
-          style={{ fontSize: 'clamp(38px, 6.4vw, 92px)', letterSpacing: '-0.018em' }}
+          style={{ fontSize: 'clamp(34px, 5.6vw, 80px)', letterSpacing: '-0.018em' }}
         >
           <span aria-hidden="true">
             {site.hero.greeting}
@@ -551,8 +563,9 @@ export function Hero() {
         </div>
       </div>
 
-      {/* scroll cue — the first thing to leave once the page moves */}
-      <div ref={cueRef} className="absolute bottom-[76px] md:bottom-[19px] left-1/2" style={{ transform: 'translate(-50%, 0)' }}>
+      {/* scroll cue — the first thing to leave once the page moves. With the card
+          peeking in, the card is the cue, and it would sit right under it anyway. */}
+      <div ref={cueRef} hidden={HERO_PEEK} className="absolute bottom-[76px] md:bottom-[19px] left-1/2" style={{ transform: 'translate(-50%, 0)' }}>
         <button
           type="button"
           onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}

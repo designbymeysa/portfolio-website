@@ -1,6 +1,4 @@
-import { useId } from 'react'
-import { useInView } from '../../hooks/useInView'
-import type React from 'react'
+import { useEffect, useId, useRef, useState } from 'react'
 
 /** The four stages of the wellbeing loop, clockwise from the top. `a` is the angle in
  *  degrees measured from twelve o'clock, so a stage's place on the ring and the arrow
@@ -20,6 +18,12 @@ const CY = 208
 const R  = 132
 const CIRCUMFERENCE = 2 * Math.PI * R
 
+// One pass of the loop: the ring takes 3400ms to draw and the last arrow lands at
+// ~3600ms, so the finished loop holds for a couple of seconds before it fades and the
+// assembly starts over. The timings live in globals.css; only the period is here.
+const PERIOD_MS = 6000
+const FADE_MS = 600
+
 // screen coordinates for an angle off twelve o'clock, going clockwise
 const rad = (a: number) => (a * Math.PI) / 180
 const px  = (a: number, r = R) => CX + r * Math.sin(rad(a))
@@ -29,25 +33,64 @@ const py  = (a: number, r = R) => CY - r * Math.cos(rad(a))
  *  time. Drawn rather than photographed so it stays sharp from a 380px grid card up to
  *  the full-width banner on the case study, and so the reveal can be sequenced.
  *
- *  It runs once, when it first comes into view — `useInView` latches, so scrolling back
- *  does not replay it. Under reduced motion the finished state is shown outright. */
+ *  It runs on a loop while it is on screen: assemble, hold, fade, and assemble again.
+ *  Each pass remounts the SVG (keyed on the pass count) so the one-shot CSS reveal
+ *  replays from the start. Under reduced motion the finished state is shown outright
+ *  and nothing cycles. */
 /** `bare` drops the gradient ground and sets the drawing in the study's accent instead —
  *  for the case study body, where the loop sits in the text column on the page's own
  *  ground rather than in a tile of its own. */
 export function WellbeingLoop({ className = '', bare = false }: { className?: string; bare?: boolean }) {
   const accent = 'var(--study-accent, var(--accent))'
-  const { ref, inView } = useInView(0.25)
+  const ref = useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = useState(false)
+  const [pass, setPass] = useState(0)
+  const [fading, setFading] = useState(false)
   const uid = useId().replace(/:/g, '')
   const ground = `wl-ground-${uid}`
   const reveal = `wl-reveal-${uid}`
 
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.25, rootMargin: '0px 0px -12% 0px' },
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // the cycle: fade the finished loop out at the end of the pass, then start the next
+  useEffect(() => {
+    if (!visible) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let fade = 0
+    let next = 0
+    const schedule = () => {
+      fade = window.setTimeout(() => setFading(true), PERIOD_MS - FADE_MS)
+      next = window.setTimeout(() => {
+        setFading(false)
+        setPass(p => p + 1)
+        schedule()
+      }, PERIOD_MS)
+    }
+    schedule()
+    return () => {
+      window.clearTimeout(fade)
+      window.clearTimeout(next)
+      setFading(false)
+    }
+  }, [visible])
+
   return (
     <div
-      ref={ref as React.RefObject<HTMLDivElement>}
-      className={`relative overflow-hidden ${inView ? 'wl-on' : ''} ${className}`}
+      ref={ref}
+      className={`relative overflow-hidden ${visible ? 'wl-on' : ''} ${fading ? 'wl-out' : ''} ${className}`}
       aria-hidden="true"
     >
       <svg
+        key={pass}
         viewBox="0 0 540 420"
         preserveAspectRatio="xMidYMid meet"
         className="absolute inset-0 w-full h-full"
@@ -82,6 +125,10 @@ export function WellbeingLoop({ className = '', bare = false }: { className?: st
         {/* the ground runs past the frame so no edge shows when the box is wider than
             the drawing and the diagram is letterboxed inside it */}
         {!bare && <rect x="-240" y="-240" width="1020" height="900" fill={`url(#${ground})`} />}
+
+        {/* everything that assembles sits in one group, so the end of a pass can fade
+            the drawing without touching the ground beneath it */}
+        <g className="wl-scene">
 
         {/* the ring the stages sit on, revealed a quarter at a time by the mask above */}
         <circle
@@ -147,6 +194,8 @@ export function WellbeingLoop({ className = '', bare = false }: { className?: st
             </g>
           )
         })}
+
+        </g>
       </svg>
     </div>
   )

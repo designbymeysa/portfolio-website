@@ -8,7 +8,7 @@ export function CardBadge({ className = '' }: { className?: string }) {
   return (
     <span
       aria-hidden="true"
-      className={`w-[40px] h-[40px] shrink-0 rounded-full bg-[color:var(--pill-bg)] text-[color:var(--pill-fg)] flex items-center justify-center opacity-0 group-hover:opacity-100 group-data-[active]:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-[250ms] ${className}`}
+      className={`w-[40px] h-[40px] shrink-0 rounded-full bg-[color:var(--badge-bg)] text-[color:var(--badge-fg)] flex items-center justify-center opacity-0 group-hover:opacity-100 group-data-[active]:opacity-100 group-focus-visible:opacity-100 transition-opacity duration-[250ms] ${className}`}
     >
       <ArrowIcon className="h-[16px] w-[16px]" />
     </span>

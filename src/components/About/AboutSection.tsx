@@ -63,7 +63,7 @@ const photoCards = photoDeck.map(({ src }, i) => (
     <img
       src={src}
       alt={`Meysa — photo ${photoDeck.length - i}`}
-      className="w-full h-full object-cover"
+      className="w-full h-full object-cover rounded-[2px]"
       draggable={false}
     />
   </div>

@@ -18,36 +18,17 @@
       "UX Research"
     ],
     "year": "2026",
-    "role": "UX Research, UI Design, Digital Prototyping (Protopie)",
+    "role": "UX Research, UI Design, Digital Prototyping",
     "team": "Joana Bento, Ariana Cisternas, Sarah Cosentino and I",
     "industry": "Medical",
     "discipline": "UX Research & UI Design",
     "timeline": "5 months",
-    "bg": "#242424",
+    "bg": "#FAFAFA",
     "image": "/media/covers/D-HEART%20Project%20Cover-1.png",
+    "cover": "d-heart-screens",
     "heroImage": "/media/d-heart/D-HEART%20Description.png",
     "href": "/projects/d-heart-redesign",
     "externalHref": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
-  },
-  {
-    "id": "digital-wellbeing",
-    "title": "Designing for wellbeing in task management apps",
-    "description": "Examining the effects of task management apps on people's wellbeing, to propose a wellbeing-centered interaction model along with a set of design principles for designers to positively impact it.",
-    "fullDescription": "An MSc thesis examining the relationship between personal task management applications and digital wellbeing. The work looks at three factors together — the cognitive load these tools impose, the technostress they can generate, and the degree of autonomy they leave the person using them — and asks how interface and interaction decisions shape each.",
-    "problem": "Task management tools are meant to reduce mental burden, yet notification pressure, feature density, and prescriptive structure can add to it — raising cognitive load and technostress while narrowing the user’s sense of control.",
-    "tags": [
-      "UX Research",
-      "Interaction Design"
-    ],
-    "year": "2026",
-    "role": "Literature Review, UX Research, Study Design, UI Design",
-    "industry": "Academic Research",
-    "discipline": "UX Research & Interaction Design",
-    "timeline": "2025 – 2026",
-    "bg": "#5685EE",
-    "href": "/projects/digital-wellbeing",
-    "cover": "wellbeing-loop",
-    "heroImage": "/media/digital/wellbeing%20cover.png"
   },
   {
     "id": "demos",
@@ -76,6 +57,26 @@
     "heroImage": "/media/demos/DEMOS%20Description.png",
     "href": "/projects/demos",
     "externalHref": "https://designbymeysa.framer.website/demos"
+  },
+  {
+    "id": "digital-wellbeing",
+    "title": "Designing for wellbeing in task management apps",
+    "description": "Examining the effects of task management apps on people's wellbeing, to propose a wellbeing-centered interaction model along with a set of design principles for designers to positively impact it.",
+    "fullDescription": "An MSc thesis examining the relationship between personal task management applications and digital wellbeing. The work looks at three factors together — the cognitive load these tools impose, the technostress they can generate, and the degree of autonomy they leave the person using them — and asks how interface and interaction decisions shape each.",
+    "problem": "Task management tools are meant to reduce mental burden, yet notification pressure, feature density, and prescriptive structure can add to it — raising cognitive load and technostress while narrowing the user’s sense of control.",
+    "tags": [
+      "UX Research",
+      "Interaction Design"
+    ],
+    "year": "2026",
+    "role": "Literature Review, UX Research, Study Design, UI Design",
+    "industry": "Academic Research",
+    "discipline": "UX Research & Interaction Design",
+    "timeline": "2025 – 2026",
+    "bg": "#5685EE",
+    "href": "/projects/digital-wellbeing",
+    "cover": "wellbeing-loop",
+    "heroImage": "/media/digital/wellbeing%20cover.png"
   },
   {
     "id": "art-beyond-dimension",

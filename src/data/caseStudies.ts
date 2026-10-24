@@ -8,6 +8,9 @@ export interface Figure {
   src?: string
   /** 'half' pairs two figures on one row; anything else runs full width */
   span?: 'full' | 'half'
+  /** a ground behind the picture in dark mode, for transparent images that only read
+   *  against a light page */
+  darkBg?: string
 }
 
 /** The richer pieces a section can carry, in the order they appear. Each `kind` has one

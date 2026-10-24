@@ -120,7 +120,8 @@
         "figures": [
           {
             "caption": "(Re)Design methodology",
-            "src": "/media/d-heart/Slide%2016_9%20-%20305.png"
+            "src": "/media/d-heart/Slide%2016_9%20-%20305.png",
+            "darkBg": "#FFFFFF"
           }
         ]
       },
@@ -218,18 +219,6 @@
             "kind": "lead",
             "lead": "Step-by-step tutorials help a first-timer and slow down a returning user.",
             "body": "I made every guided step skippable once someone's shown they know it, so the learning curve doesn't become a permanent tax on people who've already done this fifty times."
-          }
-        ]
-      },
-      {
-        "id": "video",
-        "label": "Video",
-        "heading": "The redesign in motion",
-        "blocks": [
-          {
-            "kind": "video",
-            "url": "https://youtu.be/oMZuYoMLCyc",
-            "title": "D-Heart redesign — project video"
           }
         ]
       },
