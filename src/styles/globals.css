@@ -255,7 +255,10 @@
 /* ── The cursor ──
    A ring that follows the pointer and changes for what it is over. Everything here is
    behind the fine-pointer query: a touch device never hides its (absent) cursor, and
-   never pays for the element. */
+   never pays for the element. The element itself is always mounted, so outside the
+   query it is taken out entirely — unstyled, its arrow sat in the page's top corner. */
+.site-cursor { display: none; }
+
 @media (hover: hover) and (pointer: fine) {
   html, body, a, button, [role='button'], input, textarea, select, label {
     cursor: none;

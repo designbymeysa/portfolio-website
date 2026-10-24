@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useInView } from '../../hooks/useInView'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { projects as allProjects } from '../../data/projects'
-import { headlineFor } from '../../data/caseStudies'
+import { headlineFor, eyebrowFor } from '../../data/caseStudies'
 import { ProjectStill } from './ProjectMedia'
 import type { Project } from '../../data/projects'
 import { Tag } from '../Tag/Tag'
@@ -51,10 +51,21 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
       <div className="flex flex-col justify-between flex-none lg:flex-1 px-5 py-6 sm:px-8 sm:py-8 lg:px-[48px] lg:py-[48px] h-auto lg:h-full">
         <div className="flex flex-col gap-[10px] lg:gap-[16px]">
           {/* which project of the set this is — a small numeral in the face of the
-              headline, so it reads as a folio rather than a control */}
-          <span className="font-['Libre_Caslon_Text'] text-[16px] lg:text-[18px] leading-none tabular-nums text-[color:var(--ink-muted)] mb-[8px] lg:mb-[12px]">
-            {String(index + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
-          </span>
+              headline, so it reads as a folio rather than a control — and under it the
+              kind of project, the eyebrow its case study opens with */}
+          <div className="flex flex-col items-start gap-[16px] lg:gap-[24px]">
+            {/* the card's own number leads at size; the total trails it, small */}
+            <span className="font-['Libre_Caslon_Text'] leading-none tabular-nums text-[color:var(--ink-muted)]">
+              <span className="text-[32px] lg:text-[40px] text-[color:var(--ink-strong)]">{String(index + 1).padStart(2, '0')}</span>
+              <span className="text-[14px] lg:text-[16px] ml-[6px]">/ {String(count).padStart(2, '0')}</span>
+            </span>
+            <span
+              className="font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] leading-none text-[color:var(--ink-muted)]"
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            >
+              {eyebrowFor(project)}
+            </span>
+          </div>
           {/* the headline the case study opens with */}
           <p className="font-['Libre_Caslon_Text'] font-normal text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
             {headlineFor(project)}

@@ -2,15 +2,27 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import site from '../../content/site.json'
+import { LeaveIcon } from '../ui/LinkIcons'
 
 const navItems = site.nav
+// The sheet has its own list. It opens with Home, since a phone has no bar of links to
+// find the way back with; Work goes to the whole list of projects rather than the
+// three on the homepage; and Contact is dropped, the ways to reach out being listed in
+// the sheet directly. `to` is a page, `id` a section of the homepage.
+const sheetItems: { label: string; id: string; to?: string }[] = [
+  { label: 'Home', id: 'home' },
+  { label: 'Work', id: 'work', to: '/projects' },
+  ...navItems.filter(n => n.id !== 'work' && n.id !== 'contact'),
+]
+// Work already leads to the full list, so the sheet doesn't repeat it as a link
+const sheetLinks = site.footer.links.filter(l => !l.internal)
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
 const NAV_TYPE = "nav-type font-['Open_Sans'] text-[12px] leading-[1.2] font-semibold uppercase tracking-[2px]"
 
-// The sheet lists exactly what the bar lists — one set of destinations, so the phone
-// and the desktop never disagree about what the site is made of.
+// The sheet lists what the bar lists, less Contact — on a phone the email and the
+// footer's links sit at the sheet's foot, one tap away, rather than a scroll away.
 // The sheet's own items. Not built from NAV_TYPE: that is 12px semibold caps for a
 // 48px bar, and a full screen wants the opposite — the display serif the rest of the
 // site sets its headings in, at the size a heading would take, tracking pulled back in
@@ -18,6 +30,14 @@ const NAV_TYPE = "nav-type font-['Open_Sans'] text-[12px] leading-[1.2] font-sem
 // lands on the current section instead.
 const MOBILE_LINK_CLASS =
   "text-left font-['Libre_Caslon_Text'] font-normal text-[clamp(38px,11vw,52px)] leading-[1.12] tracking-[-0.015em] transition-colors duration-[150ms]"
+// the contact links under them, set as the footer sets its own
+const SHEET_CONTACT_CLASS =
+  "group/link inline-flex items-center gap-[6px] font-['Open_Sans'] font-normal text-[15px] leading-[1.4] text-[color:var(--ink-body)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+// and the footer's link behaviour: an underline drawn under the words on hover
+const SHEET_CONTACT_TEXT =
+  "relative inline-block after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover/link:after:scale-x-100"
+const SHEET_LEAVE_ICON =
+  "h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100"
 
 interface NavBarProps {
   isDark: boolean
@@ -272,12 +292,13 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
             The top pad clears the bar, which stays over the sheet and carries the close. */}
         <div className="flex flex-col justify-between h-full px-6 sm:px-10 pt-[132px] pb-12">
           <nav className="flex flex-col gap-[10px]">
-            {navItems.map(({ label, id }, i) => (
+            {sheetItems.map(({ label, id, to }, i) => (
               <button
                 key={label}
-                onClick={() => { setMenuOpen(false); goToSection(id) }}
+                onClick={() => { setMenuOpen(false); to ? navigate(to) : goToSection(id) }}
                 className={`${MOBILE_LINK_CLASS} ${
-                  isHome && activeSection === id
+                  (to ? location.pathname === to
+                    : isHome && (activeSection === id || (id === 'home' && !activeSection)))
                     ? 'text-[color:var(--accent)]'
                     : 'text-[color:var(--ink-strong)]'
                 }`}
@@ -292,8 +313,39 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
             ))}
           </nav>
 
-          <div className="flex">
-            {darkToggle('')}
+          <div className="flex items-end justify-between gap-[24px]">
+            <ul className="flex flex-col gap-[12px] list-none" style={{ fontVariationSettings: '"wdth" 100' }}>
+              {sheetLinks.map(({ label, href, download, internal }) => (
+                <li key={label}>
+                  {internal ? (
+                    <Link to={href} onClick={() => setMenuOpen(false)} className={SHEET_CONTACT_CLASS}>
+                      <span className={SHEET_CONTACT_TEXT}>{label}</span>
+                    </Link>
+                  ) : (
+                    <a
+                      href={href}
+                      {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+                      className={SHEET_CONTACT_CLASS}
+                    >
+                      <span className={SHEET_CONTACT_TEXT}>{label}</span>
+                      <LeaveIcon className={SHEET_LEAVE_ICON} />
+                      <span className="sr-only">
+                        {download ? '(downloads a file)' : '(opens in a new tab)'}
+                      </span>
+                    </a>
+                  )}
+                </li>
+              ))}
+              <li>
+                <a href={`mailto:${site.footer.email}`} className={SHEET_CONTACT_CLASS}>
+                  <span className={SHEET_CONTACT_TEXT}>{site.footer.email}</span>
+                </a>
+              </li>
+            </ul>
+
+            <div className="flex">
+              {darkToggle('')}
+            </div>
           </div>
         </div>
       </div>
