@@ -156,13 +156,20 @@ export function FigureRow({ figures, caption, tint }: { figures: Figure[]; capti
 /** Two versions of a row of screens in the same place, split by one divider that starts
  *  halfway. The right row lies over the left and is clipped to the divider's right, so
  *  moving it trades one for the other across every screen at once. A drag anywhere in
- *  the frame moves it — measured against the row, not the frame, so the divider never
- *  leaves the phones — and a range input over the row carries it for the keyboard and
- *  for a screen reader. */
+ *  the frame moves it, from one edge of the frame to the other, and a range input over
+ *  the frame carries it for the keyboard and for a screen reader.
+ *
+ *  Until someone touches it, the divider sways out and back now and then while it is on
+ *  screen, so it reads as something to drag. Not under reduced motion. */
+const NUDGE_EVERY_MS = 5000
+const NUDGE_MS = 1600
+
 function Compare({ left, right, ratio, caption }: Extract<Block, { kind: 'compare' }>) {
   const screen = useRef<HTMLDivElement>(null)
   const [at, setAt] = useState(50)
   const dragging = useRef(false)
+  const touched = useRef(false)
+  const { ref: seen, inView } = useInView(0.5)
 
   const moveTo = (clientX: number) => {
     const r = screen.current?.getBoundingClientRect()
@@ -170,10 +177,32 @@ function Compare({ left, right, ratio, caption }: Extract<Block, { kind: 'compar
     setAt(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)))
   }
 
+  // the nudge: 50 → 35 → 65 → 50 on one smooth wave, once on arrival and then every
+  // few seconds, until the reader takes the divider themselves
+  useEffect(() => {
+    if (!inView || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let frame = 0
+    const sway = () => {
+      if (touched.current) return
+      const start = performance.now()
+      const tick = (now: number) => {
+        if (touched.current) return
+        const t = Math.min(1, (now - start) / NUDGE_MS)
+        setAt(50 - 15 * Math.sin(t * Math.PI * 2) * Math.sin(t * Math.PI))
+        if (t < 1) frame = requestAnimationFrame(tick)
+      }
+      frame = requestAnimationFrame(tick)
+    }
+    const first = window.setTimeout(sway, 400)
+    const every = window.setInterval(sway, NUDGE_EVERY_MS)
+    return () => { window.clearTimeout(first); window.clearInterval(every); cancelAnimationFrame(frame) }
+  }, [inView])
+
   return (
     <figure className="w-full">
       <div
-        onPointerDown={e => { dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); moveTo(e.clientX) }}
+        ref={seen as React.RefObject<HTMLDivElement>}
+        onPointerDown={e => { touched.current = true; dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); moveTo(e.clientX) }}
         onPointerMove={e => dragging.current && moveTo(e.clientX)}
         onPointerUp={() => { dragging.current = false }}
         onPointerCancel={() => { dragging.current = false }}
@@ -181,13 +210,14 @@ function Compare({ left, right, ratio, caption }: Extract<Block, { kind: 'compar
         className="relative rounded-[2px] overflow-hidden w-full bg-[color:var(--surface)] flex items-center justify-center select-none py-[4%]"
         style={{ aspectRatio: '16 / 9', touchAction: 'pan-y' }}
       >
-        <div ref={screen} className="group/cmp relative h-full">
-          {/* the two rows share one layout, so each right screen sits exactly over its
-              left one; the left row is in the flow and gives the box its width */}
+        <div ref={screen} className="group/cmp relative h-full w-full">
+          {/* the two rows share one layout, centred across the whole frame, so each
+              right screen sits exactly over its left one and the divider can travel
+              edge to edge */}
           {[left, right].map((side, s) => (
             <div
               key={side.label}
-              className={`flex h-full gap-[24px] ${s ? 'absolute inset-0' : ''}`}
+              className={`flex h-full justify-center gap-[24px] ${s ? 'absolute inset-0' : ''}`}
               style={s ? { clipPath: `inset(0 0 0 ${at}%)` } : undefined}
             >
               {side.images.map(im => (
@@ -220,7 +250,7 @@ function Compare({ left, right, ratio, caption }: Extract<Block, { kind: 'compar
             min={0}
             max={100}
             value={Math.round(at)}
-            onChange={e => setAt(Number(e.target.value))}
+            onChange={e => { touched.current = true; setAt(Number(e.target.value)) }}
             aria-label={`Compare ${left.label.toLowerCase()} and ${right.label.toLowerCase()}`}
             className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
           />

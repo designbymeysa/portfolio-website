@@ -16,7 +16,7 @@
         "blocks": [
           {
             "kind": "note",
-            "body": "A team project for the Final Design Studio course at Politecnico di Milano. The course ended in a final exhibition, where every group in the class showed its interactive prototype to visitors."
+            "body": "Designed for the Final Design Studio at Politecnico di Milano. The course closed with an exhibition where every team set up its interactive prototype for visitors to try."
           }
         ]
       },
@@ -153,7 +153,14 @@
           },
           {
             "kind": "text",
-            "body": "Behind the stand, two AI systems do the work. A **language model** grounded in the museum’s own collection data answers questions about each painting. An **image model** reworks the painting from the visitor’s prompt, balancing their idea against the original so the result still reads as the painting it came from."
+            "body": "Behind the stand, the system works in three layers. Visitors talk to it by **touch or voice**. Two AI models handle what they ask: a **language model** trained on the museum’s own collection answers questions about each painting, and an **image model** reimagines the painting from the visitor’s prompt, learning from what people keep or try again. The result comes back as text or video on the screen, a **projection on the wall**, a **QR code** to download, or a **printed postcard**, with directional sound so the stand doesn’t fill the room."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "System architecture",
+              "src": "/media/art/system-architecture.webp"
+            }
           },
           {
             "kind": "highlight",
