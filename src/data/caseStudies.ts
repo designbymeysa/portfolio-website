@@ -6,11 +6,16 @@ import type { Project } from './projects'
 export interface Figure {
   caption: string
   src?: string
-  /** 'half' pairs two figures on one row; anything else runs full width */
-  span?: 'full' | 'half'
+  /** 'half' pairs two figures on one row, 'third' sets three; anything else runs full width */
+  span?: 'full' | 'half' | 'third'
   /** a ground behind the picture in dark mode, for transparent images that only read
    *  against a light page */
   darkBg?: string
+  /** fits the whole picture inside the 16:9 frame with room around it, for charts
+   *  that would otherwise be cropped or oversized */
+  contain?: boolean
+  /** the frame's shape, for a picture that isn't 16:9 and should fill it uncropped */
+  ratio?: string
 }
 
 /** The richer pieces a section can carry, in the order they appear. Each `kind` has one
@@ -24,6 +29,19 @@ export type Block =
   | { kind: 'note'; body: string }
   /** a heading within the section, one step down from the section's own */
   | { kind: 'subheading'; text: string }
+  /** two versions of a row of screens stacked in the same place, with one divider dragged
+   *  across the lot: `left` shows on one side of it, `right` on the other. Both sides
+   *  list their screens in the same order, so each pair lines up */
+  | {
+      kind: 'compare'
+      left: { label: string; images: { src: string; alt: string }[] }
+      right: { label: string; images: { src: string; alt: string }[] }
+      /** the pictures' own shape, so the divider runs across the screens themselves */
+      ratio: string
+      caption?: string
+    }
+  /** a takeaway line in the accent, like a section's `highlight` but placed mid-section */
+  | { kind: 'highlight'; text: string }
   /** a bullet that opens with a bold lead — "Benchmarking: comparative analysis of…".
    *  `number` replaces the dot with a marker like "01" */
   | { kind: 'lead'; lead: string; body: string; number?: string }
@@ -59,6 +77,20 @@ export type Block =
   | { kind: 'diagram'; name: string; caption?: string; ratio?: string; legend?: { label: string; color: string }[]; description?: string }
   /** a picture, or a captioned placeholder until it exists */
   | { kind: 'figure'; figure: Figure }
+  /** a small clickable prototype: one screen at a time, with tap areas over its own
+   *  buttons that lead to another screen. Areas are percentages of the screen;
+   *  `to` is the index of the screen they open. `ratio` is the screens' own shape */
+  | {
+      kind: 'prototype'
+      screens: {
+        src: string
+        alt: string
+        label: string
+        hotspots: { x: number; y: number; w: number; h: number; to: number; label: string }[]
+      }[]
+      ratio: string
+      caption?: string
+    }
   /** an embedded YouTube player, in the same frame a figure gets. `url` is any
    *  youtube.com / youtu.be link; `ratio` as the slider's, 16:9 when unset */
   | { kind: 'video'; url: string; title: string; caption?: string; ratio?: string }
@@ -76,6 +108,8 @@ export interface CaseSection {
   /** a closing paragraph, for sections that land on a thought after their list */
   outro?: string
   figures?: Figure[]
+  /** one caption for the whole row of pictures, in place of each one's own */
+  figuresCaption?: string
   /** put the pictures between the opening paragraph and the list, not after it */
   figuresFirst?: boolean
   /** a button at the foot of the section. `lead` is a line above it; `aside` a plain

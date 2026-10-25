@@ -3,12 +3,13 @@ import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-route
 import { useInView } from '../hooks/useInView'
 import { sectionsFor, projectById, headlineFor, eyebrowFor, accentFor, caseStudies } from '../data/caseStudies'
 import { coverFor } from '../components/Covers'
-import { Blocks, Emphasis, FigureBlock } from '../components/CaseStudy/Blocks'
+import { Blocks, Emphasis, FigureRow, Reveal } from '../components/CaseStudy/Blocks'
 import { Button } from '../components/Button/Button'
 import { projects } from '../data/projects'
 import { Tag } from '../components/Tag/Tag'
 import { ArrowIcon, BackIcon, LeaveIcon } from '../components/ui/LinkIcons'
 import type React from 'react'
+import site from '../content/site.json'
 
 /** the small tracked capital used for the eyebrow and the meta labels */
 const META_LABEL =
@@ -31,6 +32,7 @@ export default function ProjectPage() {
   // a fresh array every render would re-subscribe the scroll listener below on every
   // one of them — and `setActive` fires from that listener while scrolling
   const sections = useMemo(() => (project ? sectionsFor(project) : []), [project])
+
 
   // which section the reader is in, for the sidebar
   useEffect(() => {
@@ -64,7 +66,6 @@ export default function ProjectPage() {
     { label: 'Role', value: project.role },
     { label: 'Team', value: project.team },
     { label: 'Industry', value: project.industry },
-    { label: 'Timeframe', value: project.timeline },
   ].filter((m): m is { label: string; value: string } => !!m.value)
 
   return (
@@ -87,9 +88,9 @@ export default function ProjectPage() {
                 navigate(-1)
               }
             }}
-            className="inline-flex items-center gap-[10px] font-['Open_Sans'] text-[14px] text-[color:var(--ink-strong)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms] mb-[28px] lg:mb-[36px]"
+            className={`${META_LABEL} inline-flex items-center gap-[6px] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms] mb-[28px] lg:mb-[36px]`}
           >
-            <BackIcon />
+            <BackIcon className="h-[11px] w-[11px]" />
             Back
           </Link>
 
@@ -137,7 +138,7 @@ export default function ProjectPage() {
               to="/projects"
               className={`${META_LABEL} flex items-center gap-[6px] shrink-0 hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]`}
             >
-              View all <ArrowIcon className="h-[11px] w-[11px]" />
+              {site.works.viewAll} <ArrowIcon className="h-[11px] w-[11px]" />
             </Link>
           </div>
 
@@ -190,6 +191,7 @@ export default function ProjectPage() {
                     tracked capital, then the heading as a statement beneath it — what
                     the section says, not what it is called. The eyebrow is skipped
                     where the two would read the same word twice. */}
+                <Reveal>
                 {s.heading !== s.label && (
                   <span className={`${META_LABEL} block text-[12px] tracking-[0.22em] mb-[14px]`} style={{ fontVariationSettings: '"wdth" 100' }}>
                     {s.label}
@@ -204,6 +206,7 @@ export default function ProjectPage() {
                     <Emphasis text={s.body} />
                   </p>
                 )}
+                </Reveal>
 
                 {s.blocks && (
                   <div className="mt-[20px]">
@@ -212,13 +215,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.figuresFirst && s.figures && (
-                  <div className="mt-[28px] grid grid-cols-1 sm:grid-cols-2 gap-[20px]">
-                    {s.figures.map(f => (
-                      <div key={f.caption} className={f.span === 'half' ? '' : 'sm:col-span-2'}>
-                        <FigureBlock figure={f} tint={project.bg} />
-                      </div>
-                    ))}
-                  </div>
+                  <Reveal><FigureRow figures={s.figures} caption={s.figuresCaption} tint={project.bg} /></Reveal>
                 )}
 
                 {s.bullets && (
@@ -244,13 +241,7 @@ export default function ProjectPage() {
                 )}
 
                 {!s.figuresFirst && s.figures && (
-                  <div className="mt-[28px] grid grid-cols-1 sm:grid-cols-2 gap-[20px]">
-                    {s.figures.map(f => (
-                      <div key={f.caption} className={f.span === 'half' ? '' : 'sm:col-span-2'}>
-                        <FigureBlock figure={f} tint={project.bg} />
-                      </div>
-                    ))}
-                  </div>
+                  <Reveal><FigureRow figures={s.figures} caption={s.figuresCaption} tint={project.bg} /></Reveal>
                 )}
 
                 {s.outro && (

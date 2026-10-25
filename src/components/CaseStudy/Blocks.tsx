@@ -5,6 +5,7 @@ import { Tag } from '../Tag/Tag'
 import { ArrowIcon, ChevronIcon } from '../ui/LinkIcons'
 import { coverFor } from '../Covers'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
+import { useInView } from '../../hooks/useInView'
 
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
@@ -20,17 +21,15 @@ const WDTH  = { fontVariationSettings: '"wdth" 100' } as const
  *  the same place the slider puts its own, so the page reads consistently */
 const CAPTION = "font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)] text-right mt-[10px]"
 
-/** `**like this**` in content becomes a strong run in the heading ink. The copy files
- *  are plain JSON, so this is the one piece of inline markup they get. The run keeps
- *  the paragraph's own weight and is marked by ink alone — lifted from the body grey to
- *  the strong ink — which is as much emphasis as the copy wants. */
+/** `**like this**` in content is set as plain text: the markers are dropped and the run
+ *  keeps the paragraph's own weight and ink, so each text style reads as one. */
 export function Emphasis({ text }: { text: string }) {
   const parts = text.split(/(\*\*[^*]+\*\*)/g)
   return (
     <>
       {parts.map((part, i) =>
         part.startsWith('**') && part.endsWith('**')
-          ? <strong key={i} className="font-normal text-[color:var(--ink-strong)]">{part.slice(2, -2)}</strong>
+          ? <span key={i}>{part.slice(2, -2)}</span>
           : <span key={i}>{part}</span>,
       )}
     </>
@@ -44,19 +43,67 @@ function lightness(hex: string) {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b
 }
 
+// ── motion ──
+
+/** Fades a piece of the study up into place the first time it scrolls into view; any
+ *  row inside marked `cs-stagger` follows one item after another, and pictures settle
+ *  from a slight zoom. The motion itself is in globals.css, and only runs for readers
+ *  who have not asked for less of it. */
+export function Reveal({ children, className = '' }: { children: ReactNode; className?: string }) {
+  const { ref, inView } = useInView(0.12)
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>} className={`cs-reveal ${inView ? 'is-in' : ''} ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+/** the place in a staggered row, read by the CSS as a delay */
+const nth = (i: number) => ({ '--i': i }) as React.CSSProperties
+
+/** A headline number that counts up from zero the first time it is seen, keeping its
+ *  decimals and whatever it carries around the digits ("70%", "4.33"). A value with
+ *  no number in it, or a reader who prefers less motion, gets the value as written. */
+function CountUp({ value }: { value: string }) {
+  const { ref, inView } = useInView(0.5)
+  const match = value.match(/^(\D*)(\d+(?:[.,]\d+)?)(.*)$/)
+  const places = match?.[2].split(/[.,]/)[1]?.length ?? 0
+  const [shown, setShown] = useState(match ? `${match[1]}${(0).toFixed(places)}${match[3]}` : value)
+
+  useEffect(() => {
+    if (!match || !inView) return
+    const [, before, digits, after] = match
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setShown(value); return }
+    const target = parseFloat(digits.replace(',', '.'))
+    const start = performance.now()
+    let frame = 0
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / 1200)
+      const eased = 1 - Math.pow(1 - t, 3)
+      setShown(`${before}${(target * eased).toFixed(places)}${after}`)
+      if (t < 1) frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(frame)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inView, value])
+
+  return <span ref={ref as React.RefObject<HTMLSpanElement>} aria-label={value}>{shown}</span>
+}
+
 /** A picture, or a captioned frame holding its place until the picture exists. */
-export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) {
+export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tint: string; uncaptioned?: boolean }) {
   // the tile is the project's own colour, which may be pale or dark — the caption
   // picks the side that reads against it rather than assuming a light ground
   const onDark = lightness(tint) < 140
   const label = onDark ? 'text-white/45' : 'text-black/40'
   const caption = onDark ? 'text-white/70' : 'text-black/55'
   return (
-    <figure className={figure.span === 'half' ? '' : 'w-full'}>
+    <figure className={figure.span === 'half' || figure.span === 'third' ? '' : 'w-full'}>
     <div
       className={`rounded-[2px] overflow-hidden w-full${figure.src && figure.darkBg ? ' dark:bg-[color:var(--figure-dark-bg)]' : ''}`}
       style={{
-        aspectRatio: '16 / 9',
+        aspectRatio: figure.ratio ?? '16 / 9',
         background: figure.src ? undefined : tint,
         ...(figure.darkBg && { '--figure-dark-bg': figure.darkBg }),
       } as React.CSSProperties}
@@ -67,7 +114,7 @@ export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) 
           alt={figure.caption}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover"
+          className={figure.contain ? 'w-full h-full object-contain p-[8%]' : 'w-full h-full object-cover'}
         />
       ) : (
         // no asset yet: the frame still holds its place, and says what belongs in it
@@ -79,9 +126,107 @@ export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) 
         </div>
       )}
     </div>
-    {figure.src && (
+    {figure.src && !uncaptioned && (
       <figcaption className={CAPTION} style={WDTH}>{figure.caption}</figcaption>
     )}
+    </figure>
+  )
+}
+
+/** how much of the six-column figure row each picture takes, from 640px up */
+const FIGURE_SPAN = { full: 'sm:col-span-6', half: 'sm:col-span-3', third: 'sm:col-span-2' } as const
+
+/** A section's pictures on one grid. With a `caption`, the row takes that one line
+ *  beneath it and each picture keeps its own only as alt text. */
+export function FigureRow({ figures, caption, tint }: { figures: Figure[]; caption?: string; tint: string }) {
+  return (
+    <figure className="mt-[28px]">
+      <div className="cs-stagger grid grid-cols-1 sm:grid-cols-6 gap-[20px]">
+        {figures.map((f, i) => (
+          <div key={f.caption} className={FIGURE_SPAN[f.span ?? 'full']} style={nth(i)}>
+            <FigureBlock figure={f} tint={tint} uncaptioned={!!caption} />
+          </div>
+        ))}
+      </div>
+      {caption && <figcaption className={CAPTION} style={WDTH}>{caption}</figcaption>}
+    </figure>
+  )
+}
+
+/** Two versions of a row of screens in the same place, split by one divider that starts
+ *  halfway. The right row lies over the left and is clipped to the divider's right, so
+ *  moving it trades one for the other across every screen at once. A drag anywhere in
+ *  the frame moves it — measured against the row, not the frame, so the divider never
+ *  leaves the phones — and a range input over the row carries it for the keyboard and
+ *  for a screen reader. */
+function Compare({ left, right, ratio, caption }: Extract<Block, { kind: 'compare' }>) {
+  const screen = useRef<HTMLDivElement>(null)
+  const [at, setAt] = useState(50)
+  const dragging = useRef(false)
+
+  const moveTo = (clientX: number) => {
+    const r = screen.current?.getBoundingClientRect()
+    if (!r) return
+    setAt(Math.min(100, Math.max(0, ((clientX - r.left) / r.width) * 100)))
+  }
+
+  return (
+    <figure className="w-full">
+      <div
+        onPointerDown={e => { dragging.current = true; e.currentTarget.setPointerCapture(e.pointerId); moveTo(e.clientX) }}
+        onPointerMove={e => dragging.current && moveTo(e.clientX)}
+        onPointerUp={() => { dragging.current = false }}
+        onPointerCancel={() => { dragging.current = false }}
+        data-cursor="slide"
+        className="relative rounded-[2px] overflow-hidden w-full bg-[color:var(--surface)] flex items-center justify-center select-none py-[4%]"
+        style={{ aspectRatio: '16 / 9', touchAction: 'pan-y' }}
+      >
+        <div ref={screen} className="group/cmp relative h-full">
+          {/* the two rows share one layout, so each right screen sits exactly over its
+              left one; the left row is in the flow and gives the box its width */}
+          {[left, right].map((side, s) => (
+            <div
+              key={side.label}
+              className={`flex h-full gap-[24px] ${s ? 'absolute inset-0' : ''}`}
+              style={s ? { clipPath: `inset(0 0 0 ${at}%)` } : undefined}
+            >
+              {side.images.map(im => (
+                <img
+                  key={im.src}
+                  src={im.src}
+                  alt={im.alt}
+                  loading="lazy"
+                  decoding="async"
+                  draggable={false}
+                  className="h-full object-contain"
+                  style={{ aspectRatio: ratio }}
+                />
+              ))}
+            </div>
+          ))}
+
+          {/* the divider: a hairline in the accent, with a round grip at its middle. It
+              overshoots the phones and the frame's overflow trims it, so it runs the
+              frame's full height */}
+          <div aria-hidden="true" className="absolute -top-[50%] -bottom-[50%] w-[2px] -ml-[1px] bg-[color:var(--study-accent,var(--accent))]" style={{ left: `${at}%` }}>
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[32px] w-[32px] rounded-full bg-[color:var(--study-accent,var(--accent))] flex items-center justify-center gap-[2px] text-white shadow-[0_2px_8px_rgb(0_0_0/0.15)] group-has-[:focus-visible]/cmp:ring-2 group-has-[:focus-visible]/cmp:ring-offset-2 group-has-[:focus-visible]/cmp:ring-[color:var(--study-accent,var(--accent))]">
+              <ChevronIcon className="rotate-90" />
+              <ChevronIcon className="-rotate-90" />
+            </span>
+          </div>
+
+          <input
+            type="range"
+            min={0}
+            max={100}
+            value={Math.round(at)}
+            onChange={e => setAt(Number(e.target.value))}
+            aria-label={`Compare ${left.label.toLowerCase()} and ${right.label.toLowerCase()}`}
+            className="absolute inset-0 w-full h-full opacity-0 pointer-events-none"
+          />
+        </div>
+      </div>
+      {caption && <figcaption className={CAPTION} style={WDTH}>{caption}</figcaption>}
     </figure>
   )
 }
@@ -90,6 +235,18 @@ export function FigureBlock({ figure, tint }: { figure: Figure; tint: string }) 
 
 /** A small bordered rectangle of quieter type, for the things a reader should know
  *  before going on. `[text](url)` in the copy becomes a link. */
+/** the takeaway a section lands on: a filled box, set off from the page by its ground
+ *  rather than a border, at body size */
+function Highlight({ text }: { text: string }) {
+  return (
+    <aside className="rounded-[2px] bg-[color:var(--surface-2)] px-[16px] py-[12px]">
+      <p className={BODY} style={WDTH}>
+        {text}
+      </p>
+    </aside>
+  )
+}
+
 function Note({ body }: { body: string }) {
   const parts = body.split(/(\[[^\]]+\]\([^)]+\))/g)
   return (
@@ -104,7 +261,7 @@ function Note({ body }: { body: string }) {
                 href={m[2]}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-[color:var(--ink-body)] underline underline-offset-[3px] decoration-[1px] decoration-[color:var(--line)] hover:text-[color:var(--ink-strong)] hover:decoration-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+                className="underline underline-offset-[3px] decoration-[1px] decoration-[color:var(--line)] hover:decoration-[color:var(--ink-muted)] transition-colors duration-[150ms]"
               >
                 {m[1]}
                 <span className="sr-only">(opens in a new tab)</span>
@@ -141,7 +298,7 @@ function Lead({ lead, body, number }: { lead: string; body: string; number?: str
           </span>
           <span>{lead}</span>
         </h3>
-        <p className={BODY} style={WDTH}>{body}</p>
+        <p className={BODY} style={WDTH}><Emphasis text={body} /></p>
       </div>
     )
   }
@@ -149,7 +306,7 @@ function Lead({ lead, body, number }: { lead: string; body: string; number?: str
     <p className={`${BODY} flex gap-[12px]`} style={WDTH}>
       <span aria-hidden="true" className="mt-[11px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--study-accent,var(--accent))]" />
       <span>
-        <strong className="font-semibold text-[color:var(--ink-strong)]">{lead}</strong> {body}
+        {lead && <><strong className="font-semibold">{lead}</strong>{' '}</>}{body}
       </span>
     </p>
   )
@@ -175,10 +332,14 @@ function Chips({ groups }: { groups: { label: string; items: string[] }[] }) {
  *  point down the page. */
 function Phases({ phases }: { phases: { label: string; steps: string[] }[] }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr_auto_1fr] gap-[16px] md:gap-[12px] items-stretch">
+    // one column per phase with an arrow track between each, so any count sits on one row
+    <div
+      className="cs-stagger grid grid-cols-1 md:[grid-template-columns:var(--phase-cols)] gap-[16px] md:gap-[12px] items-stretch"
+      style={{ '--phase-cols': phases.map(() => 'minmax(0,1fr)').join(' auto ') } as React.CSSProperties}
+    >
       {phases.map((ph, i) => (
         <div key={ph.label} className="contents">
-          <div className="rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[16px]">
+          <div className="rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[16px]" style={nth(i * 2)}>
             <span className={`${LABEL} block mb-[12px]`}>
               Phase {i + 1} · {ph.label}
             </span>
@@ -192,7 +353,7 @@ function Phases({ phases }: { phases: { label: string; steps: string[] }[] }) {
             </ol>
           </div>
           {i < phases.length - 1 && (
-            <div className="flex justify-center md:self-center text-[color:var(--study-accent,var(--accent))]" aria-hidden="true">
+            <div className="flex justify-center md:self-center text-[color:var(--study-accent,var(--accent))]" style={nth(i * 2 + 1)} aria-hidden="true">
               <ArrowIcon className="h-[14px] w-[14px] rotate-90 md:rotate-0" />
             </div>
           )}
@@ -363,12 +524,16 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
 
 function Stats({ items }: { items: { value: string; label: string; note?: string }[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-[16px]">
-      {items.map(s => (
-        <div key={s.note ?? s.value} className="rounded-[2px] border border-[color:var(--line)] p-[20px]">
+    // one column per number, so however many there are they fill the row
+    <div
+      className="cs-stagger grid grid-cols-1 sm:[grid-template-columns:var(--stat-cols)] gap-[16px]"
+      style={{ '--stat-cols': `repeat(${items.length}, minmax(0, 1fr))` } as React.CSSProperties}
+    >
+      {items.map((s, i) => (
+        <div key={s.note ?? s.value} className="rounded-[2px] border border-[color:var(--line)] p-[20px]" style={nth(i)}>
           <div className="flex items-baseline gap-[8px]">
             <span className="font-['Libre_Caslon_Text'] font-normal text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
-              {s.value}
+              <CountUp value={s.value} />
             </span>
             <span className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
           </div>
@@ -381,9 +546,9 @@ function Stats({ items }: { items: { value: string; label: string; note?: string
 
 function Findings({ items }: { items: { label: string; body: string }[] }) {
   return (
-    <ol className="flex flex-col divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
+    <ol className="cs-stagger flex flex-col divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
       {items.map((f, i) => (
-        <li key={f.label} className="grid grid-cols-[32px_1fr] sm:grid-cols-[32px_260px_1fr] gap-x-[16px] gap-y-[4px] py-[18px] items-baseline">
+        <li key={f.label} style={nth(i)} className="grid grid-cols-[32px_1fr] sm:grid-cols-[32px_260px_1fr] gap-x-[16px] gap-y-[4px] py-[18px] items-baseline">
           <span className="font-['Open_Sans'] text-[12px] font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">
             {String(i + 1).padStart(2, '0')}
           </span>
@@ -401,9 +566,9 @@ function Findings({ items }: { items: { label: string; body: string }[] }) {
  *  site's own rule, and a line or two of body grey beneath. On a phone they stack. */
 function Columns({ items }: { items: { label: string; body: string }[] }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-[24px] mt-[8px]">
-      {items.map(c => (
-        <div key={c.label} className="flex flex-col">
+    <div className={`cs-stagger grid grid-cols-1 ${items.length === 2 ? 'sm:grid-cols-2' : 'sm:grid-cols-3'} gap-[24px] mt-[8px]`}>
+      {items.map((c, i) => (
+        <div key={c.label} className="flex flex-col" style={nth(i)}>
           {/* the same serif-in-accent as the accordion rows, over a rule */}
           <span className="font-['Libre_Caslon_Text'] font-bold text-[15px] lg:text-[16px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
             {c.label}
@@ -606,6 +771,120 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
   )
 }
 
+/** A clickable prototype. The screens sit stacked in one frame and cross-fade; each
+ *  carries buttons laid over its own drawn controls. A tap that misses them flashes
+ *  every one there is, the way a Figma prototype shows its hotspots. The steps beside
+ *  the screen jump straight to any of them.
+ *
+ *  Left alone, it plays itself: every few seconds the control that leads on lights up
+ *  as if tapped, and the next screen fades in. Any touch hands it over to the reader,
+ *  and it only picks up again once they have left it for a while. It plays only while
+ *  on screen, and not at all under reduced motion. */
+const AUTO_STEP_MS = 3200
+const AUTO_TAP_MS = 600
+const AUTO_IDLE_MS = 8000
+
+function Prototype({ screens, ratio, caption }: Extract<Block, { kind: 'prototype' }>) {
+  const frame = useRef<HTMLDivElement>(null)
+  const [index, setIndex] = useState(0)
+  const [flash, setFlash] = useState(false)
+  // the control the autoplay is pressing, drawn as if under a finger
+  const [tapping, setTapping] = useState<string | null>(null)
+  const [visible, setVisible] = useState(false)
+  const timer = useRef<number>()
+  const lastTouch = useRef(0)
+  const at = useRef(0)
+  at.current = index
+  useEffect(() => () => window.clearTimeout(timer.current), [])
+
+  useEffect(() => {
+    const el = frame.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), { threshold: 0.4 })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    if (!visible || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let press: number | undefined
+    const id = window.setInterval(() => {
+      if (Date.now() - lastTouch.current < AUTO_IDLE_MS) return
+      const from = at.current
+      const next = (from + 1) % screens.length
+      const control = screens[from].hotspots.find(h => h.to === next)
+      setTapping(control?.label ?? null)
+      press = window.setTimeout(() => { setTapping(null); setIndex(next) }, control ? AUTO_TAP_MS : 0)
+    }, AUTO_STEP_MS)
+    return () => { window.clearInterval(id); window.clearTimeout(press); setTapping(null) }
+  }, [visible, screens])
+
+  const touch = () => { lastTouch.current = Date.now(); setTapping(null) }
+
+  const showHotspots = () => {
+    setFlash(true)
+    window.clearTimeout(timer.current)
+    timer.current = window.setTimeout(() => setFlash(false), 900)
+  }
+
+  return (
+    <figure className="w-full">
+      <div
+        ref={frame}
+        onPointerDownCapture={touch}
+        onKeyDownCapture={touch}
+        className="rounded-[2px] bg-[color:var(--surface)] flex flex-col md:flex-row items-center justify-center gap-[24px] md:gap-[48px] px-[16px] py-[24px] md:py-[40px]"
+      >
+        <div
+          onPointerDown={e => { if (e.target === e.currentTarget || (e.target as HTMLElement).tagName === 'IMG') showHotspots() }}
+          className="relative h-[420px] md:h-[520px] max-w-full select-none"
+          style={{ aspectRatio: ratio }}
+        >
+          {screens.map((s, i) => (
+            <div
+              key={s.src}
+              aria-hidden={i !== index || undefined}
+              className={`absolute inset-0 transition-opacity duration-300 motion-reduce:transition-none ${i === index ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            >
+              <img src={s.src} alt={s.alt} loading="lazy" decoding="async" draggable={false} className="w-full h-full object-contain" />
+              {s.hotspots.map(h => (
+                <button
+                  key={h.label}
+                  type="button"
+                  tabIndex={i === index ? 0 : -1}
+                  onClick={() => { setFlash(false); setIndex(h.to) }}
+                  aria-label={h.label}
+                  className={`absolute rounded-[14px] outline-none transition-[box-shadow,background-color] duration-200 hover:bg-white/10 hover:shadow-[0_0_0_2px_var(--study-accent,var(--accent))] focus-visible:shadow-[0_0_0_2px_var(--study-accent,var(--accent))] ${flash || (i === index && tapping === h.label) ? 'bg-white/10 shadow-[0_0_0_2px_var(--study-accent,var(--accent))]' : ''}`}
+                  style={{ left: `${h.x}%`, top: `${h.y}%`, width: `${h.w}%`, height: `${h.h}%` }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+
+        {/* the flow as a list of steps: where you are, and a way to any of them */}
+        <ol className="flex md:flex-col flex-wrap justify-center gap-x-[16px] gap-y-[10px]">
+          {screens.map((s, i) => (
+            <li key={s.src}>
+              <button
+                type="button"
+                onClick={() => setIndex(i)}
+                aria-current={i === index ? 'step' : undefined}
+                className={`flex items-center gap-[10px] font-['Open_Sans'] text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-semibold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
+                style={WDTH}
+              >
+                <span className={`h-[2px] w-[16px] transition-colors ${i === index ? 'bg-[color:var(--study-accent,var(--accent))]' : 'bg-[color:var(--line)]'}`} />
+                {String(i + 1).padStart(2, '0')} {s.label}
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+      {caption && <figcaption className={CAPTION} style={WDTH}>{caption}</figcaption>}
+    </figure>
+  )
+}
+
 /** The cover drawn inline. It runs its own reveal when it scrolls into view, so the
  *  loop assembles itself here just as it does on the card. */
 function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { name: string; caption?: string; ratio?: string; legend?: { label: string; color: string }[]; description?: string }) {
@@ -676,25 +955,31 @@ function Video({ url, title, caption, ratio = '16 / 9' }: { url: string; title: 
 export function Blocks({ blocks, tint }: { blocks: Block[]; tint: string }) {
   return (
     <div className="flex flex-col gap-[20px]">
-      {blocks.map((b, i): ReactNode => {
-        switch (b.kind) {
-          case 'text':       return <p key={i} className={BODY} style={WDTH}><Emphasis text={b.body} /></p>
-          case 'note':       return <Note key={i} body={b.body} />
-          case 'subheading': return <Subheading key={i} text={b.text} />
-          case 'lead':       return <Lead key={i} lead={b.lead} body={b.body} number={b.number} />
-          case 'chips':      return <Chips key={i} groups={b.groups} />
-          case 'phases':     return <Phases key={i} phases={b.phases} />
-          case 'accordion':  return <Accordion key={i} {...b} />
-          case 'cards':      return <Cards key={i} cards={b.cards} />
-          case 'stats':      return <Stats key={i} items={b.items} />
-          case 'findings':   return <Findings key={i} items={b.items} />
-          case 'columns':    return <Columns key={i} items={b.items} />
-          case 'slider':     return <Slider key={i} slides={b.slides} caption={b.caption} ratio={b.ratio} />
-          case 'diagram':    return <Diagram key={i} name={b.name} caption={b.caption} ratio={b.ratio} legend={b.legend} description={b.description} />
-          case 'figure':     return <FigureBlock key={i} figure={b.figure} tint={tint} />
-          case 'video':      return <Video key={i} url={b.url} title={b.title} caption={b.caption} ratio={b.ratio} />
-        }
-      })}
+      {blocks.map((b, i) => <Reveal key={i}>{block(b, tint)}</Reveal>)}
     </div>
   )
+}
+
+/** the one renderer each kind of block has */
+function block(b: Block, tint: string): ReactNode {
+  switch (b.kind) {
+    case 'text':       return <p className={BODY} style={WDTH}><Emphasis text={b.body} /></p>
+    case 'note':       return <Note body={b.body} />
+    case 'subheading': return <Subheading text={b.text} />
+    case 'highlight':  return <Highlight text={b.text} />
+    case 'lead':       return <Lead lead={b.lead} body={b.body} number={b.number} />
+    case 'chips':      return <Chips groups={b.groups} />
+    case 'phases':     return <Phases phases={b.phases} />
+    case 'accordion':  return <Accordion {...b} />
+    case 'cards':      return <Cards cards={b.cards} />
+    case 'stats':      return <Stats items={b.items} />
+    case 'findings':   return <Findings items={b.items} />
+    case 'columns':    return <Columns items={b.items} />
+    case 'slider':     return <Slider slides={b.slides} caption={b.caption} ratio={b.ratio} />
+    case 'diagram':    return <Diagram name={b.name} caption={b.caption} ratio={b.ratio} legend={b.legend} description={b.description} />
+    case 'figure':     return <FigureBlock figure={b.figure} tint={tint} />
+    case 'compare':    return <Compare {...b} />
+    case 'video':      return <Video url={b.url} title={b.title} caption={b.caption} ratio={b.ratio} />
+    case 'prototype':  return <Prototype {...b} />
+  }
 }

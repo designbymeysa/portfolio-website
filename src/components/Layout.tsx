@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { NavBar } from './Navigation/NavBar'
 import { HomeFooter } from './Footer/HomeFooter'
 import { CustomCursor } from './Cursor/CustomCursor'
@@ -11,6 +12,8 @@ interface LayoutProps {
 }
 
 export function Layout({ children, hero }: LayoutProps) {
+  // the project pages sit on a flat ground; the gradient is kept for the home page
+  const plain = useLocation().pathname.startsWith('/projects')
   // Layout is mounted per route, so plain state reset the theme on every navigation —
   // toggle to dark, open a case study, and you were back in light. The choice lives in
   // storage instead. Light is the default: the system preference is deliberately not
@@ -135,7 +138,7 @@ export function Layout({ children, hero }: LayoutProps) {
   }, [isDark])
 
   return (
-    <div>
+    <div className={plain ? 'plain-ground' : undefined}>
       {/* subtle page-wide gradient tint, fixed behind all content */}
       <div
         aria-hidden

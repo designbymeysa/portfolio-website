@@ -2,98 +2,395 @@
   "art-beyond-dimension": {
     "headline": "Art Beyond Dimension",
     "eyebrow": "Interactive Museum Experience",
-    "accent": "#3D52FF",
+    "accent": "#9B3550",
+    "inkAccent": {
+      "light": "#B8405C",
+      "dark": "#F0A3B4"
+    },
     "sections": [
       {
         "id": "introduction",
         "label": "Introduction",
-        "heading": "A museum visit you can talk to and remake",
-        "body": "This project reimagines the museum visit as an interactive, creative journey. Visitors explore artworks and ask personalized questions to deepen their understanding. Through a generative AI system, they transform selected paintings using custom prompts, blending classic works with their imagination. Transformed creations are displayed on a projected screen, and visitors can download or print their artwork — turning engagement into a lasting memory.",
-        "figures": [
+        "heading": "A museum where you get to remake the paintings",
+        "body": "Art Beyond Dimension turns a visit to Milan’s Museo del Novecento into something you take part in. At a touch stand, visitors pick a painting, ask it anything, then transform it with a style, a theme or their own words. If they love the result, it joins a wall of everyone else’s creations, and they leave with a postcard of their version.",
+        "blocks": [
           {
-            "caption": "Storyboard — the visitor journey",
-            "src": "/media/art/10.png"
+            "kind": "note",
+            "body": "A team project for the Final Design Studio course at Politecnico di Milano. The course ended in a final exhibition, where every group in the class showed its interactive prototype to visitors."
           }
         ]
       },
       {
-        "id": "design-focus",
-        "label": "Design Focus",
-        "heading": "Younger visitors wanted a hand in the art, not a plaque beside it",
-        "body": "We began by exploring the future of museum experiences, bridging the gap between younger audiences and traditional institutions. Through field visits, literature reviews, and technology trend analysis, we identified key pain points such as static displays and low engagement at Museo del Novecento. User interviews and surveys surfaced three core values — personalization, emotional connection, and shared experiences — which guided our concepts."
+        "id": "problem",
+        "label": "The Problem",
+        "heading": "Young visitors came for the view, not the art",
+        "body": "We visited the Novecento and interviewed visitors in the galleries, read up on how people experience museums, and mapped where museum tech is heading. At the Novecento, the problems were easy to spot: static displays, little to read, almost no technology. Many young visitors headed straight for the window over the Duomo, took a photo, and left."
       },
       {
-        "id": "impact",
-        "label": "Impact",
-        "heading": "Thirty visitors, one painting each, a 4.33 rating",
-        "body": "During the initial exhibition, 30 users interacted with the first MVP — exploring the UI, gathering information, and transforming a painting. We gathered feedback through a UEQ-based survey with 27 participants.",
-        "bullets": [
-          "All users expressed some level of enjoyment in museum visits",
-          "The transformation feature was the most appreciated aspect",
-          "Users who valued education preferred asking their own questions",
-          "Unpredictability added surprise and delight, enhancing engagement"
-        ],
-        "highlight": "Average user rating: 4.33 / 5"
-      },
-      {
-        "id": "preview",
-        "label": "Preview",
-        "heading": "From choosing a painting to printing a new one",
-        "body": "The interface evolved through iterative testing from low to high fidelity in Figma — choosing artworks, getting information, transforming them, and projecting or printing the result.",
-        "figures": [
+        "id": "concept",
+        "label": "Concept",
+        "heading": "How we reached the idea",
+        "body": "The visitors we spoke to wanted to make something their own, to share it, and to get something back for their effort. Each of those became a part of the design:",
+        "blocks": [
           {
-            "caption": "Choose & explore artworks",
-            "src": "/media/art/26.png"
+            "kind": "lead",
+            "lead": "Making it your own",
+            "body": "became the transformation. Instead of reading about a painting, visitors remake it with a style, a theme or their own words."
           },
           {
-            "caption": "Transform artworks",
-            "span": "half",
-            "src": "/media/art/27.png"
+            "kind": "lead",
+            "lead": "Sharing it",
+            "body": "became the shared wall. Every creation a visitor loves is projected beside everyone else’s, so the room fills with other people’s takes on the same paintings."
           },
           {
-            "caption": "Project & print",
-            "span": "half",
-            "src": "/media/art/28.png"
+            "kind": "lead",
+            "lead": "Earning something",
+            "body": "became the postcard. Answer three questions about the original and you take your version home."
+          },
+          {
+            "kind": "text",
+            "body": "Together they became **one stand for the whole collection**: pick a painting, ask it anything, make it your own, and leave something behind."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "Storyboard: from wandering the galleries to holding your own postcard",
+              "src": "/media/art/10.png"
+            }
           }
         ]
       },
       {
-        "id": "prototype",
-        "label": "Prototype",
-        "heading": "Every approved creation joins a gallery that keeps growing",
-        "body": "In the final Design Studio exhibition at Politecnico di Milano, each visitor’s approved creation joins a collective, ever-evolving digital gallery — making every visit a participatory part of the museum narrative.",
-        "figures": [
+        "id": "testing",
+        "label": "Testing",
+        "heading": "Thirty visitors, one Madness Day",
+        "body": "After early tests with six users, we took a working prototype to Madness Day, the studio’s open testing event: a tablet for the interaction and a second screen beside it. Thirty people tried it, some alone and some in pairs, and 27 of them filled in our survey afterwards.",
+        "blocks": [
           {
-            "caption": "Final exhibition + collective gallery",
-            "src": "/media/art/30.png"
+            "kind": "stats",
+            "items": [
+              {
+                "value": "30",
+                "label": "visitors tried the prototype"
+              },
+              {
+                "value": "4.33",
+                "label": "average rating",
+                "note": "out of 5, from 27 survey answers"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "What we learned:"
+          },
+          {
+            "kind": "lead",
+            "lead": "Transforming was the favourite part, by far.",
+            "body": "And the surprise mattered: not knowing exactly what you’d get back was part of the fun."
+          },
+          {
+            "kind": "lead",
+            "lead": "A blank prompt is a lot of pressure.",
+            "body": "“Wait, I have to think what to change!” Most people preferred ready-made styles and themes, so those come first and your own words stay one tap away."
+          },
+          {
+            "kind": "lead",
+            "lead": "Questions were the opposite.",
+            "body": "People who cared about the information wanted to ask their own, specific questions. So visitors can ask anything by voice, or pick one of the ready questions if they’d rather not think of their own."
+          },
+          {
+            "kind": "lead",
+            "lead": "It was more fun together.",
+            "body": "Friends and couples chose and transformed paintings side by side, so the stand works for more than one person."
+          },
+          {
+            "kind": "lead",
+            "lead": "Half the room ignored the second screen.",
+            "body": "It mirrored the tablet, and fewer than half the testers ever looked at it. We gave it a better job: a live wall of everyone’s transformed paintings."
+          }
+        ]
+      },
+      {
+        "id": "the-experience",
+        "label": "The Experience",
+        "heading": "The final flow: explore, ask, transform, keep",
+        "blocks": [
+          {
+            "kind": "phases",
+            "phases": [
+              {
+                "label": "Explore",
+                "steps": [
+                  "Scroll through the museum’s paintings",
+                  "Open one to see its key facts"
+                ]
+              },
+              {
+                "label": "Ask",
+                "steps": [
+                  "Pick a suggested question",
+                  "Or hold the button and ask your own"
+                ]
+              },
+              {
+                "label": "Transform",
+                "steps": [
+                  "Choose a style or a theme",
+                  "Or say your own idea in three words or less",
+                  "Love it, or try again"
+                ]
+              },
+              {
+                "label": "Keep",
+                "steps": [
+                  "Scan a QR code to download it",
+                  "Answer three questions for a free postcard",
+                  "Save it to the wall for everyone"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "Behind the stand, two AI systems do the work. A **language model** grounded in the museum’s own collection data answers questions about each painting. An **image model** reworks the painting from the visitor’s prompt, balancing their idea against the original so the result still reads as the painting it came from."
+          },
+          {
+            "kind": "highlight",
+            "text": "The postcard quiz is the quiet trick: to earn the free print, you answer three questions about the original. People learn about the painting because they want the reward."
+          },
+          {
+            "kind": "prototype",
+            "ratio": "1221 / 1622",
+            "screens": [
+              {
+                "src": "/media/art/proto-browse.webp",
+                "label": "Browse",
+                "alt": "Scroll and select: the museum’s paintings to choose from",
+                "hotspots": [
+                  {
+                    "x": 34.0,
+                    "y": 41.56,
+                    "w": 55.0,
+                    "h": 40.82,
+                    "to": 1,
+                    "label": "Open Elasticità"
+                  }
+                ]
+              },
+              {
+                "src": "/media/art/proto-painting.webp",
+                "label": "Explore",
+                "alt": "Elasticità by Boccioni, with its key facts around it",
+                "hotspots": [
+                  {
+                    "x": 6.38,
+                    "y": 4.68,
+                    "w": 8.51,
+                    "h": 6.41,
+                    "to": 0,
+                    "label": "Back"
+                  },
+                  {
+                    "x": 85.02,
+                    "y": 4.81,
+                    "w": 8.59,
+                    "h": 6.47,
+                    "to": 0,
+                    "label": "Home"
+                  },
+                  {
+                    "x": 13.42,
+                    "y": 89.03,
+                    "w": 35.43,
+                    "h": 6.04,
+                    "to": 2,
+                    "label": "Ask questions"
+                  },
+                  {
+                    "x": 51.72,
+                    "y": 89.03,
+                    "w": 33.96,
+                    "h": 6.04,
+                    "to": 3,
+                    "label": "Transform artwork"
+                  }
+                ]
+              },
+              {
+                "src": "/media/art/proto-questions.webp",
+                "label": "Ask",
+                "alt": "Suggested questions about the painting, and a microphone for your own",
+                "hotspots": [
+                  {
+                    "x": 6.39,
+                    "y": 4.75,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 1,
+                    "label": "Back"
+                  },
+                  {
+                    "x": 85.01,
+                    "y": 4.87,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 0,
+                    "label": "Home"
+                  }
+                ]
+              },
+              {
+                "src": "/media/art/proto-transform.webp",
+                "label": "Transform",
+                "alt": "Style and theme options, or a microphone to say your own idea",
+                "hotspots": [
+                  {
+                    "x": 6.39,
+                    "y": 4.69,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 1,
+                    "label": "Back"
+                  },
+                  {
+                    "x": 85.01,
+                    "y": 4.81,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 0,
+                    "label": "Home"
+                  },
+                  {
+                    "x": 21.29,
+                    "y": 63.5,
+                    "w": 21.21,
+                    "h": 16.34,
+                    "to": 4,
+                    "label": "Pick a style"
+                  },
+                  {
+                    "x": 57.41,
+                    "y": 63.5,
+                    "w": 21.21,
+                    "h": 16.34,
+                    "to": 4,
+                    "label": "Pick a theme"
+                  },
+                  {
+                    "x": 45.78,
+                    "y": 88.47,
+                    "w": 8.35,
+                    "h": 6.29,
+                    "to": 4,
+                    "label": "Say your own idea"
+                  }
+                ]
+              },
+              {
+                "src": "/media/art/proto-ready.webp",
+                "label": "Keep",
+                "alt": "The transformed painting, with a QR code to download it",
+                "hotspots": [
+                  {
+                    "x": 6.39,
+                    "y": 4.75,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 3,
+                    "label": "Back"
+                  },
+                  {
+                    "x": 85.01,
+                    "y": 4.87,
+                    "w": 8.52,
+                    "h": 6.41,
+                    "to": 0,
+                    "label": "Home"
+                  },
+                  {
+                    "x": 21.29,
+                    "y": 81.38,
+                    "w": 27.68,
+                    "h": 6.1,
+                    "to": 5,
+                    "label": "Project on wall"
+                  }
+                ]
+              },
+              {
+                "src": "/media/art/proto-project.webp",
+                "label": "Share",
+                "alt": "Asking whether to project the artwork onto the shared wall",
+                "hotspots": [
+                  {
+                    "x": 79.13,
+                    "y": 33.46,
+                    "w": 4.09,
+                    "h": 3.08,
+                    "to": 4,
+                    "label": "Close"
+                  },
+                  {
+                    "x": 33.06,
+                    "y": 60.07,
+                    "w": 23.49,
+                    "h": 6.22,
+                    "to": 4,
+                    "label": "Cancel"
+                  },
+                  {
+                    "x": 58.51,
+                    "y": 60.07,
+                    "w": 23.4,
+                    "h": 6.22,
+                    "to": 0,
+                    "label": "Project, and start again"
+                  }
+                ]
+              }
+            ]
           }
         ],
         "action": {
-          "label": "Try the digital prototype on Figma",
-          "href": "https://designbymeysa.framer.website/art-beyond-dimension"
-        }
+          "lead": "The full prototype, every screen and flow, is in Figma.",
+          "label": "Open the prototype in Figma",
+          "href": "https://www.figma.com/design/FnFqrWBxyChSOdL3aVzV9A/Prototype?node-id=564-1907&t=bsvAyUf7QbTalGyj-1"
+        },
+        "body": "What came out of Madness Day: ready-made options first, a microphone for your own words, and a second screen that became the shared wall."
       },
       {
-        "id": "challenges",
-        "label": "Challenges",
-        "heading": "Static displays were losing the audience the museum needed most",
-        "body": "Static museum displays and lack of engagement at Museo del Novecento were identified as key pain points, particularly for younger audiences disconnected from traditional institutions."
-      },
-      {
-        "id": "full-case-study",
-        "label": "Full Case study",
-        "heading": "The full story, from research to final design",
-        "body": "Download the full project development presentation covering research, concept, and final design.",
-        "action": {
-          "label": "Download project presentation",
-          "href": "https://designbymeysa.framer.website/art-beyond-dimension"
-        }
+        "id": "final-exhibition",
+        "label": "Final Exhibition",
+        "heading": "A gallery that keeps growing",
+        "body": "For the final exhibition we gave the prototype a museum setting: a dark room, the tablet on a plinth, and a projected wall titled “Your take on Novecento’s paintings”. Every creation a visitor chose to save appeared on that wall beside the others, so the exhibit changed with every person who used it.",
+        "figures": [
+          {
+            "caption": "The stand under the projected wall",
+            "span": "third",
+            "src": "/media/art/exhibition-stand.jpg",
+            "ratio": "3 / 4"
+          },
+          {
+            "caption": "Exploring Boccioni’s Elasticità",
+            "span": "third",
+            "src": "/media/art/exhibition-tablet.jpg",
+            "ratio": "3 / 4"
+          },
+          {
+            "caption": "A visitor transforming a painting",
+            "src": "/media/art/exhibition-visitor.jpg",
+            "ratio": "3 / 4",
+            "span": "third"
+          }
+        ],
+        "figuresCaption": "Final exhibition day"
       },
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Play is what brought a distant audience back",
-        "body": "Blending generative AI with a physical exhibition showed me how playful interaction can re-engage audiences who feel distant from traditional institutions. The collective gallery became the emotional heart of the experience."
+        "heading": "People stay longer when they leave a mark",
+        "body": "What worked was simple. Give people a small creative act and a reason to look closer, then show their work back to the room. The wall of creations turned a solo tool into a shared exhibit."
       }
     ]
   },
@@ -110,7 +407,7 @@
         "id": "introduction",
         "label": "Introduction",
         "heading": "One device, two kinds of user, a simpler ECG",
-        "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience. Using task analysis, user testing, and prototyping, the team identified and addressed key issues, resulting in dual interfaces for patients and doctors, AR-guided electrode placement, integrated tutorials, and enhanced usability.",
+        "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience.",
         "blocks": [
           {
             "kind": "note",
@@ -126,79 +423,271 @@
         ]
       },
       {
-        "id": "design-focus",
-        "label": "Design Focus",
-        "heading": "Three words drove every decision: Learnability. Intuitiveness. Scalability.",
-        "body": "D-Heart works, it's a real, hospital-grade ECG you can take at home. But of 15 first-time users we tested, 9 made significant errors just trying to record one: wrong electrode placement, missed connection states, not realizing they had to press a button to start. And the app tried to serve two very different people with one interface:",
+        "id": "problem",
+        "label": "The Problem",
+        "heading": "It wasn’t hard to use. It was hard to learn.",
+        "body": "D-Heart works. It’s a real, hospital-grade ECG you can take at home. But when we watched first-time users try to record one, most of them made significant errors. They placed electrodes in the wrong spots, missed connection states, and didn’t realise they had to press a button to start. On top of that, the app was trying to serve two very different people with one interface:",
         "blocks": [
-          { "kind": "lead", "lead": "A patient", "body": "doing this for the first few times." },
-          { "kind": "lead", "lead": "A doctor", "body": "moving fast across dozens of patients in a day." }
-        ],
-        "outro": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day."
-      },
-      {
-        "id": "impact",
-        "label": "Impact",
-        "heading": "Task directedness went from 44–56% to 75–100%",
-        "body": "Tree-test task directedness moved from 44–56% on the original navigation structure to 75–100% once it was rebuilt around how people actually think about the content.",
-        "highlight": "Tested with 40 participants in card sorting, validated with 16 in tree testing.",
-        "outro": "Final think-aloud and SEQ testing with both patients and doctors confirmed the dual UI and in-flow tutorials resolved the confusion we'd seen in the original app.",
-        "figures": [
           {
-            "caption": "Dual UI",
-            "span": "half",
-            "src": "/media/d-heart/21.png"
+            "kind": "columns",
+            "items": [
+              {
+                "label": "A patient",
+                "body": "Doing this for the first few times."
+              },
+              {
+                "label": "A doctor",
+                "body": "Moving fast across many patients in a day."
+              }
+            ]
           },
           {
-            "caption": "AR camera overlay",
-            "span": "half",
-            "src": "/media/d-heart/22.png"
-          }
-        ]
-      },
-      {
-        "id": "preview",
-        "label": "Preview",
-        "heading": "Four decisions carry the redesign",
-        "body": "Four decisions carry the redesign:",
-        "blocks": [
-          { "kind": "lead", "lead": "Dual UI:", "body": "separate homepages and navigation for patients and doctors." },
-          { "kind": "lead", "lead": "Camera-guided electrode placement:", "body": "an AR overlay that matches the diagram to the user's body in real time." },
-          { "kind": "lead", "lead": "Integrated tutorials:", "body": "guidance embedded at each step, instead of a wall of onboarding text up front." },
-          { "kind": "lead", "lead": "Device-triggered ECG start:", "body": "moved the start action to the device's own button, so pressing “start” on the phone no longer disturbs the reading." }
-        ],
-        "figures": [
+            "kind": "text",
+            "body": "We started by reviewing the existing app and device ourselves, through a heuristic evaluation, a cognitive walkthrough and a task analysis. Then we tested with first-time users and ran focus groups with medical students and doctors."
+          },
           {
-            "caption": "App + device interface",
-            "src": "/media/d-heart/1.png"
+            "kind": "figure",
+            "figure": {
+              "caption": "Heuristic evaluation of the original app",
+              "src": "/media/d-heart/heuristic-evaluation.png",
+              "darkBg": "#FFFFFF"
+            }
+          },
+          {
+            "kind": "text",
+            "body": "A few problems kept coming up:"
+          },
+          {
+            "kind": "lead",
+            "lead": "",
+            "body": "Nobody noticed the electrodes on the back of the device."
+          },
+          {
+            "kind": "lead",
+            "lead": "",
+            "body": "The camera-based placement guide was awkward, and readings often came out invalid."
+          },
+          {
+            "kind": "lead",
+            "lead": "",
+            "body": "There was no quick route for doctors or emergencies."
+          },
+          {
+            "kind": "lead",
+            "lead": "",
+            "body": "The cables were too short for larger bodies."
+          },
+          {
+            "kind": "highlight",
+            "text": "But the most useful finding was this: when users tried a second time, they did much better. The system wasn’t broken. It just didn’t teach. That became our brief."
+          },
+          {
+            "kind": "text",
+            "body": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day. Three words drove every decision:"
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "Learnability",
+                "body": "A first-timer gets a valid reading without outside help."
+              },
+              {
+                "label": "Intuitiveness",
+                "body": "The device and app explain themselves as you go."
+              },
+              {
+                "label": "Scalability",
+                "body": "The same system holds up for a doctor seeing many patients a day."
+              }
+            ]
           }
         ]
       },
       {
-        "id": "prototype",
-        "label": "Prototype",
-        "heading": "Three stages, tested at each one",
-        "body": "We ran the app's redesign through three stages, testing at each one.",
+        "id": "the-app",
+        "label": "The App",
+        "heading": "One clear structure, then two interfaces",
         "blocks": [
           {
             "kind": "lead",
             "number": "01",
-            "lead": "Information architecture",
-            "body": "Card sorting with 40 participants showed how people actually grouped the app's content, not how it happened to be organized. A first draft of the resulting tree was tested with 16 more users across five core tasks; that's where “add a reminder” (44% directedness) and “find video tutorials” (56%) showed up as the weak points to fix."
+            "lead": "App Structure",
+            "body": "**People found everything eventually, just never on the first try.** We mapped every feature of the original app and ran card sorting sessions, both in person and online. Then we tested the new structure with a tree test. Most people reached the right place in the end, but the paths they took were often indirect, especially when adding a reminder or a family member as a new patient."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "Information architecture",
+              "src": "/media/d-heart/Information-Architecture.png",
+              "darkBg": "#FFFFFF"
+            }
+          },
+          {
+            "kind": "text",
+            "body": "We rebuilt the architecture around those weak spots. Then we asked UX experts to complete the same tasks on the original app and on our wireframes, side by side. That way we could see what we’d actually fixed and what we’d accidentally broken."
+          },
+          {
+            "kind": "highlight",
+            "text": "A clear three-tab app (Home, ECG, Account), with Start ECG right on the homepage and a diagram option for anyone who’d rather not use the camera."
           },
           {
             "kind": "lead",
             "number": "02",
-            "lead": "Low and mid-fidelity wireframes",
-            "body": "Built and tested in-person with think-aloud sessions. Three UX experts on the wireframes themselves, then separate qualitative rounds on the physical device prototype (electrode visibility, dial ergonomics, light affordance) to work out the device-side signals the app would need to speak to."
+            "lead": "Splitting patient and doctor",
+            "body": "**A doctor doesn’t need the patient’s app with a list attached.** Our first version gave doctors the same interface as patients, plus a patient list. When we interviewed doctors, it became clear that charts about their own account were useless to them. What they needed was to see who had taken a test and which results were still waiting for validation."
+          },
+          {
+            "kind": "text",
+            "body": "So the two experiences split:"
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "Patients",
+                "body": "Get reminders, history and guidance, and can switch between family members."
+              },
+              {
+                "label": "Doctors",
+                "body": "Get a homepage built around pending validations, and a Patients tab where the Account tab used to be."
+              }
+            ]
+          },
+          {
+            "kind": "compare",
+            "caption": "Patient homepage vs doctor homepage",
+            "ratio": "1057 / 2160",
+            "left": {
+              "label": "Patient",
+              "images": [
+                {
+                  "src": "/media/d-heart/patient_home.png",
+                  "alt": "Patient homepage: latest result, upcoming reminder and most recent ECG"
+                },
+                {
+                  "src": "/media/d-heart/patient_2.png",
+                  "alt": "Patient account: statistics of past ECG exams"
+                }
+              ]
+            },
+            "right": {
+              "label": "Doctor",
+              "images": [
+                {
+                  "src": "/media/d-heart/dr_home.png",
+                  "alt": "Doctor homepage: next appointment and recent tests waiting for validation"
+                },
+                {
+                  "src": "/media/d-heart/dr_2.png",
+                  "alt": "Doctor patient list: each patient with their last exam date"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "highlight",
+            "text": "One ecosystem, two interfaces, each built for how that person actually works."
+          }
+        ]
+      },
+      {
+        "id": "the-device",
+        "label": "The Device",
+        "heading": "A device that explains itself",
+        "blocks": [
+          {
+            "kind": "lead",
+            "number": "01",
+            "lead": "Making the hardware visible",
+            "body": "**If people can’t see a feature, it doesn’t exist.** Each hardware problem got its own quick, cheap test:"
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "Hidden electrodes",
+                "body": "Simple dots marking the back electrodes didn’t help, and people still missed them. Electrode-shaped, colour-coded markers worked with no hints needed."
+              },
+              {
+                "label": "The dial",
+                "body": "People ranked clay prototypes by feel. A straight dial with finger flaps won because it worked for both left- and right-handed grips."
+              },
+              {
+                "label": "The light",
+                "body": "We ran card sorts to learn what each colour and blink pattern meant to people. Most read blinking blue as “connecting to Bluetooth”, so that’s what it means."
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "Then we 3D-printed a working prototype with longer cables, a recoiling dial and an Arduino-controlled RGB light. We synced it to the app prototype so we could test the whole ecosystem together."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "3D-printed working prototype",
+              "src": "/media/d-heart/device-prototype.png",
+              "ratio": "3840 / 1870"
+            }
+          },
+          {
+            "kind": "highlight",
+            "text": "A device that explains itself, and an app that repeats what the light is saying, because you can’t see a light that’s sitting on your own chest."
           },
           {
             "kind": "lead",
-            "number": "03",
-            "lead": "High-fidelity prototype",
-            "body": "Built in Protopie, tested across three rounds, 12 users total, plus a focus-group round with doctors and medical students, using think-aloud, SEQ, and task success rate to validate the dual UI, the tutorials, and the camera-guided setup before final design."
+            "number": "02",
+            "lead": "Moving Start onto the device",
+            "body": "During testing, we noticed users shifting their bodies to reach the phone and tap Start. Doctors confirmed what that did: the movement was enough to distort the waveform and make the reading harder to interpret."
+          },
+          {
+            "kind": "text",
+            "body": "So we moved the trigger off the screen and onto the device. Once the electrodes are confirmed, the app tells the user to press the centre button on the device itself. Their hand is already there, and their body stays still."
+          },
+          {
+            "kind": "highlight",
+            "text": "It started as a usability tweak and ended up protecting the quality of the medical data."
           }
         ]
+      },
+      {
+        "id": "final-design",
+        "label": "Final Design",
+        "heading": "A system that teaches itself, then gets out of the way",
+        "blocks": [
+          {
+            "kind": "findings",
+            "items": [
+              {
+                "label": "AR electrode placement",
+                "body": "A live camera overlay shows where each electrode goes and follows the user as they move."
+              },
+              {
+                "label": "App and device in sync",
+                "body": "Every light state on the device is mirrored on screen."
+              },
+              {
+                "label": "Help at every step",
+                "body": "A “?” on each screen leads to short tutorial videos and FAQs."
+              },
+              {
+                "label": "Two interfaces",
+                "body": "One for patients, one for doctors."
+              },
+              {
+                "label": "A fast lane",
+                "body": "Emergency ECG works without logging in."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "impact",
+        "label": "Impact",
+        "heading": "Less friction at the moment it matters most",
+        "body": "Users who had tried the original app completed the ECG without getting stuck. As one put it, “It’s definitely an improvement, I didn’t get stuck this time.” At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow. The doctors also pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
       },
       {
         "id": "challenges",
@@ -208,7 +697,7 @@
           {
             "kind": "lead",
             "lead": "Dual UI cost real build complexity for real clarity.",
-            "body": "Two navigation systems and two homepages is more surface area than one adaptive interface. I chose it anyway: doctors and patients weren't a matter of degree, they were different jobs entirely, and one interface kept forcing bad compromises for one side or the other."
+            "body": "Two navigation systems and two homepages is more surface area than one adaptive interface. We chose it anyway: doctors and patients weren't a matter of degree, they were different jobs entirely, and one interface kept forcing bad compromises for one side or the other."
           },
           {
             "kind": "lead",
@@ -218,7 +707,7 @@
           {
             "kind": "lead",
             "lead": "Step-by-step tutorials help a first-timer and slow down a returning user.",
-            "body": "I made every guided step skippable once someone's shown they know it, so the learning curve doesn't become a permanent tax on people who've already done this fifty times."
+            "body": "We made every guided step skippable once someone's shown they know it, so the learning curve doesn't become a permanent tax on people who've already done this fifty times."
           }
         ]
       },
@@ -235,125 +724,245 @@
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Structure and progressive disclosure lowered the barrier",
-        "body": "Designing for both first-time patients and clinicians taught me how much careful structure and progressive disclosure can lower the barrier to a complex medical task. If I revisited it, I’d push the AR guidance further with on-device testing."
+        "heading": "Careful structure lowered the barrier",
+        "body": "Designing for both first-time patients and clinicians showed us how much careful structure can lower the barrier to a complex medical task. If we revisited it, we’d push the AR guidance further with on-device testing."
       }
     ]
   },
   "demos": {
     "headline": "Dèmos",
-    "eyebrow": "AI-Powered Voting Advisory App",
-    "accent": "#7B5CF5",
+    "eyebrow": "AI-Powered Voting Advisor",
+    "accent": "#1C40B0",
+    "inkAccent": {
+      "light": "#2A5BD7",
+      "dark": "#6FA2F5"
+    },
     "sections": [
       {
         "id": "introduction",
         "label": "Introduction",
-        "heading": "AI guidance that meets young voters where they are",
-        "body": "Dèmos is an AI-powered voting advisory application designed to increase political engagement among young European voters. Addressing declining turnout driven by disconnection, lack of knowledge, and political apathy, Dèmos leverages AI — BERT-based sentiment analysis and Retrieval-Augmented Generation (RAG) — to provide personalized, accessible, and unbiased voting guidance.",
-        "figures": [
+        "heading": "A voting advisor you can actually talk to",
+        "body": "Dèmos is an AI voting advisor for young Europeans. Instead of a 30-question quiz you fill in once and forget, you chat with it about the topics you care about. It answers from the parties’ own manifestos, shows its sources, and tells you which parties you agree with most, and where."
+      },
+      {
+        "id": "problem",
+        "label": "The Problem",
+        "heading": "They didn’t stay home because they didn’t care",
+        "body": "In the 2019 European elections, more than 70% of 18–24 year-olds didn’t vote. But our research didn’t point to apathy. Young people wanted a say. They just felt they didn’t know enough to vote well, and that one vote changed little. Protests and social media felt more immediate, and asked for less expertise.",
+        "blocks": [
           {
-            "caption": "Dèmos — final UI",
-            "src": "/media/demos/Demos.png"
+            "kind": "stats",
+            "items": [
+              {
+                "value": "70%",
+                "label": "of 18–24s didn’t vote in the 2019 EU elections"
+              },
+              {
+                "value": "41%",
+                "label": "of young people get most of their political news from social media"
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "Two questions kept coming up:"
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "What will my vote do?",
+                "body": "Not knowing how the EU works, or what a word like “Eurosceptic” means."
+              },
+              {
+                "label": "Who should I vote for?",
+                "body": "Party programmes are long, dense, and hard to compare."
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "Voting advice apps like StemWijzer already tackle the second question, but with a fixed list of statements, used once and forgotten, and written for people who already speak politics. The first question didn’t need AI at all, just clearer design. Matching someone’s views, in their own words, against hundreds of pages of manifestos was where **AI earned its place**."
+          },
+          {
+            "kind": "highlight",
+            "text": "So we reframed the brief: not “get young people to vote”, but help them build the interest and the habit, with guidance that meets them at their level."
           }
         ]
       },
       {
-        "id": "design-focus",
-        "label": "Design Focus",
-        "heading": "Making sensitive political information feel simple",
-        "body": "We started by analyzing the challenges young people face and where AI could help. The political landscape can be overwhelming, so the challenge was to simplify complex processes with an intuitive UX/UI for sensitive political information. Through literature review, semi-structured interviews, and surveys, we learned about young people’s lack of political knowledge, confusion about how voting works, and frustration with the complexity of party platforms.",
-        "figuresFirst": true,
+        "id": "the-experience",
+        "label": "The Experience",
+        "heading": "Built around a first-time voter",
+        "body": "We designed around Sophia, an 18-year-old Politecnico freshman about to vote in her first European election. Her journey runs from curiosity to the ballot box, and past it:",
+        "blocks": [
+          {
+            "kind": "phases",
+            "phases": [
+              {
+                "label": "Before voting",
+                "steps": [
+                  "Sign in with SPID or CIE",
+                  "Find the elections near you",
+                  "Take a short literacy quiz",
+                  "Chat with Dèmos about your topics",
+                  "See your affinity results"
+                ]
+              },
+              {
+                "label": "Voting day",
+                "steps": [
+                  "Revisit your results after the electoral silence",
+                  "Check how to vote and preview the ballot",
+                  "Get a reminder to go"
+                ]
+              },
+              {
+                "label": "After voting",
+                "steps": [
+                  "Look back on past conversations",
+                  "Explore elections in other EU countries"
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "text",
+            "body": "We made it an app, not a website. A website is something you visit once before an election. An app stays with you between them, from a university senate vote to the European Parliament, and that’s how habits form."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "From sign-in to the first conversation",
+              "src": "/media/demos/onboarding-screens.webp"
+            }
+          }
+        ]
+      },
+      {
+        "id": "the-ai",
+        "label": "The AI",
+        "heading": "Grounded in what parties actually wrote",
+        "body": "Dèmos uses only two kinds of data: what you say in the chat, and the parties’ official manifestos. No profiling, no browsing history. Three pieces work together:",
+        "blocks": [
+          {
+            "kind": "lead",
+            "number": "01",
+            "lead": "A conversation at your level",
+            "body": "The literacy quiz tunes how Dèmos talks, so it avoids terms you don’t know yet. Topic modelling on the manifestos keeps the conversation on what parties actually propose."
+          },
+          {
+            "kind": "lead",
+            "number": "02",
+            "lead": "Retrieval, not recall",
+            "body": "Before the LLM answers, a RAG setup pulls the relevant manifesto passages. That keeps answers current, cuts hallucinations, and lets every reply show its sources."
+          },
+          {
+            "kind": "lead",
+            "number": "03",
+            "lead": "Affinity you can inspect",
+            "body": "A BERT model scores the sentiment of your statements, and cosine similarity measures how close they sit to each party’s. The result isn’t one verdict but a breakdown by topic and statement."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "The Dèmos AI system",
+              "src": "/media/demos/ai-system.webp"
+            }
+          }
+        ]
+      },
+      {
+        "id": "testing",
+        "label": "Testing",
+        "heading": "From paper sketches to 6.5 out of 7",
+        "body": "We tested at every stage: hand-sketched wireframes, a mid-fidelity UI reviewed by industry experts, and a high-fidelity prototype with 11 voters aged 18–27. People thought aloud through tasks while we counted attempts and errors.",
+        "blocks": [
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "Six steps, three rounds of testing",
+              "src": "/media/demos/design-process.webp",
+              "darkBg": "#FFFFFF"
+            }
+          },
+          {
+            "kind": "text",
+            "body": "What changed along the way:"
+          },
+          {
+            "kind": "lead",
+            "lead": "Nobody read the intro.",
+            "body": "People skipped the text carousel and couldn’t say what the app did. We rebuilt it around animation and short, friendly copy, and testers could then explain the service in their own words."
+          },
+          {
+            "kind": "lead",
+            "lead": "The quiz moved next to the chat.",
+            "body": "Right after onboarding it felt like a hurdle, and most people skipped it. Placed just before the first conversation, with the line “Dèmos wants to use only terms you already know”, its purpose became obvious."
+          },
+          {
+            "kind": "lead",
+            "lead": "Fewer choices, faster starts.",
+            "body": "Too many topics caused decision paralysis. Now you pick one to start and switch as you go."
+          },
+          {
+            "kind": "lead",
+            "lead": "Top three first.",
+            "body": "Affinity results opened on every party at once. Now they lead with your three closest matches, and the rest are a scroll away."
+          },
+          {
+            "kind": "lead",
+            "lead": "Ideas from testers.",
+            "body": "Compare Parties, a grid of where every party stands on your topics, came from a tester who struggled to tell similar parties apart. It became one of the best-received features in the final round."
+          },
+          {
+            "kind": "stats",
+            "items": [
+              {
+                "value": "5.7",
+                "label": "Ease of use, mid-fidelity",
+                "note": "Single Ease Question, out of 7"
+              },
+              {
+                "value": "6.5",
+                "label": "Ease of use, high-fidelity",
+                "note": "11 voters aged 18–27"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "final-design",
+        "label": "Final Design",
+        "heading": "Your closest parties, and why",
+        "body": "Affinity results show your top three parties first. Open one to see where you agree and disagree, statement by statement, filtered by topic. Compare Parties lines them all up side by side, and your profile keeps every result and topic in one place for the day you vote.",
         "figures": [
           {
-            "caption": "System journey — five core sections",
-            "src": "/media/demos/DEMOS%20s.png"
+            "caption": "Affinity results, party detail, comparison and profile",
+            "src": "/media/demos/affinity-screens.webp"
           }
         ],
-        "bullets": [
-          "Onboarding — secure login via SPID / CIE with consent",
-          "Home — localized election events and party details",
-          "AI Chat — LLM-powered personalized political dialogue",
-          "Affinity Results — alignment with party platforms",
-          "Profile & Threads — a personal democracy dashboard"
-        ]
-      },
-      {
-        "id": "impact",
-        "label": "Impact",
-        "heading": "Ease of use rose from 5.7 to 6.5 across iterations",
-        "body": "The UI was tested with 5 users, iterated, then validated with users and experts. 11 participants aged 18–27, all of whom voted in the last European elections, evaluated the high-fidelity prototype using the Single Ease Question (SEQ) metric.",
-        "bullets": [
-          "Mid-fidelity UI: 5.7 (SEQ)",
-          "High-fidelity UI: 6.5 (SEQ)",
-          "A more intuitive, satisfying experience in the final prototype"
-        ],
-        "highlight": "SEQ improved 5.7 → 6.5 across iterations",
-        "figures": [
-          {
-            "caption": "SEQ results — mid- vs high-fidelity",
-            "span": "half",
-            "src": "/media/demos/user%20journey.png"
-          },
-          {
-            "caption": "AI system — RAG + affinity diagram",
-            "span": "half",
-            "src": "/media/demos/AI%20System.png"
-          }
-        ]
-      },
-      {
-        "id": "preview",
-        "label": "Preview",
-        "heading": "From information architecture to high fidelity",
-        "body": "The UI process began with information architecture, informing wireframes and then mid- and high-fidelity prototypes in Figma.",
-        "figures": [
-          {
-            "caption": "Wireframes & UI process",
-            "src": "/media/demos/Frame%2051613.png"
-          },
-          {
-            "caption": "High-fidelity UI",
-            "span": "half",
-            "src": "/media/demos/DEMOS%20Description-1.png"
-          },
-          {
-            "caption": "Final screens",
-            "span": "half",
-            "src": "/media/demos/DEMOS%20Descrsiption.png"
-          }
-        ]
-      },
-      {
-        "id": "prototype",
-        "label": "Prototype",
-        "heading": "From onboarding to matched candidates",
-        "body": "Explore the final, high-fidelity UI prototype — from onboarding questions through to matched candidates and affinity results.",
         "action": {
-          "label": "Try the Dèmos prototype on Figma",
-          "href": "https://designbymeysa.framer.website/demos"
-        }
-      },
-      {
-        "id": "challenges",
-        "label": "Challenges",
-        "heading": "Disconnection, confusion, and apathy were keeping young voters home",
-        "body": "Declining voter turnout among young Europeans caused by disconnection, insufficient political knowledge, and apathy toward civic participation."
-      },
-      {
-        "id": "full-case-study",
-        "label": "Full Case study",
-        "heading": "The full project report",
-        "body": "Download the full project report covering research, the AI system, and the design process.",
-        "action": {
-          "label": "Download full project report",
-          "href": "https://designbymeysa.framer.website/demos"
+          "lead": "Try the final prototype, from sign-in to your affinity results.",
+          "label": "Open the prototype in Figma",
+          "href": "https://www.figma.com/proto/8BXymQ6lKzb1AFI2Jbw50j/Final-UI?page-id=817%3A3841&node-id=817-7774&p=f&viewport=602%2C468%2C0.05&t=K0oyyQrucvgKekcJ-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=817%3A7774"
         }
       },
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Clarity, not more features, was what young voters needed",
-        "body": "Turning dense political information into a calm, trustworthy flow was the hardest and most rewarding part. The jump in ease-of-use scores confirmed that clarity — not more features — was what young voters needed."
+        "heading": "Trust was the real design material",
+        "body": "The hardest part wasn’t the AI. It was trust. Testers asked who was behind the app, where their data went, and whether closing a chat would delete it. Each question became part of the design: an EU-backed service from the first screen, a privacy step at sign-in, a note that closed chats are saved in Threads.",
+        "action": {
+          "lead": "Interested in learning more?",
+          "label": "Download full report",
+          "href": "https://drive.google.com/file/d/1VGjm7zcVF2aI4qCO3FbE_8QrpDIVI49B/view",
+          "aside": {
+            "label": "or ask me!",
+            "href": "mailto:designbymeysa@gmail.com"
+          }
+        }
       }
     ]
   },

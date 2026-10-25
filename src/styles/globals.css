@@ -144,6 +144,16 @@
   }
 }
 
+/* ── A flat ground ──
+   The project pages drop the gradient for plain white, or the dark theme's own black.
+   Overriding the token here reaches both the fixed layer in Layout and .page-ground. */
+.plain-ground {
+  --page-grad: linear-gradient(#FFFFFF, #FFFFFF);
+}
+.dark .plain-ground {
+  --page-grad: linear-gradient(#0F0F0F, #0F0F0F);
+}
+
 /* ── The page's own ground ──
    With the hero pinned behind it, everything that scrolls over the top needs to be
    opaque. `fixed` attachment keeps the gradient locked to the viewport, so it looks
@@ -492,6 +502,43 @@
   .dh-ring-on { animation: none; }
 }
 
+/* The Dèmos cover. The phones drift up and down out of step, the orb behind them
+   breathes — both only once the cover's wrapper has `dm-on`, which it takes while on
+   screen. */
+.dm-orb,
+.dm-float {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.dm-on .dm-orb     { animation: dm-breathe 8s ease-in-out infinite; }
+.dm-on .dm-float-a { animation: dm-float 7s ease-in-out infinite; }
+.dm-on .dm-float-b { animation: dm-float 7s ease-in-out -3.5s infinite; }
+
+@keyframes dm-breathe {
+  0%, 100% { transform: scale(0.92); opacity: 0.75; }
+  50%      { transform: scale(1.08); opacity: 1; }
+}
+@keyframes dm-float {
+  0%, 100% { transform: translateY(-14px); }
+  50%      { transform: translateY(14px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dm-on .dm-orb, .dm-on .dm-float-a, .dm-on .dm-float-b { animation: none; }
+}
+
+/* The Art Beyond Dimension cover: each painting eases into and out of focus about its
+   own centre as the pick moves. */
+.aw-card {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aw-card { transition: none; }
+}
+
 /* ── Works: the project cards ──
    One ground for every card, from the theme. These used to take a 6% wash of their own
    project's colour, which read as each card being a slightly different grey — and once
@@ -739,5 +786,47 @@
       transform: none;
       opacity: 1;
     }
+  }
+}
+
+/* ── Case studies: motion inside the study ──
+   Each piece fades up as it first scrolls into view (Reveal in CaseStudy/Blocks.tsx
+   adds `is-in`); rows marked `cs-stagger` follow one item after another by the `--i`
+   each item carries, and pictures settle from a slight zoom. Readers who ask for less
+   motion get everything in place from the start. */
+@media (prefers-reduced-motion: no-preference) {
+  .cs-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cs-reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cs-reveal .cs-stagger > *,
+  .cs-reveal .cs-stagger > .contents > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--i, 0) * 90ms + 120ms);
+  }
+  .cs-reveal.is-in .cs-stagger > *,
+  .cs-reveal.is-in .cs-stagger > .contents > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .cs-reveal img {
+    transform: scale(1.035);
+    transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cs-reveal.is-in img {
+    transform: none;
   }
 }

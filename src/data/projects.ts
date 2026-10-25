@@ -23,6 +23,9 @@ export interface Project {
   heroImage?: string
   href: string
   externalHref?: string
+  /** kept in the content but left off the site — every list, the next-project link and
+   *  its own URL, which falls back to /projects */
+  hidden?: boolean
 }
 
 /** The work itself lives in `src/content/projects.json` — plain data, editable without
@@ -33,4 +36,4 @@ export interface Project {
  *  Order matters: the homepage Works section features the first four, in this order. */
 import data from '../content/projects.json'
 
-export const projects = data as Project[]
+export const projects = (data as Project[]).filter(p => !p.hidden)
