@@ -76,6 +76,31 @@ const COPY_OFF_COLOR = 0.22
 // not wait that out — the model is faded faster than the canvas so the type comes back
 // as soon as what is left behind it is thin enough for black to read again.
 const COPY_RELEASE = 2.4
+// The intro line turns white only when what is behind it is too dark for its grey: the
+// grey has fallen under 4.5:1 and white reads clearly better (by INTRO_WHITE_MARGIN). It
+// goes back the moment the grey reads better than white again, or is at 5:1. Both
+// tests are needed: on the light page the grey only reaches ~4.7:1 on the bare ground,
+// so the 4.5 mark alone would trip on a faint leftover tint, while on the dark page
+// white always beats grey, so "which reads better" alone would never let it go.
+// Checked every INTRO_CHECK_EVERY frames off the canvas itself.
+const INTRO_GREY_MIN  = 4.5
+const INTRO_GREY_BACK = 5
+const INTRO_WHITE_MARGIN = 1.15
+const INTRO_CHECK_EVERY = 10
+
+// WCAG relative luminance and contrast, for the check above
+const luminance = ([r, g, b]: number[]) => {
+  const lin = (c: number) => { const s = c / 255; return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4 }
+  return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+}
+const contrast = (a: number[], b: number[]) => {
+  const [x, y] = [luminance(a), luminance(b)].sort((m, n) => n - m)
+  return (x + 0.05) / (y + 0.05)
+}
+const hexRgb = (hex: string) => {
+  const h = hex.trim().replace('#', '')
+  return h.length === 6 ? [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)) : null
+}
 // where along the header bar the ink is measured, as fractions of its width
 const NAV_SAMPLE_X = [0.06, 0.16, 0.5, 0.74, 0.84, 0.93]
 
@@ -93,6 +118,9 @@ export function Hero() {
   // true while the trail sits heavy enough behind the cue that black would sink in. The
   // headline and intro never flip: they stay in ink whatever passes behind them.
   const [cueOnColor, setCueOnColor] = useState(false)
+  // the same for the intro line
+  const [introOnColor, setIntroOnColor] = useState(false)
+  const introRef = useRef<HTMLParagraphElement>(null)
 
   // the headline settles on one word rather than cycling when motion is dialled down
   useEffect(() => {
@@ -146,6 +174,48 @@ export function Hero() {
     let samples: Sample[] = []
     let navLit = false
     let cueLit = false
+    let introLit = false
+    let introTick = 0
+
+    // The intro line, wherever the trail can sit behind it: the cursor drags it there on
+    // a desktop, and on a phone it drifts there on its own. Its colour matters here, not
+    // just how much of it there is — the same cover is a pale lavender on the light page
+    // and a deep blue on the dark one — so this reads the canvas under the line a few
+    // times a second, mixes it over the page the way the screen does (full strength on a
+    // desktop, TRAIL_TOUCH_OPACITY on a phone) and asks whether the grey still reads.
+    const checkIntro = () => {
+      const intro = introRef.current
+      if (!intro) return
+      const styles = getComputedStyle(document.documentElement)
+      const page = hexRgb(styles.getPropertyValue('--page-top'))
+      const grey = hexRgb(styles.getPropertyValue('--ink-muted'))
+      if (!page || !grey) return
+      const c = container.getBoundingClientRect()
+      const r = intro.getBoundingClientRect()
+      const x = Math.max(0, Math.floor((r.left - c.left) * TRAIL_SCALE))
+      const y = Math.max(0, Math.floor((r.top - c.top) * TRAIL_SCALE))
+      const w = Math.min(canvas.width - x, Math.ceil(r.width * TRAIL_SCALE))
+      const h = Math.min(canvas.height - y, Math.ceil(r.height * TRAIL_SCALE))
+      if (w <= 0 || h <= 0) return
+      const px = ctx.getImageData(x, y, w, h).data
+      // the screen colour behind the line, averaged over a grid of points
+      const bg = [0, 0, 0]
+      let k = 0
+      for (let j = 0; j < 3; j++) for (let i = 0; i < 8; i++) {
+        const o = ((Math.floor(h * (j + 0.5) / 3) * w) + Math.floor(w * (i + 0.5) / 8)) * 4
+        const a = (px[o + 3] / 255) * (finePointer ? 1 : TRAIL_TOUCH_OPACITY)
+        for (let ch = 0; ch < 3; ch++) bg[ch] += page[ch] * (1 - a) + px[o + ch] * a
+        k++
+      }
+      const behind = bg.map(v => v / k)
+      const greyReads = contrast(grey, behind)
+      const whiteReads = contrast([255, 255, 255], behind)
+      if (!introLit && greyReads < INTRO_GREY_MIN && whiteReads > greyReads * INTRO_WHITE_MARGIN) {
+        introLit = true; setIntroOnColor(true)
+      } else if (introLit && (greyReads >= INTRO_GREY_BACK || greyReads > whiteReads)) {
+        introLit = false; setIntroOnColor(false)
+      }
+    }
 
     const buildSamples = () => {
       const c = container.getBoundingClientRect()
@@ -354,6 +424,8 @@ export function Hero() {
       if (!cueLit && cueCover > COPY_ON_COLOR)      { cueLit = true;  setCueOnColor(true) }
       else if (cueLit && cueCover < COPY_OFF_COLOR) { cueLit = false; setCueOnColor(false) }
 
+      if (++introTick >= INTRO_CHECK_EVERY) { introTick = 0; checkIntro() }
+
       // The header is fixed and outlives this section, so it only follows the trail
       // while the hero still holds the top of the screen. This cannot be read off the
       // hero's own rect: it is `sticky top-0` inside a containing block that spans the
@@ -397,11 +469,12 @@ export function Hero() {
       // there on the way up, and whatever flip the type had would be frozen with it
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const smp of samples) smp.ink = 0
-      navLit = cueLit = false
+      navLit = cueLit = introLit = false
       seen = false
       idle = 0
       wiped = false
       setCueOnColor(false)
+      setIntroOnColor(false)
       document.documentElement.classList.remove('nav-on-color')
     }
 
@@ -532,18 +605,21 @@ export function Hero() {
         </h1>
 
         <p
-          className="hero-copy hero-sub font-sans font-normal text-[color:var(--ink-muted)] leading-[1.45] max-w-[620px] text-balance"
+          ref={introRef}
+          className={`hero-copy hero-sub font-sans font-normal leading-[1.45] max-w-[620px] text-balance transition-colors duration-700 motion-reduce:transition-none ${introOnColor ? 'text-white' : 'text-[color:var(--ink-muted)]'}`}
           style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
         >
           {site.hero.subtitle.before}{site.hero.subtitle.emphasis}{site.hero.subtitle.after}
         </p>
-        {/* where she is now, a quiet line under the intro */}
+        {/* where she is now, a quiet line under the intro. The right padding gives back
+            the tracking the last letter carries, so both sides read 8px; and the words
+            drop 0.07em, because the face keeps room for descenders that capitals never
+            use, which would leave them riding high against the centred dot */}
         <p
-          className="hero-sub inline-flex items-center gap-[6px] h-5 px-2 mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-heading font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
-          style={{ fontVariationSettings: '"wdth" 100' }}
+          className="hero-sub inline-flex items-center gap-[6px] h-5 pl-2 pr-[7.4px] mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-heading font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
         >
           <span aria-hidden="true" className="w-[5px] h-[5px] rounded-full bg-[color:var(--accent)]" />
-          {site.hero.currentRole}
+          <span className="relative top-[0.07em]">{site.hero.currentRole}</span>
         </p>
         </div>
       </div>

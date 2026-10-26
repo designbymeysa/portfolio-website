@@ -50,12 +50,16 @@ const CELL = 28
 const FINE_POINTER =
   typeof window !== 'undefined' && window.matchMedia('(hover: hover) and (pointer: fine)').matches
 
-/** a spot inside the photo, kept clear of the edges and the corner it is tilted from —
- *  and of the middle, where the face is: the caption lands in the band across the top
- *  or the one across the bottom, never over what the photo is of */
+/** a spot on the card for the caption, as the pill's centre in % of the card. The
+ *  pill (48px tall, up to 183px wide for the longest caption) must never touch the
+ *  middle 70% of the photo, where the face is. It is wider than the side margins that
+ *  leaves, so it goes above or below: the top band sits between the card's edge and
+ *  the photo's top 15%, the bottom band over the photo's last 15% and the polaroid's
+ *  chin. Sideways it stays far enough in that the longest caption keeps on the card.
+ *  Worked for both card sizes (280×350 and 360×450, photo inset 10px, 40px chin). */
 function randomSpot() {
-  const top = Math.random() < 0.5 ? 14 + Math.random() * 12 : 60 + Math.random() * 14
-  return { left: 26 + Math.random() * 42, top }
+  const top = Math.random() < 0.5 ? 7 + Math.random() * 1.5 : 84 + Math.random() * 8
+  return { left: 34 + Math.random() * 32, top }
 }
 
 const photoCards = photoDeck.map(({ src }, i) => (

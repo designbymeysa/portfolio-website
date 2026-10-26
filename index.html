@@ -15,16 +15,19 @@
     <!-- title, description and link-preview tags, written in by the seo plugin in
          vite.config.ts from src/content/site.json -->
     <!--seo-->
-    <!-- Site icon. Files live in public/ and are served from the root, so
-         public/favicon.svg is /favicon.svg here. Drop in a favicon.ico for older
-         browsers and a 180×180 apple-touch-icon.png for iOS home screens and they
-         are picked up without touching this file again. -->
+    <!-- Site icon: one design (the purple M on a white tile) in every format, so it
+         looks the same in every browser, tab theme and home screen. favicon.ico (16,
+         32, 48) is also what Google, Slack and Windows fetch from /favicon.ico without
+         reading this page; the SVG is for browsers that take it; the 180×180 PNG is
+         the iOS home screen, square because iOS rounds it itself. Files live in
+         public/ and are served from the root. -->
     <!-- Applies a saved dark choice before the first paint. Without it the page
          renders light for a frame and then flips, which reads as a flicker. -->
     <script>
       try { if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark') } catch (e) {}
     </script>
 
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" type="image/png" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
