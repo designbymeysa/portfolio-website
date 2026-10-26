@@ -511,7 +511,7 @@ export function Hero() {
         style={HERO_PEEK ? { paddingBottom: 'calc(var(--hero-peek) + var(--hero-bars))' } : undefined}>
         <div className="flex flex-col items-center">
         <h1
-          className="hero-copy font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
+          className="hero-copy font-heading text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
           style={{ fontSize: 'clamp(30px, 4.2vw, 60px)', letterSpacing: '-0.018em' }}
         >
           <span aria-hidden="true">

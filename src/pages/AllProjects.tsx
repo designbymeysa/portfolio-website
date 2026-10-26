@@ -43,7 +43,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
       {/* the headline the case study opens with, so the card and the page agree on
           what the work is called */}
-      <h2 className="font-['Libre_Caslon_Text'] font-normal text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.5px] mb-[12px]">
+      <h2 className="font-heading text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.5px] mb-[12px]">
         {headlineFor(project)}
       </h2>
 
@@ -100,7 +100,7 @@ export default function AllProjects() {
         >
           <SectionLabel className="mb-[18px]">{site.workPage.label}</SectionLabel>
           <h1
-            className="font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.1]"
+            className="font-heading text-[color:var(--ink-strong)] leading-[1.1]"
             style={{ fontSize: 'clamp(34px, 4.4vw, 64px)', letterSpacing: '-0.02em' }}
           >
             {site.workPage.heading}

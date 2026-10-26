@@ -200,7 +200,7 @@ export default function ProjectPage() {
                     {s.label}
                   </span>
                 )}
-                <h2 className="font-['Libre_Caslon_Text'] font-normal text-[clamp(24px,2.6vw,34px)] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.01em] mb-[24px]">
+                <h2 className="font-heading text-[clamp(24px,2.6vw,34px)] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.01em] mb-[24px]">
                   {s.heading}
                 </h2>
 

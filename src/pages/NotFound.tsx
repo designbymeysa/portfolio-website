@@ -34,7 +34,7 @@ export default function NotFound() {
               relies on the ground being flat, which it is: this page sets `--surface`
               and nothing sits behind the digits. */}
           <h1
-            className="font-['Libre_Caslon_Text'] font-normal text-[color:var(--accent)] select-none"
+            className="font-heading text-[color:var(--accent)] select-none"
             style={{
               fontSize: 'clamp(130px, 26vw, 360px)',
               lineHeight: '0.8',
