@@ -15,7 +15,7 @@ const LABEL = "font-heading font-semibold text-[10px] uppercase tracking-[0.18em
 // a heading within a section, one step down from the section's own serif heading.
 // Set in the sans rather than the serif so the two levels read as different kinds of
 // thing — the serif names the section, this names a part of it
-const SUBHEAD = "font-heading font-semibold text-[17px] lg:text-[18px] text-[color:var(--ink-strong)] leading-[1.3]"
+const SUBHEAD = "font-heading font-medium text-[20px] lg:text-[22px] text-[color:var(--ink-strong)] leading-[1.3]"
 const WDTH  = { fontVariationSettings: '"wdth" 100' } as const
 /** the caption under every picture and diagram, set against the frame's right edge —
  *  the same place the slider puts its own, so the page reads consistently */
@@ -421,13 +421,13 @@ function AccordionItem({
       >
         <span className="flex items-baseline gap-[14px]">
           {numbered && (
-            <span className="font-heading font-bold text-[15px] lg:text-[16px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
+            <span className="font-heading font-bold text-[18px] lg:text-[20px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
               {String(index + 1).padStart(2, '0')}
             </span>
           )}
           {/* the row title is the serif in the study's accent — it is the thing you open,
               and reads as a heading for what folds out beneath it */}
-          <span className="font-heading font-bold text-[15px] lg:text-[16px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
+          <span className="font-heading font-bold text-[18px] lg:text-[20px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
             {title}
           </span>
         </span>
@@ -526,7 +526,7 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
     <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
       {cards.map(c => (
         <div key={c.title} className="flex flex-col rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[20px]">
-          <h4 className="font-heading font-semibold text-[15px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
+          <h4 className="font-heading font-medium text-[18px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
             {c.title}
           </h4>
 
@@ -600,7 +600,7 @@ function Columns({ items }: { items: { label: string; body: string }[] }) {
       {items.map((c, i) => (
         <div key={c.label} className="flex flex-col" style={nth(i)}>
           {/* the same serif-in-accent as the accordion rows, over a rule */}
-          <span className="font-heading font-bold text-[15px] lg:text-[16px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
+          <span className="font-heading font-bold text-[17px] lg:text-[18px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
             {c.label}
           </span>
           <p className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
