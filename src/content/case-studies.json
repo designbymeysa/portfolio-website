@@ -176,9 +176,9 @@
                 "alt": "Scroll and select: the museum’s paintings to choose from",
                 "hotspots": [
                   {
-                    "x": 34.0,
+                    "x": 34,
                     "y": 41.56,
-                    "w": 55.0,
+                    "w": 55,
                     "h": 40.82,
                     "to": 1,
                     "label": "Open Elasticità"
@@ -687,6 +687,283 @@
                 "body": "Emergency ECG works without logging in."
               }
             ]
+          },
+          {
+            "kind": "subheading",
+            "text": "Try the patient flow"
+          },
+          {
+            "kind": "prototype",
+            "ratio": "979 / 2000",
+            "screens": [
+              {
+                "src": "/media/d-heart/flow/01-get-ready.webp",
+                "label": "Get ready",
+                "alt": "Lets get ready for the exam, opened from the ECG tab",
+                "hotspots": [
+                  {
+                    "x": 25.21,
+                    "y": 76.12,
+                    "w": 49.58,
+                    "h": 5.73,
+                    "to": 1,
+                    "label": "Continue"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/02-connect.webp",
+                "label": "Connect the device",
+                "alt": "Connect your device: Bluetooth on, device charged, centre button blinking",
+                "hotspots": [
+                  {
+                    "x": 25.01,
+                    "y": 78.6,
+                    "w": 49.58,
+                    "h": 5.97,
+                    "to": 2,
+                    "label": "Pair device"
+                  },
+                  {
+                    "x": 75.86,
+                    "y": 18.69,
+                    "w": 3.9,
+                    "h": 2.01,
+                    "to": 0,
+                    "label": "Close"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/03-checking.webp",
+                "label": "Check the connection",
+                "alt": "Checking your connection, with a pulsing Bluetooth icon",
+                "hotspots": [
+                  {
+                    "x": 35.94,
+                    "y": 46.26,
+                    "w": 28.5,
+                    "h": 13.95,
+                    "to": 3,
+                    "label": "Wait for the connection"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/04-symptoms.webp",
+                "label": "Select symptoms",
+                "alt": "Select symptoms: what brought you to this ECG test, with an Emergency ECG link",
+                "hotspots": [
+                  {
+                    "x": 25.21,
+                    "y": 76.12,
+                    "w": 49.58,
+                    "h": 5.73,
+                    "to": 4,
+                    "label": "Continue"
+                  },
+                  {
+                    "x": 11.83,
+                    "y": 9.28,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 2,
+                    "label": "Back"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/05-connected.webp",
+                "label": "Connected",
+                "alt": "Connection is successful",
+                "hotspots": [
+                  {
+                    "x": 25.4,
+                    "y": 69.76,
+                    "w": 49.58,
+                    "h": 5.73,
+                    "to": 5,
+                    "label": "Continue"
+                  },
+                  {
+                    "x": 75.86,
+                    "y": 24.28,
+                    "w": 3.9,
+                    "h": 2.01,
+                    "to": 3,
+                    "label": "Close"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/06-placement-guide.webp",
+                "label": "Placement guide",
+                "alt": "Placement guide: choose how to be guided through electrode placement",
+                "hotspots": [
+                  {
+                    "x": 58.1,
+                    "y": 61.16,
+                    "w": 23.43,
+                    "h": 11.47,
+                    "to": 6,
+                    "label": "Camera based guide"
+                  },
+                  {
+                    "x": 11.83,
+                    "y": 9.28,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 4,
+                    "label": "Back"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/07-camera-upright.webp",
+                "label": "Phone upright",
+                "alt": "Remember to keep your phone upright, in the phone holder",
+                "hotspots": [
+                  {
+                    "x": 25.21,
+                    "y": 76.12,
+                    "w": 49.58,
+                    "h": 5.73,
+                    "to": 7,
+                    "label": "Continue"
+                  },
+                  {
+                    "x": 11.83,
+                    "y": 9.28,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 5,
+                    "label": "Back"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/08-camera-placing.webp",
+                "label": "Place electrodes",
+                "alt": "The camera view, with an overlay showing where each electrode goes",
+                "hotspots": [
+                  {
+                    "x": 11.64,
+                    "y": 27.1,
+                    "w": 76.52,
+                    "h": 59.29,
+                    "to": 8,
+                    "label": "Place the electrodes"
+                  },
+                  {
+                    "x": 11.64,
+                    "y": 8.03,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 6,
+                    "label": "Back"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/09-camera-placed.webp",
+                "label": "All placed",
+                "alt": "Every electrode ticked off in the camera view",
+                "hotspots": [
+                  {
+                    "x": 15.64,
+                    "y": 86.77,
+                    "w": 68.52,
+                    "h": 4.87,
+                    "to": 9,
+                    "label": "All electrodes placed"
+                  },
+                  {
+                    "x": 11.64,
+                    "y": 8.03,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 7,
+                    "label": "Back"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/10-camera-done.webp",
+                "label": "Electrodes connected",
+                "alt": "Electrodes connected successfully: press continue or the device button",
+                "hotspots": [
+                  {
+                    "x": 14.18,
+                    "y": 83.52,
+                    "w": 70.57,
+                    "h": 5.73,
+                    "to": 10,
+                    "label": "Continue"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/11-stay-still.webp",
+                "label": "Stay still",
+                "alt": "Stay still and relax, with a five second countdown",
+                "hotspots": [
+                  {
+                    "x": 39.26,
+                    "y": 54.38,
+                    "w": 20.89,
+                    "h": 10.22,
+                    "to": 11,
+                    "label": "Start the countdown"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/12-recording.webp",
+                "label": "Recording",
+                "alt": "The live recording, with heart rate and seconds left",
+                "hotspots": [
+                  {
+                    "x": 4.9,
+                    "y": 30.97,
+                    "w": 90.09,
+                    "h": 66.89,
+                    "to": 12,
+                    "label": "Finish the recording"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/13-performed.webp",
+                "label": "Done",
+                "alt": "ECG performed successfully",
+                "hotspots": [
+                  {
+                    "x": 35.94,
+                    "y": 46.26,
+                    "w": 28.5,
+                    "h": 13.95,
+                    "to": 13,
+                    "label": "See the result"
+                  }
+                ]
+              },
+              {
+                "src": "/media/d-heart/flow/14-result.webp",
+                "label": "Result",
+                "alt": "The ECG result: the date, gain and speed, over the full trace",
+                "hotspots": [
+                  {
+                    "x": 78.3,
+                    "y": 9.28,
+                    "w": 9.96,
+                    "h": 4.87,
+                    "to": 0,
+                    "label": "Close and start again"
+                  }
+                ]
+              }
+            ],
+            "caption": "Tap through it, or let it play."
           }
         ]
       },
@@ -732,7 +1009,13 @@
         "id": "reflection",
         "label": "Reflection",
         "heading": "Careful structure lowered the barrier",
-        "body": "Designing for both first-time patients and clinicians showed us how much careful structure can lower the barrier to a complex medical task. If we revisited it, we’d push the AR guidance further with on-device testing."
+        "body": "Designing for both first-time patients and clinicians showed us how much careful structure can lower the barrier to a complex medical task.",
+        "blocks": [
+          {
+            "kind": "text",
+            "body": "Back then, we also didn’t have the advanced prototyping tools that have come with today’s AI. If I did it again now, I could prototype it far better: using AI to simulate the camera-guided electrode placement, and testing it together with the real device."
+          }
+        ]
       }
     ]
   },
