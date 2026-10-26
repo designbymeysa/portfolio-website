@@ -173,8 +173,13 @@
    than starting as a hard edge, so the label floats over the hero and the card lands on
    an opaque ground; once the page moves past the fade, it covers the hero as before. */
 :root {
-  --hero-peek: 80px;
+  --hero-peek: 140px;
   --hero-peek-stack-top: calc(72px + 18px + 16px);
+  /* The hero is 100vh, which on iOS is the screen with Safari's bars put away. While
+     they are showing, that last stretch sits behind them — exactly where the card peeks
+     in. Lifting the page by the difference keeps the peek above the bars on first view.
+     Zero wherever the viewport does not change size, desktop included. */
+  --hero-bars: calc(100vh - 100svh);
 }
 @media (min-width: 1024px) {
   :root {
@@ -183,7 +188,7 @@
   }
 }
 .page-ground-peek {
-  --hero-peek-lift: calc(var(--hero-peek-stack-top) + var(--hero-peek));
+  --hero-peek-lift: calc(var(--hero-peek-stack-top) + var(--hero-peek) + var(--hero-bars));
   margin-top: calc(-1 * var(--hero-peek-lift));
 }
 .page-ground-peek::before {

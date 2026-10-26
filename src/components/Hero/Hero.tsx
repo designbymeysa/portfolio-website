@@ -508,7 +508,7 @@ export function Hero() {
 
       <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px] will-change-transform"
         /* with the first card peeking in, the copy centres in what is left above it */
-        style={HERO_PEEK ? { paddingBottom: 'var(--hero-peek)' } : undefined}>
+        style={HERO_PEEK ? { paddingBottom: 'calc(var(--hero-peek) + var(--hero-bars))' } : undefined}>
         <div className="flex flex-col items-center">
         <h1
           className="hero-copy font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
