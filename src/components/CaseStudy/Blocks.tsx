@@ -9,9 +9,11 @@ import { useInView } from '../../hooks/useInView'
 
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
-// so a block reads as part of the page rather than a widget dropped into it.
-const BODY  = "font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]"
-const LABEL = "font-heading font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
+// so a block reads as part of the page rather than a widget dropped into it. Running
+// copy is 16px at every width and stops at 560px, about 70 characters a line in
+// Satoshi, while pictures keep the full column.
+const BODY  = "font-sans font-normal text-[16px] leading-[1.85] max-w-[560px] text-[color:var(--ink-body)]"
+const LABEL = "font-heading font-medium text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 // a heading within a section, one step down from the section's own serif heading.
 // Set in the sans rather than the serif so the two levels read as different kinds of
 // thing — the serif names the section, this names a part of it
@@ -119,7 +121,7 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
       ) : (
         // no asset yet: the frame still holds its place, and says what belongs in it
         <div className="w-full h-full flex flex-col items-center justify-center gap-[6px] px-6 text-center">
-          <span className={`font-heading font-semibold text-[10px] uppercase tracking-[0.18em] ${label}`}>
+          <span className={`font-heading font-medium text-[10px] uppercase tracking-[0.18em] ${label}`}>
             Image
           </span>
           <span className={`font-sans text-[14px] lg:text-[13px] ${caption}`}>{figure.caption}</span>
@@ -336,7 +338,7 @@ function Lead({ lead, body, number }: { lead: string; body: string; number?: str
     <p className={`${BODY} flex gap-[12px]`} style={WDTH}>
       <span aria-hidden="true" className="mt-[11px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--study-accent,var(--accent))]" />
       <span>
-        {lead && <><strong className="font-semibold">{lead}</strong>{' '}</>}{body}
+        {lead && <><strong className="font-bold">{lead}</strong>{' '}</>}{body}
       </span>
     </p>
   )
@@ -376,7 +378,7 @@ function Phases({ phases }: { phases: { label: string; steps: string[] }[] }) {
             <ol className="flex flex-col gap-[8px]">
               {ph.steps.map((step, j) => (
                 <li key={step} className="flex gap-[10px] font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
-                  <span className="shrink-0 font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">{j + 1}.</span>
+                  <span className="shrink-0 font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">{j + 1}.</span>
                   <span>{step}</span>
                 </li>
               ))}
@@ -579,10 +581,10 @@ function Findings({ items }: { items: { label: string; body: string }[] }) {
     <ol className="cs-stagger flex flex-col divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
       {items.map((f, i) => (
         <li key={f.label} style={nth(i)} className="grid grid-cols-[32px_1fr] sm:grid-cols-[32px_260px_1fr] gap-x-[16px] gap-y-[4px] py-[18px] items-baseline">
-          <span className="font-heading text-[12px] font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">
+          <span className="font-heading text-[12px] font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">
             {String(i + 1).padStart(2, '0')}
           </span>
-          <span className="font-heading font-semibold text-[12px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
+          <span className="font-heading font-medium text-[12px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
             {f.label}
           </span>
           <p className={`${BODY} col-start-2 sm:col-start-3`} style={WDTH}>{f.body}</p>
@@ -900,7 +902,7 @@ function Prototype({ screens, ratio, caption }: Extract<Block, { kind: 'prototyp
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? 'step' : undefined}
-                className={`flex items-center gap-[10px] font-heading text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-semibold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
+                className={`flex items-center gap-[10px] font-heading text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-bold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
                 style={WDTH}
               >
                 <span className={`h-[2px] w-[16px] transition-colors ${i === index ? 'bg-[color:var(--study-accent,var(--accent))]' : 'bg-[color:var(--line)]'}`} />

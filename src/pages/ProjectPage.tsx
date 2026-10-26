@@ -14,7 +14,7 @@ import site from '../content/site.json'
 
 /** the small tracked capital used for the eyebrow and the meta labels */
 const META_LABEL =
-  "font-heading font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
+  "font-heading font-medium text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 
 export default function ProjectPage() {
   const { id } = useParams()
@@ -104,7 +104,7 @@ export default function ProjectPage() {
                 href={`#${s.id}`}
                 className={`font-heading text-[14px] transition-colors duration-[150ms] hover:text-[color:var(--ink-strong)] ${
                   active === s.id
-                    ? 'text-[color:var(--ink-strong)] font-semibold'
+                    ? 'text-[color:var(--ink-strong)] font-bold'
                     : 'text-[color:var(--ink-muted)]'
                 }`}
               >
@@ -205,7 +205,7 @@ export default function ProjectPage() {
                 </h2>
 
                 {s.body && (
-                  <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]">
+                  <p className="font-sans font-normal text-[16px] leading-[1.85] max-w-[560px] text-[color:var(--ink-body)]">
                     <Emphasis text={s.body} />
                   </p>
                 )}
@@ -229,7 +229,7 @@ export default function ProjectPage() {
                           aria-hidden="true"
                           className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--study-accent,var(--accent))]"
                         />
-                        <span className="font-sans text-[16px] lg:text-[14px] leading-[1.6] text-[color:var(--ink-body)]">
+                        <span className="font-sans text-[16px] lg:text-[14px] leading-[1.6] max-w-[560px] text-[color:var(--ink-body)]">
                           {b}
                         </span>
                       </li>
@@ -238,7 +238,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.highlight && (
-                  <p className="font-sans font-semibold text-[14px] text-[color:var(--study-accent,var(--accent))] mt-[20px]">
+                  <p className="font-sans font-bold text-[14px] text-[color:var(--study-accent,var(--accent))] mt-[20px]">
                     {s.highlight}
                   </p>
                 )}
@@ -248,7 +248,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.outro && (
-                  <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mt-[20px]">
+                  <p className="font-sans font-normal text-[16px] leading-[1.85] max-w-[560px] text-[color:var(--ink-body)] mt-[20px]">
                     {s.outro}
                   </p>
                 )}
@@ -256,7 +256,7 @@ export default function ProjectPage() {
                 {s.action && (
                   <div className="mt-[28px]">
                     {s.action.lead && (
-                      <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[16px]">
+                      <p className="font-sans font-normal text-[16px] leading-[1.85] max-w-[560px] text-[color:var(--ink-body)] mb-[16px]">
                         {s.action.lead}
                       </p>
                     )}

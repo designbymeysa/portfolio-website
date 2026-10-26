@@ -95,7 +95,7 @@ function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
           />
         </div>
         <div className="flex flex-col gap-[6px]">
-          <span className="font-heading font-semibold text-[20px] text-[color:var(--ink-strong)] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)]" style={{ fontVariationSettings: '"wdth" 100' }}>
+          <span className="font-heading font-medium text-[20px] text-[color:var(--ink-strong)] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)]" style={{ fontVariationSettings: '"wdth" 100' }}>
             {e.role}
           </span>
           {/* named group so the underline lands on the text only — an
@@ -221,7 +221,7 @@ export function AboutSection() {
         <span
           aria-hidden="true"
           data-on={photoPill.visible || undefined}
-          className="cursor-pill pointer-events-none fixed z-[9999] inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-heading font-semibold text-[12px] tracking-[0.02em] px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
+          className="cursor-pill pointer-events-none fixed z-[9999] inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-heading font-medium text-[12px] tracking-[0.02em] px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
           style={{ left: photoPill.x, top: photoPill.y }}
         >
           {photoCaption}
@@ -236,7 +236,7 @@ export function AboutSection() {
           <div ref={introRef} className="flex-1">
             <SectionLabel className="mb-[20px]">{about.label}</SectionLabel>
 
-            <h2 className="font-heading font-medium text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[32px]">
+            <h2 className="font-heading font-medium text-[26px] md:text-[30px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[32px]">
               {about.heading}
             </h2>
 
@@ -305,7 +305,7 @@ export function AboutSection() {
         <div ref={expRef} id="experience-end" className="mt-[56px] lg:mt-[80px] pb-[56px] lg:pb-[80px]">
           <SectionLabel className="mb-[20px]">{about.experience.label}</SectionLabel>
 
-          <h2 className="font-heading font-medium text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[40px]">
+          <h2 className="font-heading font-medium text-[26px] md:text-[30px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[40px]">
             {about.experience.heading}
           </h2>
 

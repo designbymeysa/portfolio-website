@@ -75,14 +75,14 @@ export default {
         'display-title':   ['40px', { lineHeight: '48px', fontWeight: '700' }],
         'heading-1':       ['52px', { lineHeight: '60px', letterSpacing: '-0.52px', fontWeight: '700' }],
         'heading-2':       ['36px', { lineHeight: '44px', letterSpacing: '-0.36px', fontWeight: '700' }],
-        'heading-3':       ['24px', { lineHeight: '32px', fontWeight: '600' }],
-        'heading-4':       ['18px', { lineHeight: '26px', fontWeight: '600' }],
+        'heading-3':       ['24px', { lineHeight: '32px', fontWeight: '500' }],
+        'heading-4':       ['18px', { lineHeight: '26px', fontWeight: '500' }],
         'body':            ['14px', { lineHeight: '22px', fontWeight: '400' }],
         'body-sm':         ['12px', { lineHeight: '18px', letterSpacing: '0.24px', fontWeight: '400' }],
         'ui-button':       ['13px', { lineHeight: '18px', letterSpacing: '0.13px', fontWeight: '500' }],
         'ui-tag':          ['11px', { lineHeight: '15px', letterSpacing: '1.5px', fontWeight: '500' }],
-        'ui-badge':        ['10px', { lineHeight: '12px', letterSpacing: '1.5px', fontWeight: '600' }],
-        'ui-logo':         ['12px', { lineHeight: '16px', letterSpacing: '2px', fontWeight: '600' }],
+        'ui-badge':        ['10px', { lineHeight: '12px', letterSpacing: '1.5px', fontWeight: '500' }],
+        'ui-logo':         ['12px', { lineHeight: '16px', letterSpacing: '2px', fontWeight: '500' }],
       },
 
       spacing: {

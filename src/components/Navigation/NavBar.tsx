@@ -19,11 +19,11 @@ const sheetLinks = site.footer.links.filter(l => !l.internal)
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
-const NAV_TYPE = "nav-type font-heading text-[12px] leading-[1.2] font-semibold uppercase tracking-[2px]"
+const NAV_TYPE = "nav-type font-heading text-[12px] leading-[1.2] font-medium uppercase tracking-[2px]"
 
 // The sheet lists what the bar lists, less Contact — on a phone the email and the
 // footer's links sit at the sheet's foot, one tap away, rather than a scroll away.
-// The sheet's own items. Not built from NAV_TYPE: that is 12px semibold caps for a
+// The sheet's own items. Not built from NAV_TYPE: that is 12px medium caps for a
 // 48px bar, and a full screen wants the opposite — the display serif the rest of the
 // site sets its headings in, at the size a heading would take, tracking pulled back in
 // as it grows. No sliding underline either: a tap has nowhere to hover, so the accent

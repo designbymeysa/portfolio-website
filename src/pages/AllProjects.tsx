@@ -43,7 +43,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
       {/* the headline the case study opens with, so the card and the page agree on
           what the work is called */}
-      <h2 className="font-heading font-medium text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.5px] mb-[12px]">
+      <h2 className="font-heading font-medium text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.5px] mb-[12px]">
         {headlineFor(project)}
       </h2>
 
