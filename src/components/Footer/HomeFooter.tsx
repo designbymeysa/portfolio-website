@@ -63,7 +63,7 @@ export function HomeFooter() {
             {[0, 1].map(i => (
               <span
                 key={i}
-                className="font-heading font-medium text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
+                className="font-heading font-extrabold text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
                 style={{ fontSize: 'clamp(92px, 13.2vw, 260px)' }}
               >
                 {site.footer.marquee}

@@ -521,7 +521,7 @@ export function Hero() {
             {/* --accent, not --brand-purple: the two are the same colour in light mode, but
                 the brand value is too deep to read against the dark ground and --accent
                 is the lifted hue that holds there */}
-            <em className="hero-accent inline-block italic text-[color:var(--accent)] whitespace-nowrap">
+            <em className="hero-accent inline-block not-italic text-[color:var(--accent)] whitespace-nowrap">
               {reducedMotion
                 ? ACCENT_WORDS[0]
                 : <Typewriter text={ACCENT_WORDS} speed={95} deleteSpeed={45} waitTime={2100} />}
