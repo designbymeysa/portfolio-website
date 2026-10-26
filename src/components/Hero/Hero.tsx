@@ -535,11 +535,7 @@ export function Hero() {
           className="hero-copy hero-sub font-sans font-normal text-[color:var(--ink-muted)] leading-[1.45] max-w-[620px] text-balance"
           style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
         >
-          {site.hero.subtitle.before}
-          <span className="hero-copy font-semibold text-[color:var(--ink-strong)]">
-            {site.hero.subtitle.emphasis}
-          </span>
-          {site.hero.subtitle.after}
+          {site.hero.subtitle.before}{site.hero.subtitle.emphasis}{site.hero.subtitle.after}
         </p>
         {/* where she is now, a quiet line under the intro */}
         <p
