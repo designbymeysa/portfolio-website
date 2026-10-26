@@ -166,15 +166,6 @@
   background-size: cover;
 }
 
-/* ── Main headings ──
-   The h1/h2 across the site, in one place so the face can be tried and swapped
-   without touching every component. Cabinet Grotesk has no italic, so the hero's
-   accent word is slanted by the browser. */
-.font-heading {
-  font-family: 'Cabinet Grotesk', 'Open Sans', sans-serif;
-  font-weight: 500;
-}
-
 /* ── The page's ground, peeking into the hero ──
    The HERO_PEEK variant: the page is lifted so the first card's top shows inside the
    hero's first screen. The lift is the card's pinned offset (mirrored from .works-stack)

@@ -63,10 +63,8 @@ export function HomeFooter() {
             {[0, 1].map(i => (
               <span
                 key={i}
-                className="font-['Libre_Caslon_Text'] font-normal text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
-                /* Libre Caslon Text ships only 400 and 700 — a hairline stroke on the
-                   400 thickens the stems into the medium that sits between them */
-                style={{ fontSize: 'clamp(92px, 13.2vw, 260px)', WebkitTextStroke: '0.005em currentColor' }}
+                className="font-heading font-medium text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
+                style={{ fontSize: 'clamp(92px, 13.2vw, 260px)' }}
               >
                 {site.footer.marquee}
               </span>

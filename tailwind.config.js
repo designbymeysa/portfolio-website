@@ -63,10 +63,10 @@ export default {
       },
 
       fontFamily: {
-        display:  ['"Libre Caslon Text"', 'serif'],
-        caslon:   ['"Libre Caslon Text"', 'serif'],
         sans:     ['"Open Sans"', 'system-ui', 'sans-serif'],
-        heading:  ['"Open Sans"', 'system-ui', 'sans-serif'],
+        // every heading, number and title. Loaded from Fontshare in index.html; it has
+        // no italic, so the hero's accent word is slanted by the browser
+        heading:  ['"Cabinet Grotesk"', '"Open Sans"', 'sans-serif'],
       },
 
       fontSize: {

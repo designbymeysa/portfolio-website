@@ -55,7 +55,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
               kind of project, the eyebrow its case study opens with */}
           <div className="flex flex-col items-start gap-[16px] lg:gap-[24px]">
             {/* the card's own number leads at size; the total trails it, small */}
-            <span className="font-['Libre_Caslon_Text'] leading-none tabular-nums text-[color:var(--ink-muted)]">
+            <span className="font-heading font-medium leading-none tabular-nums text-[color:var(--ink-muted)]">
               <span className="text-[32px] lg:text-[40px] text-[color:var(--ink-strong)]">{String(index + 1).padStart(2, '0')}</span>
               <span className="text-[14px] lg:text-[16px] ml-[6px]">/ {String(count).padStart(2, '0')}</span>
             </span>
@@ -67,7 +67,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
             </span>
           </div>
           {/* the headline the case study opens with */}
-          <p className="font-['Libre_Caslon_Text'] font-normal text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
+          <p className="font-heading font-medium text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
             {headlineFor(project)}
           </p>
           <p className="font-['Open_Sans'] font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"

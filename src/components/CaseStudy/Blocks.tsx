@@ -323,7 +323,7 @@ function Lead({ lead, body, number }: { lead: string; body: string; number?: str
     return (
       <div className="mt-[24px]">
         <h3 className={`${SUBHEAD} flex items-baseline gap-[12px] mb-[8px]`} style={WDTH}>
-          <span className="shrink-0 font-['Libre_Caslon_Text'] font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">
+          <span className="shrink-0 font-heading font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">
             {number}
           </span>
           <span>{lead}</span>
@@ -421,13 +421,13 @@ function AccordionItem({
       >
         <span className="flex items-baseline gap-[14px]">
           {numbered && (
-            <span className="font-['Libre_Caslon_Text'] font-bold text-[15px] lg:text-[16px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
+            <span className="font-heading font-bold text-[15px] lg:text-[16px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
               {String(index + 1).padStart(2, '0')}
             </span>
           )}
           {/* the row title is the serif in the study's accent — it is the thing you open,
               and reads as a heading for what folds out beneath it */}
-          <span className="font-['Libre_Caslon_Text'] font-bold text-[15px] lg:text-[16px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
+          <span className="font-heading font-bold text-[15px] lg:text-[16px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
             {title}
           </span>
         </span>
@@ -562,7 +562,7 @@ function Stats({ items }: { items: { value: string; label: string; note?: string
       {items.map((s, i) => (
         <div key={s.note ?? s.value} className="rounded-[2px] border border-[color:var(--line)] p-[20px]" style={nth(i)}>
           <div className="flex items-baseline gap-[8px]">
-            <span className="font-['Libre_Caslon_Text'] font-normal text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
+            <span className="font-heading font-medium text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
               <CountUp value={s.value} />
             </span>
             <span className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
@@ -600,7 +600,7 @@ function Columns({ items }: { items: { label: string; body: string }[] }) {
       {items.map((c, i) => (
         <div key={c.label} className="flex flex-col" style={nth(i)}>
           {/* the same serif-in-accent as the accordion rows, over a rule */}
-          <span className="font-['Libre_Caslon_Text'] font-bold text-[15px] lg:text-[16px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
+          <span className="font-heading font-bold text-[15px] lg:text-[16px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
             {c.label}
           </span>
           <p className="font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>

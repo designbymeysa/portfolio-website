@@ -236,7 +236,7 @@ export function AboutSection() {
           <div ref={introRef} className="flex-1">
             <SectionLabel className="mb-[20px]">{about.label}</SectionLabel>
 
-            <h2 className="font-heading text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[32px]">
+            <h2 className="font-heading font-medium text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[32px]">
               {about.heading}
             </h2>
 
@@ -305,7 +305,7 @@ export function AboutSection() {
         <div ref={expRef} id="experience-end" className="mt-[56px] lg:mt-[80px] pb-[56px] lg:pb-[80px]">
           <SectionLabel className="mb-[20px]">{about.experience.label}</SectionLabel>
 
-          <h2 className="font-heading text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[40px]">
+          <h2 className="font-heading font-medium text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px] mb-[40px]">
             {about.experience.heading}
           </h2>
 

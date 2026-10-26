@@ -29,7 +29,7 @@ const NAV_TYPE = "nav-type font-['Open_Sans'] text-[12px] leading-[1.2] font-sem
 // as it grows. No sliding underline either: a tap has nowhere to hover, so the accent
 // lands on the current section instead.
 const MOBILE_LINK_CLASS =
-  "text-left font-['Libre_Caslon_Text'] font-normal text-[clamp(38px,11vw,52px)] leading-[1.12] tracking-[-0.015em] transition-colors duration-[150ms]"
+  "text-left font-heading font-medium text-[clamp(38px,11vw,52px)] leading-[1.12] tracking-[-0.015em] transition-colors duration-[150ms]"
 // the contact links under them, set as the footer sets its own
 const SHEET_CONTACT_CLASS =
   "group/link inline-flex items-center gap-[6px] font-['Open_Sans'] font-normal text-[15px] leading-[1.4] text-[color:var(--ink-body)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]"
