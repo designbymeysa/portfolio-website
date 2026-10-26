@@ -116,7 +116,7 @@ export default function AllProjects() {
                 key={f}
                 onClick={() => setFilter(f)}
                 aria-pressed={on}
-                className={`h-8 px-4 rounded-full font-heading font-normal text-[12px] uppercase tracking-[0.7px] transition-colors duration-[150ms] border ${
+                className={`h-8 px-4 rounded-full font-heading font-normal text-[11px] uppercase tracking-[0.7px] transition-colors duration-[150ms] border ${
                   on
                     ? 'bg-[color:var(--pill-bg)] text-[color:var(--pill-fg)] border-[color:var(--pill-bg)]'
                     : 'bg-transparent text-[color:var(--ink-muted)] border-[color:var(--line)] hover:border-[color:var(--ink-muted)] hover:text-[color:var(--ink-strong)]'

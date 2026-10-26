@@ -7,7 +7,7 @@ interface TagProps {
 export function Tag({ label, className = '' }: TagProps) {
   return (
     <span
-      className={`inline-flex items-center justify-center h-6 px-2 shrink-0 rounded-full bg-transparent border border-[color:var(--line)] font-heading font-normal text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.7px] whitespace-nowrap ${className}`}
+      className={`inline-flex items-center justify-center h-6 px-2 shrink-0 rounded-full bg-transparent border border-[color:var(--line)] font-heading font-normal text-[11px] text-[color:var(--ink-muted)] uppercase tracking-[0.7px] whitespace-nowrap ${className}`}
       style={{ fontVariationSettings: '"wdth" 100' }}
     >
       {label}
