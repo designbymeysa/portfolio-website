@@ -6,7 +6,7 @@ import site from '../content/site.json'
 import type React from 'react'
 
 const LINK =
-  "group/link inline-flex items-center gap-[8px] font-['Open_Sans'] text-[16px] lg:text-[15px] text-[color:var(--ink-strong)] no-underline transition-opacity duration-[150ms] hover:opacity-70"
+  "group/link inline-flex items-center gap-[8px] font-heading text-[16px] lg:text-[15px] text-[color:var(--ink-strong)] no-underline transition-opacity duration-[150ms] hover:opacity-70"
 
 /** Anything the router does not recognise. Reached through the `*` route, which the
  *  `_redirects` rule feeds every unmatched path on the deployed site. */

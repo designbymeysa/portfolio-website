@@ -11,11 +11,11 @@ import { useInView } from '../../hooks/useInView'
 // Every block sets its running copy the way the case study's own paragraphs are set,
 // so a block reads as part of the page rather than a widget dropped into it.
 const BODY  = "font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]"
-const LABEL = "font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
+const LABEL = "font-heading font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 // a heading within a section, one step down from the section's own serif heading.
 // Set in the sans rather than the serif so the two levels read as different kinds of
 // thing — the serif names the section, this names a part of it
-const SUBHEAD = "font-['Open_Sans'] font-semibold text-[17px] lg:text-[18px] text-[color:var(--ink-strong)] leading-[1.3]"
+const SUBHEAD = "font-heading font-semibold text-[17px] lg:text-[18px] text-[color:var(--ink-strong)] leading-[1.3]"
 const WDTH  = { fontVariationSettings: '"wdth" 100' } as const
 /** the caption under every picture and diagram, set against the frame's right edge —
  *  the same place the slider puts its own, so the page reads consistently */
@@ -119,7 +119,7 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
       ) : (
         // no asset yet: the frame still holds its place, and says what belongs in it
         <div className="w-full h-full flex flex-col items-center justify-center gap-[6px] px-6 text-center">
-          <span className={`font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] ${label}`}>
+          <span className={`font-heading font-semibold text-[10px] uppercase tracking-[0.18em] ${label}`}>
             Image
           </span>
           <span className={`font-['Open_Sans'] text-[14px] lg:text-[13px] ${caption}`}>{figure.caption}</span>
@@ -526,7 +526,7 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
     <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
       {cards.map(c => (
         <div key={c.title} className="flex flex-col rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[20px]">
-          <h4 className="font-['Open_Sans'] font-semibold text-[15px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
+          <h4 className="font-heading font-semibold text-[15px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
             {c.title}
           </h4>
 
@@ -579,10 +579,10 @@ function Findings({ items }: { items: { label: string; body: string }[] }) {
     <ol className="cs-stagger flex flex-col divide-y divide-[color:var(--line)] border-y border-[color:var(--line)]">
       {items.map((f, i) => (
         <li key={f.label} style={nth(i)} className="grid grid-cols-[32px_1fr] sm:grid-cols-[32px_260px_1fr] gap-x-[16px] gap-y-[4px] py-[18px] items-baseline">
-          <span className="font-['Open_Sans'] text-[12px] font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">
+          <span className="font-heading text-[12px] font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">
             {String(i + 1).padStart(2, '0')}
           </span>
-          <span className="font-['Open_Sans'] font-semibold text-[12px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
+          <span className="font-heading font-semibold text-[12px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
             {f.label}
           </span>
           <p className={`${BODY} col-start-2 sm:col-start-3`} style={WDTH}>{f.body}</p>
@@ -762,7 +762,7 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
       <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-[8px] mt-[14px]">
         <div className="flex items-center gap-3">
         <span
-          className="font-['Open_Sans'] text-[12px] text-[color:var(--ink-muted)] tracking-[0.08em] tabular-nums"
+          className="font-heading text-[12px] text-[color:var(--ink-muted)] tracking-[0.08em] tabular-nums"
           style={WDTH}
         >
           {String(index + 1).padStart(2, '0')} / {String(slides.length).padStart(2, '0')}
@@ -900,7 +900,7 @@ function Prototype({ screens, ratio, caption }: Extract<Block, { kind: 'prototyp
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? 'step' : undefined}
-                className={`flex items-center gap-[10px] font-['Open_Sans'] text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-semibold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
+                className={`flex items-center gap-[10px] font-heading text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-semibold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
                 style={WDTH}
               >
                 <span className={`h-[2px] w-[16px] transition-colors ${i === index ? 'bg-[color:var(--study-accent,var(--accent))]' : 'bg-[color:var(--line)]'}`} />
@@ -935,7 +935,7 @@ function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { nam
           {legend && (
             <ul className="flex flex-wrap items-center gap-x-[16px] gap-y-[6px]">
               {legend.map(l => (
-                <li key={l.label} className="flex items-center gap-[8px] font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>
+                <li key={l.label} className="flex items-center gap-[8px] font-heading text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>
                   <span
                     aria-hidden="true"
                     className="h-[10px] w-[10px] rounded-[2px] border"

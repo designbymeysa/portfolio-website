@@ -26,7 +26,7 @@ export function SkillsTicker() {
         {doubled.map((skill, i) => (
           <div key={i} className="flex items-center gap-[28px] px-[28px] shrink-0">
             <span
-              className="font-['Open_Sans'] font-normal text-[18px] text-[color:var(--ink-strong)] whitespace-nowrap leading-[1.2]"
+              className="font-heading font-normal text-[18px] text-[color:var(--ink-strong)] whitespace-nowrap leading-[1.2]"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               {skill}

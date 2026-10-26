@@ -95,7 +95,7 @@ function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
           />
         </div>
         <div className="flex flex-col gap-[6px]">
-          <span className="font-['Open_Sans'] font-semibold text-[20px] text-[color:var(--ink-strong)] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)]" style={{ fontVariationSettings: '"wdth" 100' }}>
+          <span className="font-heading font-semibold text-[20px] text-[color:var(--ink-strong)] leading-[1.2] transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)]" style={{ fontVariationSettings: '"wdth" 100' }}>
             {e.role}
           </span>
           {/* named group so the underline lands on the text only — an
@@ -104,7 +104,7 @@ function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
             href={e.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group/link inline-flex items-center gap-[6px] w-fit font-['Open_Sans'] font-normal text-[16px] text-[color:var(--ink-body)] no-underline transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)] group-data-[active]:text-[color:var(--ink-strong)]"
+            className="group/link inline-flex items-center gap-[6px] w-fit font-heading font-normal text-[16px] text-[color:var(--ink-body)] no-underline transition-colors duration-[200ms] group-hover:text-[color:var(--ink-strong)] group-data-[active]:text-[color:var(--ink-strong)]"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             <span className="underline-offset-[3px] decoration-[1px] group-hover/link:underline">
@@ -115,7 +115,7 @@ function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
           </a>
         </div>
       </div>
-      <span className="font-['Open_Sans'] font-normal text-[14px] text-[color:var(--ink-muted)] md:text-right transition-colors duration-[200ms] group-hover:text-[color:var(--ink-body)] group-data-[active]:text-[color:var(--ink-body)]" style={{ fontVariationSettings: '"wdth" 100' }}>
+      <span className="font-heading font-normal text-[14px] text-[color:var(--ink-muted)] md:text-right transition-colors duration-[200ms] group-hover:text-[color:var(--ink-body)] group-data-[active]:text-[color:var(--ink-body)]" style={{ fontVariationSettings: '"wdth" 100' }}>
         {e.period}
       </span>
     </div>
@@ -221,7 +221,7 @@ export function AboutSection() {
         <span
           aria-hidden="true"
           data-on={photoPill.visible || undefined}
-          className="cursor-pill pointer-events-none fixed z-[9999] inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-['Open_Sans'] font-semibold text-[12px] tracking-[0.02em] px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
+          className="cursor-pill pointer-events-none fixed z-[9999] inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-heading font-semibold text-[12px] tracking-[0.02em] px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
           style={{ left: photoPill.x, top: photoPill.y }}
         >
           {photoCaption}
@@ -279,7 +279,7 @@ export function AboutSection() {
 
               {!FINE_POINTER && (
                 <span
-                  className="cursor-pill pointer-events-none absolute z-20 inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-['Open_Sans'] text-ui px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
+                  className="cursor-pill pointer-events-none absolute z-20 inline-flex items-center justify-center bg-[color:var(--cursor-pill-bg)] text-[color:var(--cursor-pill-fg)] font-heading text-ui px-6 py-3 rounded-full select-none shadow-lg whitespace-nowrap -translate-x-1/2 -translate-y-1/2"
                   data-on="true"
                   style={{ left: `${pillSpot.left}%`, top: `${pillSpot.top}%` }}
                 >

@@ -15,10 +15,10 @@ const links = site.footer.links
 // every link in the footer reads the same — the email is just another one of them.
 // The underline lives on the label rather than the anchor, so on the links that carry
 // an icon it runs under the words only.
-const LINK_CLASS = "group/link inline-flex items-center gap-[6px] font-['Open_Sans'] font-normal text-[14px] sm:text-[15px] text-white/80 hover:text-white transition-colors duration-[150ms]"
+const LINK_CLASS = "group/link inline-flex items-center gap-[6px] font-heading font-normal text-[14px] sm:text-[15px] text-white/80 hover:text-white transition-colors duration-[150ms]"
 // the bottom row is one run of small print — byline, year and the way back up all
 // read at the same size and ink, so the button never outweighs the line it sits on
-const META_CLASS = "font-['Open_Sans'] text-[14px] lg:text-[13px] text-white/70 leading-[1.2]"
+const META_CLASS = "font-heading text-[14px] lg:text-[13px] text-white/70 leading-[1.2]"
 
 const LINK_TEXT = "relative inline-block after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover/link:after:scale-x-100"
 

@@ -14,7 +14,7 @@ import site from '../content/site.json'
 
 /** the small tracked capital used for the eyebrow and the meta labels */
 const META_LABEL =
-  "font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
+  "font-heading font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 
 export default function ProjectPage() {
   const { id } = useParams()
@@ -102,7 +102,7 @@ export default function ProjectPage() {
               <a
                 key={s.id}
                 href={`#${s.id}`}
-                className={`font-['Open_Sans'] text-[14px] transition-colors duration-[150ms] hover:text-[color:var(--ink-strong)] ${
+                className={`font-heading text-[14px] transition-colors duration-[150ms] hover:text-[color:var(--ink-strong)] ${
                   active === s.id
                     ? 'text-[color:var(--ink-strong)] font-semibold'
                     : 'text-[color:var(--ink-muted)]'
@@ -279,7 +279,7 @@ export default function ProjectPage() {
                       {s.action.aside && (
                         <a
                           href={s.action.aside.href}
-                          className="font-['Open_Sans'] text-[15px] text-[color:var(--ink-strong)] underline underline-offset-[4px] decoration-[color:var(--line)] hover:decoration-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+                          className="font-heading text-[15px] text-[color:var(--ink-strong)] underline underline-offset-[4px] decoration-[color:var(--line)] hover:decoration-[color:var(--ink-strong)] transition-colors duration-[150ms]"
                         >
                           {s.action.aside.label}
                         </a>

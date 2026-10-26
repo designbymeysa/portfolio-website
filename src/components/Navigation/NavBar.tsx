@@ -19,7 +19,7 @@ const sheetLinks = site.footer.links.filter(l => !l.internal)
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
-const NAV_TYPE = "nav-type font-['Open_Sans'] text-[12px] leading-[1.2] font-semibold uppercase tracking-[2px]"
+const NAV_TYPE = "nav-type font-heading text-[12px] leading-[1.2] font-semibold uppercase tracking-[2px]"
 
 // The sheet lists what the bar lists, less Contact — on a phone the email and the
 // footer's links sit at the sheet's foot, one tap away, rather than a scroll away.
@@ -32,7 +32,7 @@ const MOBILE_LINK_CLASS =
   "text-left font-heading font-medium text-[clamp(38px,11vw,52px)] leading-[1.12] tracking-[-0.015em] transition-colors duration-[150ms]"
 // the contact links under them, set as the footer sets its own
 const SHEET_CONTACT_CLASS =
-  "group/link inline-flex items-center gap-[6px] font-['Open_Sans'] font-normal text-[15px] leading-[1.4] text-[color:var(--ink-body)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]"
+  "group/link inline-flex items-center gap-[6px] font-heading font-normal text-[15px] leading-[1.4] text-[color:var(--ink-body)] hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]"
 // and the footer's link behaviour: an underline drawn under the words on hover
 const SHEET_CONTACT_TEXT =
   "relative inline-block after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover/link:after:scale-x-100"

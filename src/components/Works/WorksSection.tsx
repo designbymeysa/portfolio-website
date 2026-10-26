@@ -60,7 +60,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
               <span className="text-[14px] lg:text-[16px] ml-[6px]">/ {String(count).padStart(2, '0')}</span>
             </span>
             <span
-              className="font-['Open_Sans'] font-semibold text-[10px] uppercase tracking-[0.18em] leading-none text-[color:var(--ink-muted)]"
+              className="font-heading font-semibold text-[10px] uppercase tracking-[0.18em] leading-none text-[color:var(--ink-muted)]"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               {eyebrowFor(project)}
@@ -214,7 +214,7 @@ export function WorksSection() {
         <div className="flex justify-end mt-[24px]">
           <Link
             to="/projects"
-            className="font-['Open_Sans'] font-semibold text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] flex items-center gap-1 shrink-0"
+            className="font-heading font-semibold text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] flex items-center gap-1 shrink-0"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             {site.works.viewAll} <ArrowIcon />

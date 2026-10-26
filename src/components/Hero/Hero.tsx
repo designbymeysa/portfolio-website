@@ -543,7 +543,7 @@ export function Hero() {
         </p>
         {/* where she is now, a quiet line under the intro */}
         <p
-          className="hero-sub inline-flex items-center gap-[6px] h-5 px-2 mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-['Open_Sans'] font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
+          className="hero-sub inline-flex items-center gap-[6px] h-5 px-2 mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-heading font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
           style={{ fontVariationSettings: '"wdth" 100' }}
         >
           <span aria-hidden="true" className="w-[5px] h-[5px] rounded-full bg-[color:var(--accent)]" />
@@ -559,7 +559,7 @@ export function Hero() {
           type="button"
           onClick={() => document.getElementById('work')?.scrollIntoView({ behavior: 'smooth' })}
           aria-label="Scroll to the work"
-          className={`hero-cue font-['Open_Sans'] text-[11px] text-[color:var(--ink-muted)] tracking-[0.18em] scroll-cue cursor-pointer ${cueOnColor ? 'hero-cue-on-color' : ''}`}
+          className={`hero-cue font-heading text-[11px] text-[color:var(--ink-muted)] tracking-[0.18em] scroll-cue cursor-pointer ${cueOnColor ? 'hero-cue-on-color' : ''}`}
         >
           {site.hero.scrollCue}
         </button>

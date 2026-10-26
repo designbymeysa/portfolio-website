@@ -31,7 +31,7 @@ export function Button({ variant = 'primary', label, children, className = '', .
   const base = `
     inline-flex items-center justify-center origin-center will-change-transform
     h-10 px-lg rounded-full
-    font-sans text-ui-button
+    font-heading text-ui-button
     transition-all duration-medium ease-standard
     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2
     disabled:opacity-40 disabled:cursor-not-allowed
