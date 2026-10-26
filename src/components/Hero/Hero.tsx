@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 import Typewriter from '../fancy/text/typewriter'
 import site from '../../content/site.json'
 import { HERO_PEEK } from './peek'
+import { usePageMeta } from '../../hooks/usePageMeta'
 
 // the accent word in the headline types itself in and out through these
 const ACCENT_WORDS = site.hero.accentWords
@@ -43,15 +44,16 @@ function trailColor(phase: number): [number, number, number] {
 // the trail is a stack of soft circular brush stamps laid down along the pointer
 // path, into a half-res buffer that the CSS blur below smooths into smoke.
 const TRAIL_SCALE  = 0.5    // buffer resolution relative to layout px
-const TRAIL_RADIUS = 132    // brush radius in layout px, before the speed stretch
+const TRAIL_RADIUS = 88     // brush radius in layout px, before the speed stretch
 const TRAIL_ALPHA  = 0.2    // peak alpha of a single stamp — overlaps build the body
-const TRAIL_FADE   = 0.009  // alpha lifted off the whole buffer each frame — halves the trail every ~1.3s
+const TRAIL_FADE   = 0.0045 // alpha lifted off the whole buffer each frame — halves the trail every ~2.6s
 // The fade is applied every few frames rather than every one. The buffer holds 8-bit
-// premultiplied colour, and a 0.9% cut rounds back to itself on any channel below ~60:
+// premultiplied colour, and a small per-frame cut rounds back to itself on any channel below ~60:
 // the weak channels froze while the blue kept fading, so the tail drained to a flat
 // grey that read as green against the violet. Fewer, larger cuts survive the rounding
 // down to a few units, so the tail keeps its hue all the way out. Same overall decay.
-const TRAIL_FADE_EVERY = 4
+// Halving TRAIL_FADE means doubling this, so each cut stays as large as before.
+const TRAIL_FADE_EVERY = 8
 const TRAIL_IDLE_CLEAR = 900 // frames of a parked pointer before the buffer is wiped outright
 const TRAIL_MIN_MOVE = 0.15 // buffer px below which the pointer counts as parked
 const TRAIL_CYCLE  = 1500   // ms for one pass through the palette
@@ -65,12 +67,12 @@ const TRAIL_TOUCH_OPACITY = 0.4
 // desktop pace reads as restless on a small screen
 const TRAIL_TOUCH_SLOW = 0.45
 
-// How much ink may sit behind the copy before it flips to white, and how far it has to
+// How much ink may sit behind the cue or the header before it flips to white, and how far it has to
 // clear before it flips back. The gap between the two is what stops it flickering when
 // the trail hovers around the line.
 const COPY_ON_COLOR  = 0.34
 const COPY_OFF_COLOR = 0.22
-// The trail's own tail lingers for seconds after the blob has moved on. The copy should
+// The trail's own tail lingers for seconds after the blob has moved on. The cue should
 // not wait that out — the model is faded faster than the canvas so the type comes back
 // as soon as what is left behind it is thin enough for black to read again.
 const COPY_RELEASE = 2.4
@@ -80,6 +82,7 @@ const NAV_SAMPLE_X = [0.06, 0.16, 0.5, 0.74, 0.84, 0.93]
 const TAU = Math.PI * 2
 
 export function Hero() {
+  usePageMeta()
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef   = useRef<HTMLDivElement>(null)
   const fgCanvasRef  = useRef<HTMLCanvasElement>(null)
@@ -87,10 +90,9 @@ export function Hero() {
   const cueRef       = useRef<HTMLDivElement>(null)
   const [reducedMotion, setReducedMotion] = useState(false)
   const [coarsePointer, setCoarsePointer] = useState(false)
-  // true while the trail sits heavy enough behind the copy that black would sink in
-  const [onColor, setOnColor] = useState(false)
+  // true while the trail sits heavy enough behind the cue that black would sink in. The
+  // headline and intro never flip: they stay in ink whatever passes behind them.
   const [cueOnColor, setCueOnColor] = useState(false)
-  const copyRef = useRef<HTMLDivElement>(null)
 
   // the headline settles on one word rather than cycling when motion is dialled down
   useEffect(() => {
@@ -137,33 +139,17 @@ export function Hero() {
     const cycle = TRAIL_CYCLE / (finePointer ? 1 : TRAIL_TOUCH_SLOW)
 
     // Rather than reading pixels back off the canvas — a GPU stall every frame — the
-    // ink over the copy is modelled on the CPU: each stamp adds to the sample points it
-    // covers, and every point decays on the same curve the canvas fades on.
-    type Group = 'copy' | 'nav' | 'cue'
+    // ink over the cue and the header is modelled on the CPU: each stamp adds to the
+    // sample points it covers, and every point decays on the same curve the canvas fades on.
+    type Group = 'nav' | 'cue'
     type Sample = { x: number; y: number; ink: number; group: Group }
     let samples: Sample[] = []
-    let lit = false
     let navLit = false
     let cueLit = false
 
     const buildSamples = () => {
-      const copy = copyRef.current
-      if (!copy) { samples = []; return }
       const c = container.getBoundingClientRect()
-      const r = copy.getBoundingClientRect()
-      const cols = 5
-      const rows = 3
       const next: Sample[] = []
-      for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
-          next.push({
-            x: (r.left - c.left + (r.width  * (i + 0.5)) / cols) * TRAIL_SCALE,
-            y: (r.top  - c.top  + (r.height * (j + 0.5)) / rows) * TRAIL_SCALE,
-            ink: 0,
-            group: 'copy',
-          })
-        }
-      }
 
       // the SCROLL cue, sampled across its own box
       const cue = cueRef.current
@@ -353,8 +339,8 @@ export function Hero() {
         }
       }
 
-      const ink: Record<Group, number> = { copy: 0, nav: 0, cue: 0 }
-      const n:   Record<Group, number> = { copy: 0, nav: 0, cue: 0 }
+      const ink: Record<Group, number> = { nav: 0, cue: 0 }
+      const n:   Record<Group, number> = { nav: 0, cue: 0 }
       for (const smp of samples) {
         smp.ink *= 1 - fade * COPY_RELEASE
         ink[smp.group] += smp.ink
@@ -363,10 +349,6 @@ export function Hero() {
       // the canvas is dialled back on a phone, so the same ink reads lighter there
       const shown = finePointer ? 1 : TRAIL_TOUCH_OPACITY
       const coverOf = (g: Group) => (n[g] ? (ink[g] / n[g]) * shown : 0)
-
-      const cover = coverOf('copy')
-      if (!lit && cover > COPY_ON_COLOR)      { lit = true;  setOnColor(true) }
-      else if (lit && cover < COPY_OFF_COLOR) { lit = false; setOnColor(false) }
 
       const cueCover = coverOf('cue')
       if (!cueLit && cueCover > COPY_ON_COLOR)      { cueLit = true;  setCueOnColor(true) }
@@ -415,11 +397,10 @@ export function Hero() {
       // there on the way up, and whatever flip the type had would be frozen with it
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const smp of samples) smp.ink = 0
-      lit = navLit = cueLit = false
+      navLit = cueLit = false
       seen = false
       idle = 0
       wiped = false
-      setOnColor(false)
       setCueOnColor(false)
       document.documentElement.classList.remove('nav-on-color')
     }
@@ -528,10 +509,10 @@ export function Hero() {
       <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px] will-change-transform"
         /* with the first card peeking in, the copy centres in what is left above it */
         style={HERO_PEEK ? { paddingBottom: 'var(--hero-peek)' } : undefined}>
-        <div ref={copyRef} className={`flex flex-col items-center ${onColor ? 'hero-on-color' : ''}`}>
+        <div className="flex flex-col items-center">
         <h1
           className="hero-copy font-['Libre_Caslon_Text'] font-normal text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
-          style={{ fontSize: 'clamp(34px, 5.6vw, 80px)', letterSpacing: '-0.018em' }}
+          style={{ fontSize: 'clamp(30px, 4.2vw, 60px)', letterSpacing: '-0.018em' }}
         >
           <span aria-hidden="true">
             {site.hero.greeting}
@@ -559,6 +540,14 @@ export function Hero() {
             {site.hero.subtitle.emphasis}
           </span>
           {site.hero.subtitle.after}
+        </p>
+        {/* where she is now, a quiet line under the intro */}
+        <p
+          className="hero-sub inline-flex items-center gap-[6px] h-5 px-2 mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-['Open_Sans'] font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
+          style={{ fontVariationSettings: '"wdth" 100' }}
+        >
+          <span aria-hidden="true" className="w-[5px] h-[5px] rounded-full bg-[color:var(--accent)]" />
+          {site.hero.currentRole}
         </p>
         </div>
       </div>

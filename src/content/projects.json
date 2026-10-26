@@ -17,16 +17,14 @@
       "Redesign",
       "UX Research"
     ],
-    "year": "2026",
     "role": "UX Research, UI Design, Digital Prototyping",
     "team": "Joana Bento, Ariana Cisternas, Sarah Cosentino and I",
     "industry": "Medical",
     "discipline": "UX Research & UI Design",
-    "timeline": "5 months",
     "bg": "#FAFAFA",
     "image": "/media/covers/D-HEART%20Project%20Cover-1.png",
     "cover": "d-heart-screens",
-    "heroImage": "/media/d-heart/D-HEART%20Description.png",
+    "heroImage": "/media/d-heart/D-HEART%20Description.webp",
     "href": "/projects/d-heart-redesign",
     "externalHref": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
   },
@@ -46,16 +44,14 @@
       "UI Design",
       "Civic Tech"
     ],
-    "year": "2024",
     "role": "User Research, Ideation, UI Design",
     "team": "Joana Bento, Alessandro Cesa, Simone de Marchi, Martina Ricca and I",
     "industry": "Politics / Civic Technology",
     "discipline": "User Research & UI Design",
-    "timeline": "2023 – 2024",
     "bg": "#242424",
     "image": "/media/covers/DEMOS%20Project%20Cover-1.png",
     "cover": "demos-phones",
-    "heroImage": "/media/demos/DEMOS%20Description.png",
+    "heroImage": "/media/demos/DEMOS%20Description.webp",
     "href": "/projects/demos",
     "externalHref": "https://designbymeysa.framer.website/demos"
   },
@@ -69,15 +65,13 @@
       "UX Research",
       "Interaction Design"
     ],
-    "year": "2026",
     "role": "Literature Review, UX Research, Study Design, UI Design",
     "industry": "Academic Research",
     "discipline": "UX Research & Interaction Design",
-    "timeline": "2025 – 2026",
     "bg": "#5685EE",
     "href": "/projects/digital-wellbeing",
     "cover": "wellbeing-loop",
-    "heroImage": "/media/digital/wellbeing%20cover.png"
+    "heroImage": "/media/digital/wellbeing%20cover.webp"
   },
   {
     "id": "art-beyond-dimension",
@@ -95,16 +89,14 @@
       "Interaction Design",
       "UI Design"
     ],
-    "year": "2026",
     "role": "UX Research, Interaction Design, UI Design, Prototyping, Video Editing",
     "team": "Lucia Medina, Marjan Mehrabi, Razieh Soleimani and I",
     "industry": "Museum / Cultural Institution",
     "discipline": "Interaction Design & Prototyping",
-    "timeline": "2025 – 2026",
     "bg": "#242424",
-    "image": "/media/covers/ARTBEYONDDIMENSION%20Project%20Cover-1.png",
+    "image": "/media/covers/ARTBEYONDDIMENSION%20Project%20Cover-1.webp",
     "cover": "art-wall",
-    "heroImage": "/media/art/ARTBEYONDDIMENSION%20Description.png",
+    "heroImage": "/media/art/ARTBEYONDDIMENSION%20Description.webp",
     "href": "/projects/art-beyond-dimension",
     "externalHref": "https://designbymeysa.framer.website/art-beyond-dimension"
   }

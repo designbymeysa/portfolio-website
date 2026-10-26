@@ -55,7 +55,7 @@
             "kind": "figure",
             "figure": {
               "caption": "Storyboard: from wandering the galleries to holding your own postcard",
-              "src": "/media/art/10.png"
+              "src": "/media/art/10.webp"
             }
           }
         ]
@@ -569,11 +569,11 @@
               "label": "Patient",
               "images": [
                 {
-                  "src": "/media/d-heart/patient_home.png",
+                  "src": "/media/d-heart/patient_home.webp",
                   "alt": "Patient homepage: latest result, upcoming reminder and most recent ECG"
                 },
                 {
-                  "src": "/media/d-heart/patient_2.png",
+                  "src": "/media/d-heart/patient_2.webp",
                   "alt": "Patient account: statistics of past ECG exams"
                 }
               ]
@@ -582,11 +582,11 @@
               "label": "Doctor",
               "images": [
                 {
-                  "src": "/media/d-heart/dr_home.png",
+                  "src": "/media/d-heart/dr_home.webp",
                   "alt": "Doctor homepage: next appointment and recent tests waiting for validation"
                 },
                 {
-                  "src": "/media/d-heart/dr_2.png",
+                  "src": "/media/d-heart/dr_2.webp",
                   "alt": "Doctor patient list: each patient with their last exam date"
                 }
               ]
@@ -634,7 +634,7 @@
             "kind": "figure",
             "figure": {
               "caption": "3D-printed working prototype",
-              "src": "/media/d-heart/device-prototype.png",
+              "src": "/media/d-heart/device-prototype.webp",
               "ratio": "3840 / 1870"
             }
           },
@@ -1084,7 +1084,7 @@
                 "alt": "TickTick — stress and autonomy-loss markers, with feature co-occurrence"
               },
               {
-                "src": "/media/digital/digital%20ethnography/todo.png",
+                "src": "/media/digital/digital%20ethnography/todo.webp",
                 "alt": "Microsoft To Do — stress and autonomy-loss markers, with feature co-occurrence"
               }
             ],

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { BackIcon } from '../components/ui/LinkIcons'
 import site from '../content/site.json'
 import type React from 'react'
@@ -11,6 +12,7 @@ const LINK =
  *  `_redirects` rule feeds every unmatched path on the deployed site. */
 export default function NotFound() {
   const { ref, inView } = useInView(0.05)
+  usePageMeta(`Page not found | ${site.seo.siteName}`)
 
   return (
     <div className="min-h-screen bg-[color:var(--surface)] flex items-center">

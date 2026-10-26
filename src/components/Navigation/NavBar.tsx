@@ -11,7 +11,7 @@ const navItems = site.nav
 // the sheet directly. `to` is a page, `id` a section of the homepage.
 const sheetItems: { label: string; id: string; to?: string }[] = [
   { label: 'Home', id: 'home' },
-  { label: 'Work', id: 'work', to: '/projects' },
+  { label: 'Case studies', id: 'work', to: '/projects' },
   ...navItems.filter(n => n.id !== 'work' && n.id !== 'contact'),
 ]
 // Work already leads to the full list, so the sheet doesn't repeat it as a link

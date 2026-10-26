@@ -7,19 +7,19 @@
   ],
   "photos": [
     {
-      "src": "/about/photo_1.png",
+      "src": "/about/photo_1.webp",
       "caption": "Hi! That's me :)"
     },
     {
-      "src": "/about/photo_2.png",
+      "src": "/about/photo_2.webp",
       "caption": "A day I'm proud of"
     },
     {
-      "src": "/about/photo_3.png",
+      "src": "/about/photo_3.webp",
       "caption": "OOO, I'm here"
     },
     {
-      "src": "/about/photo_4.png",
+      "src": "/about/photo_4.webp",
       "caption": "Or doing yoga"
     }
   ],
@@ -33,7 +33,7 @@
       "Prototyping",
       "Design Systems",
       "Branding",
-      "Vibe Coding"
+      "Front-end Prototyping"
     ]
   },
   "experience": {

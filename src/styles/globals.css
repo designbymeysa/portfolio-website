@@ -18,6 +18,7 @@
     --card-base:  #FAFAFA;    /* the cards: barely off white — they read as panels
                                  by their edge and their cover, not by weight */
     --line:       #E5E7EC;    /* every border on the site               */
+    --tag-fill:   #EEEFF2;    /* the filled hero tag ("Currently at …") */
     --ink-muted:  #6B6F7A;    /* labels, captions, secondary type       */
     --ink-body:   #4B4F58;    /* body copy                              */
     --ink-strong: #0F0F0F;    /* headings, the wordmark, anything lead  */
@@ -54,8 +55,9 @@
        colour, where the wash needs it as a JS value) */
     --brand-purple: #5B3FD4;
     /* the closing screen: the footer, the wash it fades in with, and the mobile menu.
-       Read from JS as well as CSS, so it has to stay a literal hex. */
-    --footer-purple: #5B3FD4;
+       Read from JS as well as CSS, so it has to stay a literal hex. Greyscale in
+       both modes. */
+    --footer-purple: #0F0F0F;
     /* the full-screen mobile menu. It shares the bar's ground so the header sitting
        over it reads as the same surface, not as a strip on top of a coloured pane */
     --sheet:        #FBFBFE;
@@ -86,6 +88,7 @@
     --surface-2:  #1E1E1E;
     --card-base:  #232323;
     --line:       #2F2F2F;
+    --tag-fill:   #262626;
     --ink-muted:  #9A9A9A;
     --ink-body:   #C7C7C7;
     --ink-strong: #F2F2F2;
@@ -103,9 +106,8 @@
     --cursor-pill-bg: #FFFFFF;
     --cursor-pill-fg: #0F0F0F;
 
-    /* the same violet at full strength lights up the whole screen against a near-black
-       page — the closing purple sits deeper here */
-    --footer-purple: #38258C;
+    /* a step up from the near-black page, so the closing screen still reads as its own */
+    --footer-purple: #1C1C1C;
     --sheet:         #0F0F0F;
     --frame:      var(--line);
     --nav-veil:   #0F0F0F;
@@ -210,28 +212,6 @@
   outline-color: #ffffff;
 }
 
-/* ── Hero: copy over the colour trail ──
-   Black type sinks into the trail once the blob is genuinely behind it, so the copy
-   flips to white for as long as that lasts. The whole block turns together — switching
-   only the words that fail would read as a glitch — and eases across, so a blob passing
-   the edge of the line can never make it blink. Hero.tsx decides when, off a model of
-   how much ink is sitting over the copy. */
-.hero-copy,
-.hero-accent,
-.hero-sub {
-  transition: color 1100ms cubic-bezier(0.33, 0, 0.2, 1);
-}
-
-.hero-on-color .hero-copy { color: #ffffff; }
-.hero-on-color .hero-sub  { color: rgba(255, 255, 255, 0.82); }
-/* the accent keeps its identity but lifts off the purple it is sitting on */
-.hero-on-color .hero-accent { color: #dadfff; }
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-copy,
-  .hero-accent,
-  .hero-sub { transition: none; }
-}
 
 /* ── Header over the hero's colour trail ──
    The same read as the hero copy, driven by the same model in Hero.tsx: while the trail

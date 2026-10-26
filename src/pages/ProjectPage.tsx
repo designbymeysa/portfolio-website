@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { sectionsFor, projectById, headlineFor, eyebrowFor, accentFor, caseStudies } from '../data/caseStudies'
 import { coverFor } from '../components/Covers'
 import { Blocks, Emphasis, FigureRow, Reveal } from '../components/CaseStudy/Blocks'
@@ -32,6 +33,8 @@ export default function ProjectPage() {
   // a fresh array every render would re-subscribe the scroll listener below on every
   // one of them — and `setActive` fires from that listener while scrolling
   const sections = useMemo(() => (project ? sectionsFor(project) : []), [project])
+
+  usePageMeta(project?.title, project?.description)
 
 
   // which section the reader is in, for the sidebar

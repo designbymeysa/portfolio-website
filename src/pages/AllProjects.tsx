@@ -4,6 +4,7 @@ import { projects } from '../data/projects'
 import { headlineFor } from '../data/caseStudies'
 import site from '../content/site.json'
 import { useInView } from '../hooks/useInView'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { useTouchReveal } from '../hooks/useTouchReveal'
 import { ProjectStill } from '../components/Works/ProjectMedia'
 import { Tag } from '../components/Tag/Tag'
@@ -76,6 +77,7 @@ const FILTERS = [ALL, ...Array.from(new Set(projects.flatMap(p => p.tags)))]
 
 export default function AllProjects() {
   const { ref, inView } = useInView(0.05)
+  usePageMeta(`${site.workPage.heading} | ${site.seo.siteName}`)
 
   // The filter lives in the URL rather than in state: a chip on a case study page can
   // link straight to ?tag=…, the view is shareable, and Back steps through filters.

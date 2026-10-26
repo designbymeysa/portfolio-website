@@ -54,7 +54,7 @@ export function Layout({ children, hero }: LayoutProps) {
         : fallback
     }
     const PAGE = read('--page-top', [0xFB, 0xFB, 0xFE])
-    const PURPLE = read('--footer-purple', [0x5B, 0x3F, 0xD4])
+    const PURPLE = read('--footer-purple', [0x0F, 0x0F, 0x0F])
 
     const apply = () => {
       queued = false
