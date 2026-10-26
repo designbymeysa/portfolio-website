@@ -1008,12 +1008,12 @@
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "Careful structure lowered the barrier",
-        "body": "Designing for both first-time patients and clinicians showed us how much careful structure can lower the barrier to a complex medical task.",
+        "heading": "What it taught me, and what I’d do now",
+        "body": "The biggest lesson was how far careful structure can lower the barrier to a complex medical task. D-Heart already worked; what it lacked was guidance in the moments where nothing told people what to do next, and most of our best changes came from filling exactly those gaps.",
         "blocks": [
           {
             "kind": "text",
-            "body": "Back then, we also didn’t have the advanced prototyping tools that have come with today’s AI. If I did it again now, I could prototype it far better: using AI to simulate the camera-guided electrode placement, and testing it together with the real device."
+            "body": "Back then (2024!), we simply didn’t have the prototyping tools and skills that AI has brought since, so the camera guide was the hardest part to make feel real. If I did this project again today, I’d use AI to simulate the camera-guided electrode placement and test it together with our prototype device, putting the whole moment, phone and device at once, in front of people far earlier."
           }
         ]
       }
