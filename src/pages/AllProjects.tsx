@@ -47,7 +47,7 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
         {headlineFor(project)}
       </h2>
 
-      <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[14px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[22px] mb-[20px] flex-1"
+      <p className="font-sans font-normal text-[16px] lg:text-[14px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[22px] mb-[20px] flex-1"
         style={{ fontVariationSettings: '"wdth" 100' }}>
         {project.description}
       </p>

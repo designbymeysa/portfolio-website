@@ -48,7 +48,7 @@ export default function NotFound() {
           </p>
 
           <p
-            className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] text-[color:var(--ink-strong)] leading-[1.7] max-w-[520px] mx-auto mb-[36px]"
+            className="font-sans font-normal text-[16px] lg:text-[15px] text-[color:var(--ink-strong)] leading-[1.7] max-w-[520px] mx-auto mb-[36px]"
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             {site.notFound.body}

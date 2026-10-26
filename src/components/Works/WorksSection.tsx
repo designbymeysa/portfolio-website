@@ -70,7 +70,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
           <p className="font-heading font-medium text-[24px] sm:text-[28px] lg:text-[32px] text-[color:var(--ink-strong)] leading-[1.2] tracking-[-0.8px]">
             {headlineFor(project)}
           </p>
-          <p className="font-['Open_Sans'] font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"
+          <p className="font-sans font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-none"
             style={{ fontVariationSettings: '"wdth" 100' }}>
             {project.description}
           </p>

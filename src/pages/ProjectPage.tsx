@@ -179,7 +179,7 @@ export default function ProjectPage() {
               {meta.map(m => (
                 <div key={m.label}>
                   <span className={`${META_LABEL} block mb-[8px]`}>{m.label}</span>
-                  <p className="font-['Open_Sans'] text-[14px] lg:text-[13px] leading-[1.5] text-[color:var(--ink-body)]">
+                  <p className="font-sans text-[14px] lg:text-[13px] leading-[1.5] text-[color:var(--ink-body)]">
                     {m.value}
                   </p>
                 </div>
@@ -205,7 +205,7 @@ export default function ProjectPage() {
                 </h2>
 
                 {s.body && (
-                  <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]">
+                  <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]">
                     <Emphasis text={s.body} />
                   </p>
                 )}
@@ -229,7 +229,7 @@ export default function ProjectPage() {
                           aria-hidden="true"
                           className="mt-[8px] h-[5px] w-[5px] shrink-0 rounded-full bg-[color:var(--study-accent,var(--accent))]"
                         />
-                        <span className="font-['Open_Sans'] text-[16px] lg:text-[14px] leading-[1.6] text-[color:var(--ink-body)]">
+                        <span className="font-sans text-[16px] lg:text-[14px] leading-[1.6] text-[color:var(--ink-body)]">
                           {b}
                         </span>
                       </li>
@@ -238,7 +238,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.highlight && (
-                  <p className="font-['Open_Sans'] font-semibold text-[14px] text-[color:var(--study-accent,var(--accent))] mt-[20px]">
+                  <p className="font-sans font-semibold text-[14px] text-[color:var(--study-accent,var(--accent))] mt-[20px]">
                     {s.highlight}
                   </p>
                 )}
@@ -248,7 +248,7 @@ export default function ProjectPage() {
                 )}
 
                 {s.outro && (
-                  <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mt-[20px]">
+                  <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mt-[20px]">
                     {s.outro}
                   </p>
                 )}
@@ -256,7 +256,7 @@ export default function ProjectPage() {
                 {s.action && (
                   <div className="mt-[28px]">
                     {s.action.lead && (
-                      <p className="font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[16px]">
+                      <p className="font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)] mb-[16px]">
                         {s.action.lead}
                       </p>
                     )}

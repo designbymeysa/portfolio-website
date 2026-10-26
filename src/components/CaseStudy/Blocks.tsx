@@ -10,7 +10,7 @@ import { useInView } from '../../hooks/useInView'
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
 // so a block reads as part of the page rather than a widget dropped into it.
-const BODY  = "font-['Open_Sans'] font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]"
+const BODY  = "font-sans font-normal text-[16px] lg:text-[15px] leading-[1.85] text-[color:var(--ink-body)]"
 const LABEL = "font-heading font-semibold text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 // a heading within a section, one step down from the section's own serif heading.
 // Set in the sans rather than the serif so the two levels read as different kinds of
@@ -19,7 +19,7 @@ const SUBHEAD = "font-heading font-semibold text-[17px] lg:text-[18px] text-[col
 const WDTH  = { fontVariationSettings: '"wdth" 100' } as const
 /** the caption under every picture and diagram, set against the frame's right edge —
  *  the same place the slider puts its own, so the page reads consistently */
-const CAPTION = "font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)] text-right mt-[10px]"
+const CAPTION = "font-sans text-[13px] text-[color:var(--ink-muted)] text-right mt-[10px]"
 
 /** `**like this**` in content is set as plain text: the markers are dropped and the run
  *  keeps the paragraph's own weight and ink, so each text style reads as one. */
@@ -122,7 +122,7 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
           <span className={`font-heading font-semibold text-[10px] uppercase tracking-[0.18em] ${label}`}>
             Image
           </span>
-          <span className={`font-['Open_Sans'] text-[14px] lg:text-[13px] ${caption}`}>{figure.caption}</span>
+          <span className={`font-sans text-[14px] lg:text-[13px] ${caption}`}>{figure.caption}</span>
         </div>
       )}
     </div>
@@ -281,7 +281,7 @@ function Note({ body }: { body: string }) {
   const parts = body.split(/(\[[^\]]+\]\([^)]+\))/g)
   return (
     <aside className="rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] px-[16px] py-[12px]">
-      <p className="font-['Open_Sans'] text-[13px] leading-[1.6] text-[color:var(--ink-muted)]" style={WDTH}>
+      <p className="font-sans text-[13px] leading-[1.6] text-[color:var(--ink-muted)]" style={WDTH}>
         {parts.map((part, i) => {
           const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
           return m
@@ -375,7 +375,7 @@ function Phases({ phases }: { phases: { label: string; steps: string[] }[] }) {
             </span>
             <ol className="flex flex-col gap-[8px]">
               {ph.steps.map((step, j) => (
-                <li key={step} className="flex gap-[10px] font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
+                <li key={step} className="flex gap-[10px] font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
                   <span className="shrink-0 font-semibold tabular-nums text-[color:var(--study-accent,var(--accent))]">{j + 1}.</span>
                   <span>{step}</span>
                 </li>
@@ -533,16 +533,16 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
           <span className={`${LABEL} block mb-[8px]`}>What works</span>
           <ul className="flex flex-col gap-[4px] mb-[16px]">
             {c.works.map(w => (
-              <li key={w} className="font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{w}</li>
+              <li key={w} className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{w}</li>
             ))}
           </ul>
 
           <span className={`${LABEL} block mb-[8px]`}>Where it breaks</span>
-          <p className="font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)] mb-[20px]" style={WDTH}>{c.breaks}</p>
+          <p className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)] mb-[20px]" style={WDTH}>{c.breaks}</p>
 
           <div className="mt-auto pt-[14px] border-t border-[color:var(--line)]">
             <span className={`${LABEL} block mb-[6px]`}>System assumption</span>
-            <p className="font-['Open_Sans'] italic text-[13.5px] leading-[1.5] text-[color:var(--study-accent,var(--accent))]" style={WDTH}>
+            <p className="font-sans italic text-[13.5px] leading-[1.5] text-[color:var(--study-accent,var(--accent))]" style={WDTH}>
               “{c.assumption}”
             </p>
           </div>
@@ -565,7 +565,7 @@ function Stats({ items }: { items: { value: string; label: string; note?: string
             <span className="font-heading font-medium text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
               <CountUp value={s.value} />
             </span>
-            <span className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
+            <span className="font-sans text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
           </div>
           {s.note && <span className={`${LABEL} block mt-[12px]`}>{s.note}</span>}
         </div>
@@ -603,7 +603,7 @@ function Columns({ items }: { items: { label: string; body: string }[] }) {
           <span className="font-heading font-bold text-[15px] lg:text-[16px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
             {c.label}
           </span>
-          <p className="font-['Open_Sans'] text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
+          <p className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
             {c.body}
           </p>
         </div>
@@ -792,7 +792,7 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
         {/* the caption takes the right of the same row — where the homepage's card
             puts its way out — rather than a line of its own beneath */}
         {caption && (
-          <figcaption className="font-['Open_Sans'] text-[13px] text-[color:var(--ink-muted)] text-right ml-auto min-w-0" style={WDTH}>
+          <figcaption className="font-sans text-[13px] text-[color:var(--ink-muted)] text-right ml-auto min-w-0" style={WDTH}>
             {caption}
           </figcaption>
         )}

@@ -63,10 +63,10 @@ export default {
       },
 
       fontFamily: {
-        sans:     ['"Open Sans"', 'system-ui', 'sans-serif'],
+        sans:     ['"Satoshi"', 'system-ui', 'sans-serif'],
         // every heading, number and title. Loaded from Fontshare in index.html
         // (400, 500, 700, 800); it has no italic, so nothing set in it is italicised
-        heading:  ['"Cabinet Grotesk"', '"Open Sans"', 'sans-serif'],
+        heading:  ['"Cabinet Grotesk"', '"Satoshi"', 'sans-serif'],
       },
 
       fontSize: {

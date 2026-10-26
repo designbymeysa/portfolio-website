@@ -140,7 +140,12 @@
     overflow-x: clip;
     background-color: transparent;
     color: var(--ink-strong);
-    font-family: 'Open Sans', system-ui, sans-serif;
+    font-family: 'Satoshi', system-ui, sans-serif;
+    /* Satoshi and Cabinet Grotesk share a short lowercase (x-height 0.484), about 10%
+       under what the site's sizes were set against. Scaling both to 0.535 keeps every
+       px size reading as it was designed, without touching one. It inherits, so this
+       one line covers both faces everywhere. */
+    font-size-adjust: 0.535;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -713,14 +718,6 @@
 }
 
 @layer utilities {
-  /* Cabinet Grotesk's lowercase is about 10% shorter than Open Sans's at the same
-     size (x-height 0.484 against 0.535), so headings read a step smaller than the
-     copy around them. This scales the face to Open Sans's x-height, every heading at
-     once, without touching a single font size. The family itself is set in
-     tailwind.config.js; this only adds to Tailwind's own .font-heading. */
-  .font-heading {
-    font-size-adjust: 0.535;
-  }
   .transition-standard {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }

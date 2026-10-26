@@ -31,7 +31,7 @@ export function SkillsTicker() {
             >
               {skill}
             </span>
-            <span className="font-['Open_Sans'] italic text-[12px] text-[color:var(--ink-muted)] shrink-0" aria-hidden="true">&amp;</span>
+            <span className="font-sans italic text-[12px] text-[color:var(--ink-muted)] shrink-0" aria-hidden="true">&amp;</span>
           </div>
         ))}
       </div>

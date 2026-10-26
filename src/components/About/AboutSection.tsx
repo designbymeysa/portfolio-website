@@ -244,7 +244,7 @@ export function AboutSection() {
               {ABOUT_COPY.map(para => (
                 <p
                   key={para.slice(0, 32)}
-                  className="font-['Open_Sans'] font-normal text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
+                  className="font-sans font-normal text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
                   style={{ fontVariationSettings: '"wdth" 100' }}
                 >
                   <Italics text={para} />

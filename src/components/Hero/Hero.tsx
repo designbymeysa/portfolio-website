@@ -521,7 +521,7 @@ export function Hero() {
             {/* --accent, not --brand-purple: the two are the same colour in light mode, but
                 the brand value is too deep to read against the dark ground and --accent
                 is the lifted hue that holds there */}
-            <em className="hero-accent inline-block not-italic text-[color:var(--accent)] whitespace-nowrap">
+            <em className="hero-accent inline-block not-italic font-extrabold text-[color:var(--accent)] whitespace-nowrap">
               {reducedMotion
                 ? ACCENT_WORDS[0]
                 : <Typewriter text={ACCENT_WORDS} speed={95} deleteSpeed={45} waitTime={2100} />}
@@ -532,7 +532,7 @@ export function Hero() {
         </h1>
 
         <p
-          className="hero-copy hero-sub font-['Open_Sans'] font-normal text-[color:var(--ink-muted)] leading-[1.45] max-w-[620px]"
+          className="hero-copy hero-sub font-sans font-normal text-[color:var(--ink-muted)] leading-[1.45] max-w-[620px] text-balance"
           style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
         >
           {site.hero.subtitle.before}
