@@ -9,7 +9,7 @@ export function SectionLabel({
 }) {
   return (
     <span
-      className={`block font-heading font-medium text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] ${className}`}
+      className={`block font-heading font-medium text-[12px] lg:text-[13px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] ${className}`}
       style={{ fontVariationSettings: '"wdth" 100' }}
     >
       {children}

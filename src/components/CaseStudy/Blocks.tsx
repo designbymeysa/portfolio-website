@@ -10,18 +10,18 @@ import { useInView } from '../../hooks/useInView'
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
 // so a block reads as part of the page rather than a widget dropped into it. Running
-// copy is 16px at every width and stops at 560px, about 70 characters a line in
-// Satoshi, while pictures keep the full column.
-const BODY  = "font-sans font-normal text-[16px] leading-[1.85] max-w-[560px] text-[color:var(--ink-body)]"
-const LABEL = "font-heading font-medium text-[10px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
+// copy is 16px on phones and 18px on a desktop, and fills the column, the same width
+// as the pictures. Secondary copy steps down from it: 14px on phones, 16px on a desktop.
+const BODY  = "font-sans font-normal text-[16px] lg:text-[18px] leading-[1.85] text-[color:var(--ink-body)]"
+const LABEL = "font-heading font-medium text-[11px] lg:text-[12px] uppercase tracking-[0.18em] text-[color:var(--ink-muted)]"
 // a heading within a section, one step down from the section's own serif heading.
 // Set in the sans rather than the serif so the two levels read as different kinds of
 // thing — the serif names the section, this names a part of it
-const SUBHEAD = "font-heading font-medium text-[20px] lg:text-[22px] text-[color:var(--ink-strong)] leading-[1.3]"
+const SUBHEAD = "font-heading font-medium text-[22px] lg:text-[24px] text-[color:var(--ink-strong)] leading-[1.3]"
 const WDTH  = { fontVariationSettings: '"wdth" 100' } as const
 /** the caption under every picture and diagram, set against the frame's right edge —
  *  the same place the slider puts its own, so the page reads consistently */
-const CAPTION = "font-sans text-[13px] text-[color:var(--ink-muted)] text-right mt-[10px]"
+const CAPTION = "font-sans text-[14px] lg:text-[15px] text-[color:var(--ink-muted)] text-right mt-[10px]"
 
 /** `**like this**` in content is set as plain text: the markers are dropped and the run
  *  keeps the paragraph's own weight and ink, so each text style reads as one. */
@@ -121,10 +121,10 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
       ) : (
         // no asset yet: the frame still holds its place, and says what belongs in it
         <div className="w-full h-full flex flex-col items-center justify-center gap-[6px] px-6 text-center">
-          <span className={`font-heading font-medium text-[10px] uppercase tracking-[0.18em] ${label}`}>
+          <span className={`font-heading font-medium text-[11px] lg:text-[12px] uppercase tracking-[0.18em] ${label}`}>
             Image
           </span>
-          <span className={`font-sans text-[14px] lg:text-[13px] ${caption}`}>{figure.caption}</span>
+          <span className={`font-sans text-[14px] lg:text-[15px] ${caption}`}>{figure.caption}</span>
         </div>
       )}
     </div>
@@ -283,7 +283,7 @@ function Note({ body }: { body: string }) {
   const parts = body.split(/(\[[^\]]+\]\([^)]+\))/g)
   return (
     <aside className="rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] px-[16px] py-[12px]">
-      <p className="font-sans text-[13px] leading-[1.6] text-[color:var(--ink-muted)]" style={WDTH}>
+      <p className="font-sans text-[14px] lg:text-[16px] leading-[1.6] text-[color:var(--ink-muted)]" style={WDTH}>
         {parts.map((part, i) => {
           const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/)
           return m
@@ -377,7 +377,7 @@ function Phases({ phases }: { phases: { label: string; steps: string[] }[] }) {
             </span>
             <ol className="flex flex-col gap-[8px]">
               {ph.steps.map((step, j) => (
-                <li key={step} className="flex gap-[10px] font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
+                <li key={step} className="flex gap-[10px] font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
                   <span className="shrink-0 font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">{j + 1}.</span>
                   <span>{step}</span>
                 </li>
@@ -423,13 +423,13 @@ function AccordionItem({
       >
         <span className="flex items-baseline gap-[14px]">
           {numbered && (
-            <span className="font-heading font-bold text-[18px] lg:text-[20px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
+            <span className="font-heading font-bold text-[20px] lg:text-[22px] tabular-nums leading-[1.3] text-[color:var(--study-accent,var(--accent))]">
               {String(index + 1).padStart(2, '0')}
             </span>
           )}
           {/* the row title is the serif in the study's accent — it is the thing you open,
               and reads as a heading for what folds out beneath it */}
-          <span className="font-heading font-bold text-[18px] lg:text-[20px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
+          <span className="font-heading font-bold text-[20px] lg:text-[22px] text-[color:var(--study-accent,var(--accent))] leading-[1.3]">
             {title}
           </span>
         </span>
@@ -528,23 +528,23 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
     <div className="grid grid-cols-1 md:grid-cols-3 gap-[16px]">
       {cards.map(c => (
         <div key={c.title} className="flex flex-col rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[20px]">
-          <h4 className="font-heading font-medium text-[18px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
+          <h4 className="font-heading font-medium text-[18px] lg:text-[22px] text-[color:var(--ink-strong)] leading-[1.3] mb-[16px]" style={WDTH}>
             {c.title}
           </h4>
 
           <span className={`${LABEL} block mb-[8px]`}>What works</span>
           <ul className="flex flex-col gap-[4px] mb-[16px]">
             {c.works.map(w => (
-              <li key={w} className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{w}</li>
+              <li key={w} className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{w}</li>
             ))}
           </ul>
 
           <span className={`${LABEL} block mb-[8px]`}>Where it breaks</span>
-          <p className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)] mb-[20px]" style={WDTH}>{c.breaks}</p>
+          <p className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)] mb-[20px]" style={WDTH}>{c.breaks}</p>
 
           <div className="mt-auto pt-[14px] border-t border-[color:var(--line)]">
             <span className={`${LABEL} block mb-[6px]`}>System assumption</span>
-            <p className="font-sans italic text-[13.5px] leading-[1.5] text-[color:var(--study-accent,var(--accent))]" style={WDTH}>
+            <p className="font-sans italic text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--study-accent,var(--accent))]" style={WDTH}>
               “{c.assumption}”
             </p>
           </div>
@@ -567,7 +567,7 @@ function Stats({ items }: { items: { value: string; label: string; note?: string
             <span className="font-heading font-medium text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
               <CountUp value={s.value} />
             </span>
-            <span className="font-sans text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
+            <span className="font-sans text-[14px] lg:text-[16px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
           </div>
           {s.note && <span className={`${LABEL} block mt-[12px]`}>{s.note}</span>}
         </div>
@@ -584,7 +584,7 @@ function Findings({ items }: { items: { label: string; body: string }[] }) {
           <span className="font-heading text-[12px] font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">
             {String(i + 1).padStart(2, '0')}
           </span>
-          <span className="font-heading font-medium text-[12px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
+          <span className="font-heading font-medium text-[12px] lg:text-[13px] uppercase tracking-[0.12em] text-[color:var(--ink-strong)] leading-[1.4]" style={WDTH}>
             {f.label}
           </span>
           <p className={`${BODY} col-start-2 sm:col-start-3`} style={WDTH}>{f.body}</p>
@@ -602,10 +602,10 @@ function Columns({ items }: { items: { label: string; body: string }[] }) {
       {items.map((c, i) => (
         <div key={c.label} className="flex flex-col" style={nth(i)}>
           {/* the same serif-in-accent as the accordion rows, over a rule */}
-          <span className="font-heading font-bold text-[17px] lg:text-[18px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
+          <span className="font-heading font-bold text-[17px] lg:text-[20px] leading-[1.3] text-[color:var(--study-accent,var(--accent))] pb-[8px] mb-[12px] border-b border-[color:var(--line)]">
             {c.label}
           </span>
-          <p className="font-sans text-[13px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
+          <p className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>
             {c.body}
           </p>
         </div>
@@ -794,7 +794,7 @@ function Slider({ slides, caption, ratio = '16 / 9' }: { slides: { src: string; 
         {/* the caption takes the right of the same row — where the homepage's card
             puts its way out — rather than a line of its own beneath */}
         {caption && (
-          <figcaption className="font-sans text-[13px] text-[color:var(--ink-muted)] text-right ml-auto min-w-0" style={WDTH}>
+          <figcaption className="font-sans text-[14px] lg:text-[15px] text-[color:var(--ink-muted)] text-right ml-auto min-w-0" style={WDTH}>
             {caption}
           </figcaption>
         )}
@@ -902,7 +902,7 @@ function Prototype({ screens, ratio, caption }: Extract<Block, { kind: 'prototyp
                 type="button"
                 onClick={() => setIndex(i)}
                 aria-current={i === index ? 'step' : undefined}
-                className={`flex items-center gap-[10px] font-heading text-[13px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-bold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
+                className={`flex items-center gap-[10px] font-heading text-[13px] lg:text-[15px] transition-colors ${i === index ? 'text-[color:var(--ink-strong)] font-bold' : 'text-[color:var(--ink-muted)] hover:text-[color:var(--ink-body)]'}`}
                 style={WDTH}
               >
                 <span className={`h-[2px] w-[16px] transition-colors ${i === index ? 'bg-[color:var(--study-accent,var(--accent))]' : 'bg-[color:var(--line)]'}`} />
@@ -937,7 +937,7 @@ function Diagram({ name, caption, ratio = '16 / 9', legend, description }: { nam
           {legend && (
             <ul className="flex flex-wrap items-center gap-x-[16px] gap-y-[6px]">
               {legend.map(l => (
-                <li key={l.label} className="flex items-center gap-[8px] font-heading text-[13px] text-[color:var(--ink-muted)]" style={WDTH}>
+                <li key={l.label} className="flex items-center gap-[8px] font-heading text-[13px] lg:text-[15px] text-[color:var(--ink-muted)]" style={WDTH}>
                   <span
                     aria-hidden="true"
                     className="h-[10px] w-[10px] rounded-[2px] border"

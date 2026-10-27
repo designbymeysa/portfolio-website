@@ -568,9 +568,8 @@
   --stack-scrim: rgb(0 0 0);
 }
 
-.works-stack-label {
-  position: sticky;
-  top: var(--stack-nav);
+.works-stack-label,
+.works-stack-label-spacer {
   height: var(--stack-label-h);
   line-height: var(--stack-label-h);
   /* the row runs down to exactly where the cards pin, so the first card's resting
@@ -578,6 +577,23 @@
      as it holds, with nothing yet arriving */
   padding-bottom: calc(var(--stack-top) - var(--stack-nav) - var(--stack-label-h));
   box-sizing: content-box;
+}
+.works-stack-label {
+  position: sticky;
+  top: var(--stack-nav);
+}
+/* The label's pin runs inside this track, which covers every row but the last card's.
+   A sticky box lets go when its container ends, so the label leaves the moment the last
+   card lands and scrolls off with the stack, rather than holding on while that card
+   rides up over it. The spacer above holds row one open at the label's height. */
+.works-stack-label-spacer {
+  grid-row: 1;
+  grid-column: 1;
+}
+.works-stack-label-track {
+  grid-row: 1 / -2;
+  grid-column: 1;
+  align-self: stretch;
 }
 
 .works-stack-item {

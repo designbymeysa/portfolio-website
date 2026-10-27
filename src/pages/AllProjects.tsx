@@ -11,8 +11,21 @@ import { Tag } from '../components/Tag/Tag'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { CardBadge } from '../components/ui/CardBadge'
 
-// chips shown per card before collapsing into a "+N" — keeps every card's tag row one line
-const VISIBLE_TAGS = 2
+// How many chips a card shows before the rest collapse into a "+N": as many as fit in
+// TAG_CHAR_BUDGET letters, at least one. A count would not do — "Healthcare, Redesign"
+// fits the three-column card where "UX Research, Interaction Design" never can — and
+// letters track the width of a 12px chip closely enough to keep every row on one line.
+const TAG_CHAR_BUDGET = 18
+function visibleTags(tags: string[]) {
+  let used = 0
+  const shown: string[] = []
+  for (const t of tags) {
+    if (shown.length && used + t.length > TAG_CHAR_BUDGET) break
+    shown.push(t)
+    used += t.length
+  }
+  return shown
+}
 import type React from 'react'
 
 function ProjectCard({ project, index }: { project: typeof projects[0]; index: number }) {
@@ -54,14 +67,18 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
 
       {/* the foot of the card: tags on the left, the mark on the right. mt-auto holds
           it to the bottom so it lines up across a row of uneven descriptions. The chips
-          wrap rather than clip: at the three-column width two long tags and the mark
-          need more than the card has, and a capped row was hiding the second tag. */}
+          still wrap rather than clip, should a narrow card ever need it, but
+          visibleTags() keeps them to one line at every width the grid uses. */}
       <div className="flex items-end justify-between gap-[12px] mt-auto">
         <div className="flex flex-wrap items-center gap-[8px]">
-          {project.tags.slice(0, VISIBLE_TAGS).map(tag => <Tag key={tag} label={tag} />)}
-          {project.tags.length > VISIBLE_TAGS && (
-            <Tag label={`+${project.tags.length - VISIBLE_TAGS}`} />
-          )}
+          {(() => {
+            const shown = visibleTags(project.tags)
+            const rest = project.tags.length - shown.length
+            return <>
+              {shown.map(tag => <Tag key={tag} label={tag} size="compact" />)}
+              {rest > 0 && <Tag label={`+${rest}`} size="compact" />}
+            </>
+          })()}
         </div>
         <CardBadge />
       </div>
@@ -116,7 +133,7 @@ export default function AllProjects() {
                 key={f}
                 onClick={() => setFilter(f)}
                 aria-pressed={on}
-                className={`h-8 px-4 rounded-full font-heading font-normal text-[11px] uppercase tracking-[0.7px] transition-colors duration-[150ms] border ${
+                className={`h-8 px-4 rounded-full font-heading font-normal text-[12px] lg:text-[13px] uppercase tracking-[0.7px] transition-colors duration-[150ms] border ${
                   on
                     ? 'bg-[color:var(--pill-bg)] text-[color:var(--pill-fg)] border-[color:var(--pill-bg)]'
                     : 'bg-transparent text-[color:var(--ink-muted)] border-[color:var(--line)] hover:border-[color:var(--ink-muted)] hover:text-[color:var(--ink-strong)]'

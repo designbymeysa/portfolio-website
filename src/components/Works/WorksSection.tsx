@@ -60,7 +60,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
               <span className="text-[14px] lg:text-[16px] ml-[6px]">/ {String(count).padStart(2, '0')}</span>
             </span>
             <span
-              className="font-heading font-medium text-[10px] uppercase tracking-[0.18em] leading-none text-[color:var(--ink-muted)]"
+              className="font-heading font-medium text-[11px] lg:text-[12px] uppercase tracking-[0.18em] leading-none text-[color:var(--ink-muted)]"
               style={{ fontVariationSettings: '"wdth" 100' }}
             >
               {eyebrowFor(project)}
@@ -191,10 +191,24 @@ export function WorksSection() {
         >
           {/* the label is in the grid so it can pin too — it holds under the nav for
               the whole run of cards, and the section lands looking exactly as it
-              holds, whether you scroll here or jump from another page */}
-          <div className="works-stack-label">
-            <SectionLabel>{site.works.label}</SectionLabel>
-          </div>
+              holds, whether you scroll here or jump from another page. It pins inside
+              its own track, every row but the last card's, so it lets go the moment
+              the last card lands and leaves with the cards instead of being slid over.
+              The spacer keeps the first row the label's height. */}
+          {reduced || featured.length < 2 ? (
+            <div className="works-stack-label">
+              <SectionLabel>{site.works.label}</SectionLabel>
+            </div>
+          ) : (
+            <>
+              <div className="works-stack-label-spacer" aria-hidden="true" />
+              <div className="works-stack-label-track">
+                <div className="works-stack-label">
+                  <SectionLabel>{site.works.label}</SectionLabel>
+                </div>
+              </div>
+            </>
+          )}
 
           {featured.map((project, idx) => (
             <div
@@ -202,8 +216,10 @@ export function WorksSection() {
               ref={el => { items.current[idx] = el }}
               className="works-stack-item"
               /* each card pins a little lower than the one before, so the covered
-                 cards show as edges above it — a deck, not a swap */
-              style={{ '--i': idx } as React.CSSProperties}
+                 cards show as edges above it — a deck, not a swap. Rows are given
+                 outright: the label's track already fills the first column, and
+                 auto-placement would otherwise push every card below it */
+              style={{ '--i': idx, ...(reduced || featured.length < 2 ? {} : { gridRow: idx + 2, gridColumn: 1 }) } as React.CSSProperties}
             >
               <WorkCard project={project} index={idx} count={featured.length} />
             </div>
