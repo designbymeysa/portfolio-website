@@ -517,7 +517,7 @@
   .dm-on .dm-orb, .dm-on .dm-float-a, .dm-on .dm-float-b { animation: none; }
 }
 
-/* The Tend cover. The fold and the phone float out of step, the three pastel glows
+/* The Tend cover. The open fold floats, the three pastel glows
    behind them drift on their own slow loops, and the sprout sways from the foot of its
    stem — all only once the cover's wrapper has `tn-on`, which it takes while on screen.
    The sprout's transform-origin is set inline, in the SVG's own units. */
@@ -529,7 +529,6 @@
 .tn-sprout { transform-box: view-box; }
 
 .tn-on .tn-float-a { animation: tn-float 8s ease-in-out infinite; }
-.tn-on .tn-float-b { animation: tn-float 8s ease-in-out -4s infinite; }
 .tn-on .tn-glow-a  { animation: tn-drift-a 16s ease-in-out infinite; }
 .tn-on .tn-glow-b  { animation: tn-drift-b 19s ease-in-out infinite; }
 .tn-on .tn-glow-c  { animation: tn-breathe 12s ease-in-out infinite; }
@@ -556,7 +555,7 @@
   50%      { transform: rotate(4deg); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tn-on .tn-float-a, .tn-on .tn-float-b,
+  .tn-on .tn-float-a,
   .tn-on .tn-glow-a, .tn-on .tn-glow-b, .tn-on .tn-glow-c,
   .tn-on .tn-sprout { animation: none; }
 }
