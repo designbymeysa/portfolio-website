@@ -69,9 +69,11 @@ export function ProjectMedia({ projects, stateRef, className }: ProjectMediaProp
   )
 }
 
-/** The still version, for the cards on the homepage and /projects. A coming-soon
- *  project's "Coming soon" label sits in the middle of its cover, lifted over the
- *  card's shade (see ComingSoonShade) so it stays bright while everything else dims. */
+/** The still version, for the cards on the homepage and /projects. A project that is
+ *  still on its way sits under a shade with the "Coming soon" label on it — the cover
+ *  only, so the card's copy stays readable. On hover the cursor pill takes the words
+ *  over: the shade lifts a little and its label eases out and up, so "Coming soon" is
+ *  never said twice. */
 export function ProjectStill({ project, className }: { project: Project; className?: string }) {
   return (
     <div
@@ -80,7 +82,7 @@ export function ProjectStill({ project, className }: { project: Project; classNa
     >
       <Cover project={project} />
       {project.comingSoon && (
-        <div className="absolute inset-0 z-[2] flex items-center justify-center pointer-events-none">
+        <div className="coming-soon-shade absolute inset-0 flex items-center justify-center pointer-events-none">
           <span
             className="coming-soon-label font-heading font-normal text-[13px] lg:text-[14px] uppercase tracking-[2.6px] text-white"
             style={{ fontVariationSettings: '"wdth" 100' }}
@@ -91,12 +93,4 @@ export function ProjectStill({ project, className }: { project: Project; classNa
       )}
     </div>
   )
-}
-
-/** The shade over a whole coming-soon card, cover and copy alike. The card must be
- *  `relative` and carry `group`: on hover the cursor pill takes the words over, so the
- *  shade lifts a little and the cover's label eases out and up, and "Coming soon" is
- *  never said twice. */
-export function ComingSoonShade() {
-  return <div aria-hidden="true" className="coming-soon-shade absolute inset-0 z-[1] pointer-events-none" />
 }

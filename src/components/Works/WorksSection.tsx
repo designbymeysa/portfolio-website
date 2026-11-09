@@ -4,7 +4,7 @@ import { useInView } from '../../hooks/useInView'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { featuredProjects as featured } from '../../data/projects'
 import { headlineFor, eyebrowFor } from '../../data/caseStudies'
-import { ProjectStill, ComingSoonShade } from './ProjectMedia'
+import { ProjectStill } from './ProjectMedia'
 import type { Project } from '../../data/projects'
 import { Tag } from '../Tag/Tag'
 import { SectionLabel } from '../ui/SectionLabel'
@@ -94,7 +94,6 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
       >
         {view.pill}
         {body}
-        <ComingSoonShade />
       </div>
     )
   }
