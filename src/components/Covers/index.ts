@@ -3,6 +3,7 @@ import { WellbeingRadar } from './WellbeingRadar'
 import { DHeartScreens } from './DHeartScreens'
 import { DemosPhones } from './DemosPhones'
 import { ArtWall } from './ArtWall'
+import { TendDevices } from './TendDevices'
 
 /** Covers that are drawn rather than photographed. A project opts in by naming one in
  *  `cover` in content/projects.json; anything not listed here falls back to `image`.
@@ -13,6 +14,7 @@ export const COVERS: Record<string, (props: { className?: string; bare?: boolean
   'd-heart-screens': DHeartScreens,
   'demos-phones': DemosPhones,
   'art-wall': ArtWall,
+  'tend-devices': TendDevices,
 }
 
 export function coverFor(key?: string) {

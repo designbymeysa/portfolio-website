@@ -17,8 +17,9 @@ so a typo can't ship silently.
 
 ## projects.json
 
-An array. **Order matters** — the homepage Works section features the first three,
-in this order. The rest still appear on `/projects`.
+An array. The homepage Works section shows the ids listed in `site.json` → `works.featured`,
+in that order. `/projects` shows everything, sorted by `year`, newest first. The order here
+only sets the case study pages' "next" links, and breaks ties within a year.
 
 ```json
 {

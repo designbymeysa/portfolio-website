@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import type { Project } from '../../data/projects'
 import { coverFor } from '../Covers'
+import site from '../../content/site.json'
 
 /** Scroll-driven state shared with the pinned section: `i` is the outgoing
  *  project index, `t` the 0→1 crossfade progress toward project `i + 1`. */
@@ -68,7 +69,9 @@ export function ProjectMedia({ projects, stateRef, className }: ProjectMediaProp
   )
 }
 
-/** The still version, for the grid on /projects. */
+/** The still version, for the cards on the homepage and /projects. A project that is
+ *  still on its way sits under a shade with the "Coming soon" label on it; its card
+ *  also swaps the cursor for a "Coming soon" pill, where the others say VIEW. */
 export function ProjectStill({ project, className }: { project: Project; className?: string }) {
   return (
     <div
@@ -76,6 +79,18 @@ export function ProjectStill({ project, className }: { project: Project; classNa
       style={{ background: project.bg }}
     >
       <Cover project={project} />
+      {project.comingSoon && (
+        /* on hover the cursor pill takes the words over: the shade lifts a little and
+           its own label eases out and up, so "Coming soon" is never said twice */
+        <div className="coming-soon-shade absolute inset-0 flex items-center justify-center">
+          <span
+            className="coming-soon-label font-heading font-normal text-[13px] lg:text-[14px] uppercase tracking-[2.6px] text-white"
+            style={{ fontVariationSettings: '"wdth" 100' }}
+          >
+            {site.workPage.comingSoonLabel}
+          </span>
+        </div>
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { projects } from '../data/projects'
+import { projectsByYear as projects } from '../data/projects'
 import { headlineFor } from '../data/caseStudies'
 import site from '../content/site.json'
 import { useInView } from '../hooks/useInView'
@@ -10,6 +10,7 @@ import { ProjectStill } from '../components/Works/ProjectMedia'
 import { Tag } from '../components/Tag/Tag'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { CardBadge } from '../components/ui/CardBadge'
+import { useCursorPill } from '../components/ui/CursorPill'
 
 // How many chips a card shows before the rest collapse into a "+N": as many as fit in
 // TAG_CHAR_BUDGET letters, at least one. A count would not do — "Healthcare, Redesign"
@@ -33,17 +34,17 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
   const imageRef = useRef<HTMLDivElement>(null)
   // where there is no hover, the card lights as it passes the middle of the screen
   const active = useTouchReveal(imageRef)
+  const soon = !!project.comingSoon
+  // a card with nothing to open says so under the cursor; the rest keep the plain one
+  const pill = useCursorPill(site.workPage.comingSoonLabel)
 
-  return (
-    <Link
-      to={project.href}
-      ref={ref as React.RefObject<HTMLAnchorElement>}
-      data-active={active || undefined}
-      className={`works-card group flex flex-col no-underline rounded-[2px] p-[16px] sm:p-[20px] ${
-        inView ? 'section-visible' : 'section-hidden'
-      }`}
-      style={{ transitionDelay: `${(index % 3) * 80}ms` }}
-    >
+  const cardClass = `works-card group flex flex-col no-underline rounded-[2px] p-[16px] sm:p-[20px] ${
+    inView ? 'section-visible' : 'section-hidden'
+  }`
+  const cardStyle = { transitionDelay: `${(index % 3) * 80}ms` }
+
+  const body = (
+    <>
       <div
         ref={imageRef}
         /* negative margins cancel the card's padding, so the cover runs to its edges
@@ -80,9 +81,36 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
             </>
           })()}
         </div>
-        <CardBadge />
+        {!soon && <CardBadge />}
       </div>
+    </>
+  )
 
+  // nothing to open yet, so not a link — no arrow, no pointer, no tab stop
+  if (soon) {
+    return (
+      <div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        data-active={active || undefined}
+        className={cardClass}
+        style={cardStyle}
+        {...pill.bind}
+      >
+        {pill.pill}
+        {body}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      to={project.href}
+      ref={ref as React.RefObject<HTMLAnchorElement>}
+      data-active={active || undefined}
+      className={cardClass}
+      style={cardStyle}
+    >
+      {body}
     </Link>
   )
 }

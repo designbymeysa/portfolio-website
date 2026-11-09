@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useInView } from '../../hooks/useInView'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
-import { projects as allProjects } from '../../data/projects'
+import { featuredProjects as featured } from '../../data/projects'
 import { headlineFor, eyebrowFor } from '../../data/caseStudies'
 import { ProjectStill } from './ProjectMedia'
 import type { Project } from '../../data/projects'
@@ -16,31 +16,25 @@ import site from '../../content/site.json'
 import { HERO_PEEK } from '../Hero/peek'
 import type React from 'react'
 
-const featured = allProjects.slice(0, 3)
 
 const REDUCED = '(prefers-reduced-motion: reduce)'
 
 /** One project card. Its own component because the cursor pill and the touch reveal
  *  are hooks, and there is now one card per project rather than one card for all. */
 function WorkCard({ project, index, count }: { project: Project; index: number; count: number }) {
-  const view = useCursorPill('View')
+  // nothing to open yet: a plain block with no arrow, and the pill says so instead of VIEW
+  const soon = !!project.comingSoon
+  const view = useCursorPill(soon ? site.workPage.comingSoonLabel : 'View')
   const cardRef = useRef<HTMLAnchorElement>(null)
   // no hover on touch: the card lights while it holds the screen
   const touchActive = useTouchReveal(cardRef)
 
-  return (
-    <Link
-      to={project.href}
-      ref={cardRef}
-      data-active={touchActive || undefined}
-      /* row-reverse rather than reordering the markup: the image still comes first in
-         the DOM, so it is read before the copy it belongs to */
-      className="works-card works-stack-card group no-underline flex flex-col-reverse lg:flex-row-reverse lg:items-center overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px]"
-      /* the VIEW pill is this card's cursor */
-      {...view.bind}
-    >
-      {view.pill}
+  /* row-reverse rather than reordering the markup: the image still comes first in
+     the DOM, so it is read before the copy it belongs to */
+  const cardClass = 'works-card works-stack-card group no-underline flex flex-col-reverse lg:flex-row-reverse lg:items-center overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px]'
 
+  const body = (
+    <>
       {/* image */}
       <ProjectStill
         project={project}
@@ -80,13 +74,41 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
           <div className="flex gap-[8px] flex-wrap">
             {project.tags.map(tag => <Tag key={tag} label={tag} />)}
           </div>
-          <CardBadge />
+          {!soon && <CardBadge />}
         </div>
       </div>
 
       {/* the dim that settles over a card as the next one covers it — a layer whose
           opacity follows --stack-p, so only opacity ever changes */}
       <span aria-hidden="true" className="works-stack-scrim" />
+    </>
+  )
+
+  if (soon) {
+    return (
+      <div
+        ref={cardRef as unknown as React.RefObject<HTMLDivElement>}
+        data-active={touchActive || undefined}
+        className={cardClass}
+        {...view.bind}
+      >
+        {view.pill}
+        {body}
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      to={project.href}
+      ref={cardRef}
+      data-active={touchActive || undefined}
+      className={cardClass}
+      /* the VIEW pill is this card's cursor */
+      {...view.bind}
+    >
+      {view.pill}
+      {body}
     </Link>
   )
 }

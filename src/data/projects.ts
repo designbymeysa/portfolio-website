@@ -26,6 +26,9 @@ export interface Project {
   /** kept in the content but left off the site — every list, the next-project link and
    *  its own URL, which falls back to /projects */
   hidden?: boolean
+  /** shown on /projects under a "Coming soon" shade, but not a link: no case study
+   *  page, no next-project link, no homepage feature */
+  comingSoon?: boolean
 }
 
 /** The work itself lives in `src/content/projects.json` — plain data, editable without
@@ -33,7 +36,22 @@ export interface Project {
  *  JSON literal (every string is just `string`), so the interface is applied here once
  *  and every consumer gets it for free.
  *
- *  Order matters: the homepage Works section features the first four, in this order. */
+ *  Order here is the order of the case study pages' "next" links. The homepage picks its
+ *  own three, by id, in `site.json` → works.featured; /projects sorts by year. */
 import data from '../content/projects.json'
+import site from '../content/site.json'
 
 export const projects = (data as Project[]).filter(p => !p.hidden)
+
+/** the projects that have a case study page to open */
+export const caseStudyProjects = projects.filter(p => !p.comingSoon)
+
+/** newest first, for /projects. A range like "2025 — 2026" counts by its first year;
+ *  the sort is stable, so projects from the same year keep their order in the JSON */
+const startYear = (p: Project) => parseInt(p.year, 10) || 0
+export const projectsByYear = [...projects].sort((a, b) => startYear(b) - startYear(a))
+
+/** the homepage's cards, in the order site.json names them; an unknown id is skipped */
+export const featuredProjects = site.works.featured
+  .map(id => projects.find(p => p.id === id))
+  .filter((p): p is Project => !!p)

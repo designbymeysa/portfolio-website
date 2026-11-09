@@ -1,4 +1,4 @@
-import { projects } from './projects'
+import { caseStudyProjects } from './projects'
 import type { Project } from './projects'
 
 /** A picture in a case study. Until real assets land, a figure with no `src` renders
@@ -188,7 +188,7 @@ export function sectionsFor(project: Project): CaseSection[] {
 }
 
 export function projectById(id?: string): Project | undefined {
-  return projects.find(p => p.id === id)
+  return caseStudyProjects.find(p => p.id === id)
 }
 
 /** the display headline. The cards on the home page and /projects read this too, so

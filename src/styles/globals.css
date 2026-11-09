@@ -517,6 +517,71 @@
   .dm-on .dm-orb, .dm-on .dm-float-a, .dm-on .dm-float-b { animation: none; }
 }
 
+/* The Tend cover. The fold and the phone float out of step, the three pastel glows
+   behind them drift on their own slow loops, and the sprout sways from the foot of its
+   stem — all only once the cover's wrapper has `tn-on`, which it takes while on screen.
+   The sprout's transform-origin is set inline, in the SVG's own units. */
+.tn-glow,
+.tn-float {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.tn-sprout { transform-box: view-box; }
+
+.tn-on .tn-float-a { animation: tn-float 8s ease-in-out infinite; }
+.tn-on .tn-float-b { animation: tn-float 8s ease-in-out -4s infinite; }
+.tn-on .tn-glow-a  { animation: tn-drift-a 16s ease-in-out infinite; }
+.tn-on .tn-glow-b  { animation: tn-drift-b 19s ease-in-out infinite; }
+.tn-on .tn-glow-c  { animation: tn-breathe 12s ease-in-out infinite; }
+.tn-on .tn-sprout  { animation: tn-sway 5s ease-in-out infinite; }
+
+@keyframes tn-float {
+  0%, 100% { transform: translateY(-8px); }
+  50%      { transform: translateY(8px); }
+}
+@keyframes tn-drift-a {
+  0%, 100% { transform: translate(-40px, 20px) scale(0.95); }
+  50%      { transform: translate(60px, -30px) scale(1.08); }
+}
+@keyframes tn-drift-b {
+  0%, 100% { transform: translate(40px, -20px) scale(1.05); }
+  50%      { transform: translate(-60px, 30px) scale(0.94); }
+}
+@keyframes tn-breathe {
+  0%, 100% { transform: scale(0.94); opacity: 0.8; }
+  50%      { transform: scale(1.06); opacity: 1; }
+}
+@keyframes tn-sway {
+  0%, 100% { transform: rotate(-4deg); }
+  50%      { transform: rotate(4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tn-on .tn-float-a, .tn-on .tn-float-b,
+  .tn-on .tn-glow-a, .tn-on .tn-glow-b, .tn-on .tn-glow-c,
+  .tn-on .tn-sprout { animation: none; }
+}
+
+/* A coming-soon cover's shade. Where there is a real pointer, hovering the card hands
+   the label to the cursor pill: the shade eases lighter and the label drifts up and out,
+   on the same curve and timing as the pill coming in. Touch screens have no pill, so
+   there the label simply stays. */
+.coming-soon-shade {
+  background: rgba(15, 15, 15, 0.55);
+  transition: background-color 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.coming-soon-label {
+  transition:
+    opacity 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 320ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .coming-soon-shade { background: rgba(15, 15, 15, 0.4); }
+  .group:hover .coming-soon-label { opacity: 0; transform: translateY(-6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .coming-soon-shade, .coming-soon-label { transition: none; }
+}
+
 /* The Art Beyond Dimension cover: each painting eases into and out of focus about its
    own centre as the pick moves. */
 .aw-card {

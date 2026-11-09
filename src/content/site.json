@@ -40,13 +40,15 @@
 
   "works": {
     "label": "Case studies",
-    "viewAll": "All case studies"
+    "viewAll": "All case studies",
+    "featured": ["tend", "d-heart-redesign", "digital-wellbeing"]
   },
 
   "workPage": {
     "label": "Work",
     "heading": "Case studies",
-    "allFilterLabel": "All"
+    "allFilterLabel": "All",
+    "comingSoonLabel": "Coming soon"
   },
 
   "footer": {

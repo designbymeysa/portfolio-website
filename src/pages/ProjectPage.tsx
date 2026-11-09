@@ -6,7 +6,7 @@ import { sectionsFor, projectById, headlineFor, eyebrowFor, accentFor, caseStudi
 import { coverFor } from '../components/Covers'
 import { Blocks, Emphasis, FigureRow, Reveal } from '../components/CaseStudy/Blocks'
 import { Button } from '../components/Button/Button'
-import { projects } from '../data/projects'
+import { caseStudyProjects as projects } from '../data/projects'
 import { Tag } from '../components/Tag/Tag'
 import { ArrowIcon, BackIcon, LeaveIcon } from '../components/ui/LinkIcons'
 import type React from 'react'
@@ -69,6 +69,7 @@ export default function ProjectPage() {
     { label: 'Role', value: project.role },
     { label: 'Team', value: project.team },
     { label: 'Industry', value: project.industry },
+    { label: 'Year', value: project.year },
   ].filter((m): m is { label: string; value: string } => !!m.value)
 
   return (

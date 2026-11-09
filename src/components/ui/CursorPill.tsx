@@ -20,7 +20,16 @@ export function useCursorPill(label: string) {
     // viewport coordinates, not surface-relative — the pill is fixed to the body
     onMouseMove: (e: React.MouseEvent) => {
       if (!FINE_POINTER) return
-      setPill({ visible: true, x: e.clientX, y: e.clientY })
+      const x = e.clientX
+      const y = e.clientY
+      setPill(p => {
+        if (p.visible) return { visible: true, x, y }
+        // entering: place it first, still hidden, and show it a frame later — so it
+        // mounts at opacity 0 and the CSS fade and grow play every time, the first
+        // entry included, instead of the pill popping in fully formed
+        requestAnimationFrame(() => setPill(q => ({ ...q, visible: true })))
+        return { visible: false, x, y }
+      })
     },
     onMouseLeave: () => setPill(p => ({ ...p, visible: false })),
   }
