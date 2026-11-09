@@ -2,7 +2,7 @@ import { useEffect, useId, useRef, useState } from 'react'
 
 /** Drawn in the Figma cover's own frame, 1221×916 ("Cover", node 27:3667 in
  *  Designbymeysa), so every position below reads straight off the design file. The
- *  open fold in its hardware frame and the logo are exported at 2x on transparency,
+ *  open fold in its hardware frame, the phone and the logo are exported at 2x on transparency,
  *  drop shadow and side buttons included — which is why the fold's image starts 30px
  *  up and left of the device — and the ground and its glows are drawn here so they
  *  can move. */
@@ -13,6 +13,8 @@ const H = 916
 const PAD = 70
 
 const FOLD = { x: 68, y: 86, w: 841, h: 618 }
+// the iPhone 17 with Today on it, frame and screen as one layer
+const PHONE = { x: 807, y: 186, w: 327, h: 662 }
 const LOGO = { x: 532, y: 703, w: 130.5, h: 155 }
 // the sprout sits in the logo's top 95px, the wordmark under it; the sprout sways from
 // the foot of its stem
@@ -27,8 +29,8 @@ const GLOWS = [
   { key: 'lilac', cx: 572, cy: 443, r: 695, color: '#A99BF5', alpha: 0.5, cls: 'tn-glow-c' },
 ]
 
-/** The cover for Tend: the open fold floats over a soft pastel wash whose three glows
- *  drift slowly, and the sprout in the logo sways.
+/** The cover for Tend: the open fold and the phone float out of step over a soft
+ *  pastel wash whose three glows drift slowly, and the sprout in the logo sways.
  *
  *  Everything moves only while the cover is on screen — `tn-on` is what starts the
  *  animations — and under reduced motion it all holds still. */
@@ -91,6 +93,11 @@ export function TendDevices({ className = '' }: { className?: string; bare?: boo
             x={LOGO.x} y={LOGO.y} width={LOGO.w} height={LOGO.h}
             clipPath={`url(#tn-mark-${id})`}
           />
+        </g>
+
+        {/* over the logo, as in Figma */}
+        <g className="tn-float tn-float-b">
+          <image href={`${MEDIA}/phone.png`} x={PHONE.x} y={PHONE.y} width={PHONE.w} height={PHONE.h} />
         </g>
       </svg>
     </div>

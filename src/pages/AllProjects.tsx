@@ -6,7 +6,7 @@ import site from '../content/site.json'
 import { useInView } from '../hooks/useInView'
 import { usePageMeta } from '../hooks/usePageMeta'
 import { useTouchReveal } from '../hooks/useTouchReveal'
-import { ProjectStill } from '../components/Works/ProjectMedia'
+import { ProjectStill, ComingSoonShade } from '../components/Works/ProjectMedia'
 import { Tag } from '../components/Tag/Tag'
 import { SectionLabel } from '../components/ui/SectionLabel'
 import { CardBadge } from '../components/ui/CardBadge'
@@ -92,12 +92,13 @@ function ProjectCard({ project, index }: { project: typeof projects[0]; index: n
       <div
         ref={ref as React.RefObject<HTMLDivElement>}
         data-active={active || undefined}
-        className={cardClass}
+        className={`${cardClass} relative overflow-hidden`}
         style={cardStyle}
         {...pill.bind}
       >
         {pill.pill}
         {body}
+        <ComingSoonShade />
       </div>
     )
   }
