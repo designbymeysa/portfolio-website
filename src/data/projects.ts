@@ -1,6 +1,9 @@
 export interface Project {
   id: string
   title: string
+  /** the small tracked line over the card's headline, for a project with no case study
+   *  to name one yet; a case study's own eyebrow wins over it */
+  eyebrow?: string
   description: string
   fullDescription: string
   problem?: string

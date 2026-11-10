@@ -2,6 +2,7 @@
   {
     "id": "tend",
     "title": "Tend",
+    "eyebrow": "Product Design",
     "description": "A calm task manager designed based on my MSc thesis: plan only what fits the day, focus on one thing, and let go of the rest without guilt.",
     "fullDescription": "Tend turns the wellbeing-centred interaction model from my thesis into a working app prototype, with no overdue states, no streaks and no red, and a design system built so it can't say \"overdue\".",
     "tags": [

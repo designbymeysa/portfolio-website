@@ -200,7 +200,7 @@ export function headlineFor(project: Project): string {
 /** the small tracked line above the headline — the project's name, unless the study
  *  names something else (a thesis says what kind of work it is). Cards and page alike */
 export function eyebrowFor(project: Project): string {
-  return caseStudies[project.id]?.eyebrow ?? project.title
+  return caseStudies[project.id]?.eyebrow ?? project.eyebrow ?? project.title
 }
 
 /** the opening image block's colour; the project's own tint is the fallback */
