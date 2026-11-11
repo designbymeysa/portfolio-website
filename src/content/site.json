@@ -35,7 +35,20 @@
       "emphasis": "health and wellbeing",
       "after": ", one interface at a time."
     },
-    "scrollCue": "SCROLL"
+    "scrollCue": "SCROLL",
+    "today": {
+      "eyebrow": "Hi, I'm Meysa 👋",
+      "headlineBefore": "I design for ",
+      "accentWords": ["wellbeing", "care", "clarity"],
+      "headlineAfter": "",
+      "headlineSecondLine": "one interface at a time.",
+      "screenReaderHeadline": "I design for wellbeing, care and clarity, one interface at a time.",
+      "subtitle": {
+        "before": "Product designer turning complex systems into experiences ",
+        "emphasis": "people actually enjoy using",
+        "after": "."
+      }
+    }
   },
 
   "works": {

@@ -7,7 +7,9 @@ import { SectionLabel } from '../ui/SectionLabel'
 import { LeaveIcon } from '../ui/LinkIcons'
 import Stack from '../Stack/Stack'
 import { SkillsTicker } from '../Ticker/SkillsTicker'
+import { SkillRows } from './SkillRows'
 import about from '../../content/about.json'
+import { useToday } from '../../hooks/useToday'
 import type React from 'react'
 
 // Every word and every path in this section comes from `src/content/about.json`.
@@ -62,16 +64,21 @@ function randomSpot() {
   return { left: 34 + Math.random() * 32, top }
 }
 
-const photoCards = photoDeck.map(({ src }, i) => (
+const makePhotoCards = (deferred: boolean) => photoDeck.map(({ src }, i) => (
   <div key={src} className="w-full h-full bg-[color:var(--frame)] p-[10px] pb-[40px] flex select-none">
     <img
       src={src}
       alt={`Meysa — photo ${photoDeck.length - i}`}
       className="w-full h-full object-cover rounded-[2px]"
       draggable={false}
+      {...(deferred ? { loading: 'lazy' as const, decoding: 'async' as const } : {})}
     />
   </div>
 ))
+const photoCards = makePhotoCards(false)
+// /today: the photos sit three screens down, so they wait until the reader is on the
+// way to them instead of competing with the hero and the covers for the first load
+const photoCardsDeferred = makePhotoCards(true)
 
 function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
   const rowRef = useRef<HTMLDivElement>(null)
@@ -128,6 +135,7 @@ function ExperienceRow({ e }: { e: typeof EXPERIENCE[number] }) {
 
 export function AboutSection() {
   const { ref, inView } = useInView()
+  const today = useToday()
   // the copy leads the scroll a touch, the photos lag behind it — the two rates
   // are what give the row depth as it passes
   const introRef = useParallax<HTMLDivElement>(-0.025)
@@ -273,7 +281,7 @@ export function AboutSection() {
                 sensitivity={140}
                 sendToBackOnClick
                 mobileClickOnly
-                cards={photoCards}
+                cards={today ? photoCardsDeferred : photoCards}
                 onTopCardChange={id => {
                   setTopPhotoId(id ?? photoDeck.length)
                   // a new photo, a new place for its caption to sit
@@ -300,7 +308,9 @@ export function AboutSection() {
         <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px]">
           <SectionLabel className="mb-[24px]">{about.skills.label}</SectionLabel>
         </div>
-        <SkillsTicker />
+        {/* /today: two lines of display type that cross as the page scrolls, in place
+            of the single small row that runs on its own clock */}
+        {today ? <SkillRows /> : <SkillsTicker />}
       </div>
 
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px]">

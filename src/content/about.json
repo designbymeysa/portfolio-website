@@ -32,8 +32,31 @@
       "User Research",
       "Prototyping",
       "Design Systems",
-      "Branding",
-      "Front-end Prototyping"
+      "Branding"
+    ],
+    "groups": [
+      {
+        "label": "Research & product",
+        "items": [
+          "UX Design",
+          "Product Design",
+          "Interaction Design",
+          "Service Design",
+          "User Research",
+          "Usability Testing",
+          "Prototyping"
+        ]
+      },
+      {
+        "label": "Visual & build",
+        "items": [
+          "UI Design",
+          "Design Systems",
+          "Data Visualization",
+          "Web Design",
+          "Branding"
+        ]
+      }
     ]
   },
   "experience": {

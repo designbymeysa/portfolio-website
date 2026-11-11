@@ -71,3 +71,22 @@ export function LeaveIcon({ className = '' }: { className?: string }) {
     </svg>
   )
 }
+
+/** copy — two sheets, one behind the other */
+export function CopyIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg {...SHARED} className={`h-[13px] w-[13px] shrink-0 ${className}`}>
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path d="M5 15V6a2 2 0 0 1 2-2h9" />
+    </svg>
+  )
+}
+
+/** done — what the copy mark turns into once the thing is on the clipboard */
+export function CheckIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg {...SHARED} className={`h-[13px] w-[13px] shrink-0 ${className}`}>
+      <polyline points="5 12.5 10 17.5 19 7" />
+    </svg>
+  )
+}

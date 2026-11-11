@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useInView } from '../../hooks/useInView'
 import { LeaveIcon, UpIcon } from '../ui/LinkIcons'
+import { EmailCopy } from '../ui/EmailCopy'
 import type React from 'react'
 
 import site from '../../content/site.json'
+import { useToday } from '../../hooks/useToday'
 
 // `download: true` on an entry serves a file from this repo, `internal: true` is a page
 // on this site; anything else opens the link in a new tab
@@ -20,10 +22,14 @@ const LINK_CLASS = "group/link inline-flex items-center gap-[6px] font-heading f
 // read at the same size and ink, so the button never outweighs the line it sits on
 const META_CLASS = "font-heading text-[14px] lg:text-[13px] text-white/70 leading-[1.2]"
 
+// /today: the address and the links read as one set, a step up from the small print
+const TODAY_LINK_CLASS = "group/link inline-flex items-center gap-[6px] font-heading font-normal text-[16px] sm:text-[17px] text-white/80 hover:text-white transition-colors duration-[150ms]"
+
 const LINK_TEXT = "relative inline-block after:absolute after:left-0 after:-bottom-[2px] after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-out group-hover/link:after:scale-x-100"
 
 export function HomeFooter() {
   const { ref, inView } = useInView()
+  const today = useToday()
 
   // `html` carries `scroll-behavior: smooth` with no reduced-motion guard on it, so the
   // preference is honoured here instead — passing a behaviour explicitly beats the CSS.
@@ -49,68 +55,117 @@ export function HomeFooter() {
       />
       <div className="reveal-stagger relative flex flex-col min-h-[100vh] max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] pt-[var(--section-gap)] pb-[calc(84px+env(safe-area-inset-bottom))] md:pb-[calc(32px+env(safe-area-inset-bottom))]">
 
-        {/* the line itself — two copies drifting left on a loop, so it never runs out */}
-        <h2 className="sr-only">{site.footer.marquee}</h2>
-        {/* the line leads the footer; the slack falls below the info under it.
+        {today ? (
+          /* /today: the line drifts as it does elsewhere, set bold rather than extrabold,
+             and what it asks for sits straight under it: the address on the left,
+             the elsewheres across from it, all in one size. */
+          <div className="mt-auto">
+            <h2 className="sr-only">{site.footer.marquee}</h2>
+            {/* two copies on a loop, bled out to the viewport's edges past the column */}
+            <div className="py-[14px] mx-[calc(50%-50vw)] overflow-x-clip" aria-hidden="true">
+              <div className="footer-marquee flex w-max">
+                {[0, 1].map(i => (
+                  <span
+                    key={i}
+                    className="font-heading font-bold text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
+                    style={{ fontSize: 'clamp(92px, 13.2vw, 260px)' }}
+                  >
+                    {site.footer.marquee}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-            The column stops at 1280px but the line is sized off the viewport, so on
-            wider screens it has to bleed past the column or it gets cut at the column's
-            edges. `50% - 50vw` pulls each side out to the viewport edge from wherever
-            the column sits; only the x-axis is clipped so ascenders and the descender
-            on "p" never get shaved off. */}
-        <div className="mt-auto py-[14px] mb-[clamp(28px,4vw,48px)] mx-[calc(50%-50vw)] overflow-x-clip" aria-hidden="true">
-          <div className="footer-marquee flex w-max">
-            {[0, 1].map(i => (
-              <span
-                key={i}
-                className="font-heading font-extrabold text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]"
-                style={{ fontSize: 'clamp(92px, 13.2vw, 260px)' }}
-              >
-                {site.footer.marquee}
-              </span>
-            ))}
+            <div className="mt-[clamp(28px,4vw,48px)] flex flex-col gap-y-[28px] md:flex-row md:items-baseline md:justify-between md:gap-x-[40px]">
+              <EmailCopy email={site.footer.email} linkClass={TODAY_LINK_CLASS} tone="footer" />
+
+              <ul className="list-none flex flex-wrap items-baseline gap-x-[32px] gap-y-[12px]">
+                {links.map(({ label, href, download, internal }) => (
+                  <li key={label}>
+                    {internal ? (
+                      <Link to={href} className={TODAY_LINK_CLASS} style={{ fontVariationSettings: '"wdth" 100' }}>
+                        <span className={LINK_TEXT}>{label}</span>
+                      </Link>
+                    ) : (
+                      <a
+                        href={href}
+                        {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+                        className={TODAY_LINK_CLASS}
+                        style={{ fontVariationSettings: '"wdth" 100' }}
+                      >
+                        <span className={LINK_TEXT}>{label}</span>
+                        {/* the mark is always there: at this size the link says where it goes */}
+                        <LeaveIcon className="h-[14px] w-[14px] opacity-60 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
+                        <span className="sr-only">
+                          {download ? '(downloads a file)' : '(opens in a new tab)'}
+                        </span>
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
+        ) : (
+          <>
+            {/* the line itself — two copies drifting left on a loop, so it never runs out */}
+            <h2 className="sr-only">{site.footer.marquee}</h2>
+            {/* the line leads the footer; the slack falls below the info under it.
 
-        {/* one line: the direct line on the left, the elsewheres pushed to the right */}
-        <div className="flex flex-wrap items-baseline justify-between gap-x-[40px] gap-y-[16px]">
-          <a
-            href={`mailto:${site.footer.email}`}
-            className={LINK_CLASS}
-            style={{ fontVariationSettings: '"wdth" 100' }}
-          >
-            <span className={LINK_TEXT}>{site.footer.email}</span>
-          </a>
+                The column stops at 1280px but the line is sized off the viewport, so on
+                wider screens it has to bleed past the column or it gets cut at the column's
+                edges. `50% - 50vw` pulls each side out to the viewport edge from wherever
+                the column sits; only the x-axis is clipped so ascenders and the descender
+                on "p" never get shaved off. */}
+            <div className="mt-auto py-[14px] mb-[clamp(28px,4vw,48px)] mx-[calc(50%-50vw)] overflow-x-clip" aria-hidden="true">
+              <div className="footer-marquee flex w-max">
+                {[0, 1].map(i => (
+                  <span
+                    key={i}
+                    className={`font-heading font-extrabold text-white leading-[0.95] tracking-[-0.015em] whitespace-nowrap pr-[0.28em]`}
+                    style={{ fontSize: 'clamp(92px, 13.2vw, 260px)' }}
+                  >
+                    {site.footer.marquee}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-          {/* the links travel as one group, so a longer list still reads as a
-              left/right pair rather than spreading evenly across the line */}
-          <div className="flex flex-wrap items-baseline gap-x-[32px] gap-y-[12px]">
-            {links.map(({ label, href, download, internal }) => internal ? (
-              <Link
-                key={label}
-                to={href}
-                className={LINK_CLASS}
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                <span className={LINK_TEXT}>{label}</span>
-              </Link>
-            ) : (
-              <a
-                key={label}
-                href={href}
-                {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
-                className={LINK_CLASS}
-                style={{ fontVariationSettings: '"wdth" 100' }}
-              >
-                <span className={LINK_TEXT}>{label}</span>
-                <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
-                <span className="sr-only">
-                  {download ? '(downloads a file)' : '(opens in a new tab)'}
-                </span>
-              </a>
-            ))}
-          </div>
-        </div>
+            {/* one line: the direct line on the left, the elsewheres pushed to the right */}
+            <div className="flex flex-wrap items-baseline justify-between gap-x-[40px] gap-y-[16px]">
+              <EmailCopy email={site.footer.email} linkClass={LINK_CLASS} tone="footer" />
+
+              {/* the links travel as one group, so a longer list still reads as a
+                  left/right pair rather than spreading evenly across the line */}
+              <div className="flex flex-wrap items-baseline gap-x-[32px] gap-y-[12px]">
+                {links.map(({ label, href, download, internal }) => internal ? (
+                  <Link
+                    key={label}
+                    to={href}
+                    className={LINK_CLASS}
+                    style={{ fontVariationSettings: '"wdth" 100' }}
+                  >
+                    <span className={LINK_TEXT}>{label}</span>
+                  </Link>
+                ) : (
+                  <a
+                    key={label}
+                    href={href}
+                    {...(download ? { download: true } : { target: '_blank', rel: 'noopener noreferrer' })}
+                    className={LINK_CLASS}
+                    style={{ fontVariationSettings: '"wdth" 100' }}
+                  >
+                    <span className={LINK_TEXT}>{label}</span>
+                    <LeaveIcon className="h-[13px] w-[13px] opacity-0 transition-opacity duration-[200ms] group-hover/link:opacity-100" />
+                    <span className="sr-only">
+                      {download ? '(downloads a file)' : '(opens in a new tab)'}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
         {/* bottom meta, under a rule of its own: the byline on the left, the way back
             up on the right. The year is part of the byline's own sentence rather than a
             second run beside it, so nothing sits between them but a word space.

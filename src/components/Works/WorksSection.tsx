@@ -14,10 +14,23 @@ import { useCursorPill } from '../ui/CursorPill'
 import { useTouchReveal } from '../../hooks/useTouchReveal'
 import site from '../../content/site.json'
 import { HERO_PEEK } from '../Hero/peek'
+import { useToday } from '../../hooks/useToday'
 import type React from 'react'
 
 
 const REDUCED = '(prefers-reduced-motion: reduce)'
+
+// /today: a case study opens on a wide banner, and it used to start downloading only
+// once the page was already on screen — the frame sat empty for a beat. Pointing at a
+// card, tabbing to it or touching it is notice enough to fetch the banner ahead.
+const warmed = new Set<string>()
+function warm(src?: string) {
+  if (!src || warmed.has(src)) return
+  warmed.add(src)
+  const img = new Image()
+  img.decoding = 'async'
+  img.src = src
+}
 
 /** One project card. Its own component because the cursor pill and the touch reveal
  *  are hooks, and there is now one card per project rather than one card for all. */
@@ -28,12 +41,58 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
   const cardRef = useRef<HTMLAnchorElement>(null)
   // no hover on touch: the card lights while it holds the screen
   const touchActive = useTouchReveal(cardRef)
+  const today = useToday()
+  const warmBanner = () => warm(project.heroImage)
+  const ahead = today && !soon
+    ? { onPointerEnter: warmBanner, onFocus: warmBanner, onTouchStart: warmBanner }
+    : {}
 
   /* row-reverse rather than reordering the markup: the image still comes first in
      the DOM, so it is read before the copy it belongs to */
-  const cardClass = 'works-card works-stack-card group no-underline flex flex-col-reverse lg:flex-row-reverse lg:items-center overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px]'
+  const cardClass = `works-card works-stack-card group no-underline flex flex-col-reverse lg:flex-row-reverse overflow-hidden rounded-[2px] w-full relative h-full lg:h-[480px] ${today ? '' : 'lg:items-center'}`
 
-  const body = (
+  // /today: the card's copy in two groups pushed to its two ends. A folio strip runs
+  // along the top — which card of the set, and the year, over a rule — and everything
+  // that says what the project is gathers at the foot, so the eye lands on the headline
+  // beside the cover rather than on a number. The cover takes the wider share from xl.
+  const META = 'font-heading font-medium text-[12px] lg:text-[13px] uppercase tracking-[0.2em] leading-none'
+  const headline = headlineFor(project)
+  const refined = (
+    <>
+      <ProjectStill
+        project={project}
+        className="w-full flex-1 min-h-[150px] sm:min-h-[240px] md:min-h-[300px] lg:flex-none lg:flex-shrink-0 lg:min-h-0 lg:w-1/2 xl:w-[56%] lg:h-full"
+      />
+
+      <div className="flex flex-col justify-between gap-[18px] flex-none lg:flex-1 lg:min-w-0 px-5 py-5 sm:px-8 sm:py-8 lg:px-[40px] lg:py-[36px] xl:px-[48px] xl:py-[40px] h-auto lg:h-full">
+        <div className={`${META} flex items-baseline justify-between gap-[16px] pb-[14px] border-b border-[color:var(--line)] text-[color:var(--ink-muted)] tabular-nums`}>
+          <span><span className="text-[color:var(--ink-strong)]">{String(index + 1).padStart(2, '0')}</span> / {String(count).padStart(2, '0')}</span>
+          <span>{project.year}</span>
+        </div>
+
+        <div className="flex flex-col">
+          <p className="font-heading font-medium text-[26px] sm:text-[30px] lg:text-[34px] xl:text-[38px] text-[color:var(--ink-strong)] leading-[1.1] tracking-[-0.025em] text-balance">
+            {headline}
+          </p>
+          <p className="font-sans font-normal text-[16px] text-[color:var(--ink-body)] leading-[24px] lg:leading-[26px] mt-[10px] lg:mt-[14px] max-w-[440px] line-clamp-3 sm:line-clamp-5 lg:line-clamp-4 xl:line-clamp-none">
+            {project.description}
+          </p>
+          {/* the arrow arrives with the pointer (or, on touch, as the card holds the
+              screen) — at rest the card is only its content */}
+          <div className="flex items-end justify-between gap-3 mt-[16px] lg:mt-[28px]">
+            <div className="flex gap-[8px] flex-wrap">
+              {project.tags.map(tag => <Tag key={tag} label={tag} />)}
+            </div>
+            {!soon && <CardBadge />}
+          </div>
+        </div>
+      </div>
+
+      <span aria-hidden="true" className="works-stack-scrim" />
+    </>
+  )
+
+  const original = (
     <>
       {/* image */}
       <ProjectStill
@@ -84,6 +143,8 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
     </>
   )
 
+  const body = today ? refined : original
+
   if (soon) {
     return (
       <div
@@ -106,6 +167,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
       className={cardClass}
       /* the VIEW pill is this card's cursor */
       {...view.bind}
+      {...ahead}
     >
       {view.pill}
       {body}
@@ -115,6 +177,7 @@ function WorkCard({ project, index, count }: { project: Project; index: number; 
 
 export function WorksSection() {
   const { ref, inView } = useInView()
+  const today = useToday()
   const items = useRef<(HTMLDivElement | null)[]>([])
   const reduced = useMatchMedia(REDUCED)
   // with the first card peeking into the hero, the section is on screen from the first
@@ -252,7 +315,10 @@ export function WorksSection() {
         <div className="flex justify-end mt-[24px]">
           <Link
             to="/projects"
-            className="font-heading font-medium text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] flex items-center gap-1 shrink-0"
+            /* /today: the same line, with a tap target a thumb can hit — the padding
+               is given back as negative margin so nothing moves — and it answers a
+               pointer: the ink firms up and the arrow leans the way it leads */
+            className={`font-heading font-medium text-[12px] text-[color:var(--ink-muted)] uppercase tracking-[0.22em] flex items-center gap-1 shrink-0 ${today ? 'group/all py-[16px] -my-[16px] no-underline transition-colors duration-[150ms] hover:text-[color:var(--ink-strong)] [&>svg]:transition-transform [&>svg]:duration-[200ms] hover:[&>svg]:translate-x-[3px] motion-reduce:[&>svg]:transition-none' : ''}`}
             style={{ fontVariationSettings: '"wdth" 100' }}
           >
             {site.works.viewAll} <ArrowIcon />

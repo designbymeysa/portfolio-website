@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 
 import site from '../../content/site.json'
 import { LeaveIcon } from '../ui/LinkIcons'
+import { EmailCopy } from '../ui/EmailCopy'
+import { useToday, HOME_PATH } from '../../hooks/useToday'
 
 const navItems = site.nav
 // The sheet has its own list. It opens with Home, since a phone has no bar of links to
@@ -19,7 +21,7 @@ const sheetLinks = site.footer.links.filter(l => !l.internal)
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
-const NAV_TYPE = "nav-type font-heading text-[13px] lg:text-[14px] leading-[1.2] font-medium uppercase tracking-[2px]"
+const NAV_TYPE = "nav-type font-heading text-[12px] lg:text-[13px] leading-[1.2] font-medium uppercase tracking-[2px]"
 
 // The sheet lists what the bar lists, less Contact — on a phone the email and the
 // footer's links sit at the sheet's foot, one tap away, rather than a scroll away.
@@ -54,12 +56,18 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
   const inFooterRef = useRef(false)
   const location = useLocation()
   const navigate = useNavigate()
-  const isHome   = location.pathname === '/'
+  const today    = useToday()
+  const isHome   = location.pathname === '/' || today
+  const homePath = HOME_PATH
 
-  const goToSection = (id: string) => {
+  const goToSection = (id: string, instant = false) => {
+    // /today: a reader who asked for less motion gets a jump, not a glide — `html`
+    // carries smooth scrolling with no guard of its own
+    const reduce = today && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const behavior = (instant || reduce ? 'instant' : 'smooth') as ScrollBehavior
     const scroll = () => {
       if (id === 'home') {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.scrollTo({ top: 0, behavior })
         return
       }
       const el = document.getElementById(id)
@@ -69,9 +77,9 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       // face value and land 56px past it
       let top = 0
       for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) top += n.offsetTop
-      window.scrollTo({ top, behavior: 'smooth' })
+      window.scrollTo({ top, behavior })
     }
-    if (location.pathname !== '/') {
+    if (!isHome) {
       navigate('/')
       // wait for the homepage to mount before scrolling
       setTimeout(scroll, 80)
@@ -80,13 +88,44 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
     }
   }
 
+  // /today: the sections have addresses. /today#about opens on About, and a section
+  // link can be copied, shared or opened in a new tab like any other. Arriving is a
+  // jump rather than a glide — nobody asked to watch the page scroll past first.
+  useEffect(() => {
+    if (!today) return
+    const id = window.location.hash.slice(1)
+    if (!navItems.some(n => n.id === id)) return
+    const raf = requestAnimationFrame(() => goToSection(id, true))
+    return () => cancelAnimationFrame(raf)
+    // on arrival only
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [today])
+
+  // a section link on /today: an ordinary link for a modified click or a new tab, a
+  // scroll in place otherwise, with the address kept in step so it can be shared
+  const onSectionLink = (e: React.MouseEvent, id: string) => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
+    e.preventDefault()
+    goToSection(id)
+    // the router keeps its own bookkeeping in history.state — hand it back untouched
+    window.history.replaceState(window.history.state, '', `#${id}`)
+  }
+
   useEffect(() => {
     let lastY = window.scrollY
+    // /today: the bar waits for a little travel in one direction before it reacts. A
+    // trackpad's rebound or a thumb settling reverses the scroll by a pixel or two,
+    // and the bar used to flick in and out on each of those.
+    const SLOP = today ? 10 : 0
+    let turnY = lastY
+    let lastDir = ''
 
     const update = () => {
       const y   = window.scrollY
       const dir = y > lastY ? 'down' : 'up'
+      if (dir !== lastDir) { turnY = lastY; lastDir = dir }
       lastY = y
+      const committed = Math.abs(y - turnY) >= SLOP
 
       const inHero = isHome && y < window.innerHeight - 48
 
@@ -101,8 +140,9 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
 
       // always visible in the hero; below it, hide while scrolling down, show on scroll up
       if (inFooter)                     setVisible(false)
-      else if (inHero)                  setVisible(true)
-      else if (y > 4 && dir === 'down') setVisible(false)
+      else if (inHero || y <= 4)        setVisible(true)
+      else if (!committed)              return
+      else if (dir === 'down')          setVisible(false)
       else                              setVisible(true)
     }
 
@@ -120,7 +160,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       window.removeEventListener('scroll',    update)
       window.removeEventListener('mousemove', onMouseMove)
     }
-  }, [isHome])
+  }, [isHome, today])
 
   // ── while the sheet is up ──
   // The page went on scrolling behind it, and the only way out was the button that
@@ -182,7 +222,11 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
   // header's copy is hidden — one definition so the two can never drift apart
   const darkToggle = (extra: string) => (
     <button
-      aria-label="Toggle dark mode"
+      /* /today: it is a switch, so it says so — a screen reader hears "Dark mode, on"
+         rather than a button that toggles something to an unknown state */
+      {...(today
+        ? { role: 'switch', 'aria-checked': isDark, 'aria-label': 'Dark mode' }
+        : { 'aria-label': 'Toggle dark mode' })}
       onClick={onToggleDark}
       className={`
         relative shrink-0 w-[56px] h-[28px] rounded-full border border-[color:var(--line)]
@@ -213,7 +257,10 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
         <nav className="relative h-full max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-[80px] flex items-center justify-between">
 
           <Link
-            to="/"
+            to={homePath}
+            /* /today: on the landing page itself the wordmark had nowhere to go, so a
+               click did nothing. It takes you back to the top. */
+            onClick={today ? () => { setMenuOpen(false); goToSection('home') } : undefined}
             /* the sheet carries the page's own ground, so the bar over it needs no
                open-state colour of its own — the wordmark stays ink either way */
             className={`${NAV_TYPE} whitespace-nowrap text-[color:var(--ink-strong)]`}
@@ -225,12 +272,23 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
             <ul className="hidden md:flex items-center gap-[32px] list-none">
               {navItems.map(({ label, id }) => (
                 <li key={label}>
-                  <button
-                    onClick={() => goToSection(id)}
-                    className={`${linkClass} ${activeSection === id ? '!text-[color:var(--accent)] after:!scale-x-100' : ''}`}
-                  >
-                    {label}
-                  </button>
+                  {today ? (
+                    <a
+                      href={`${homePath}#${id}`}
+                      onClick={e => onSectionLink(e, id)}
+                      aria-current={activeSection === id ? 'location' : undefined}
+                      className={`${linkClass} no-underline ${activeSection === id ? '!text-[color:var(--accent)] after:!scale-x-100' : ''}`}
+                    >
+                      {label}
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => goToSection(id)}
+                      className={`${linkClass} ${activeSection === id ? '!text-[color:var(--accent)] after:!scale-x-100' : ''}`}
+                    >
+                      {label}
+                    </button>
+                  )}
                 </li>
               ))}
             </ul>
@@ -241,7 +299,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
               ref={menuButtonRef}
               className="md:hidden relative w-8 h-8"
               onClick={() => setMenuOpen(!menuOpen)}
-              aria-label="Toggle menu"
+              aria-label={today ? (menuOpen ? 'Close menu' : 'Open menu') : 'Toggle menu'}
               aria-expanded={menuOpen}
               aria-controls="mobile-menu"
             >
@@ -337,9 +395,8 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
                 </li>
               ))}
               <li>
-                <a href={`mailto:${site.footer.email}`} className={SHEET_CONTACT_CLASS}>
-                  <span className={SHEET_CONTACT_TEXT}>{site.footer.email}</span>
-                </a>
+                {/* /today: the same address-and-copy unit the footer has */}
+                <EmailCopy email={site.footer.email} linkClass={SHEET_CONTACT_CLASS} tone="sheet" />
               </li>
             </ul>
 

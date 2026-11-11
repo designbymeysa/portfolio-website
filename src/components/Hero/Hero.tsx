@@ -3,6 +3,7 @@ import Typewriter from '../fancy/text/typewriter'
 import site from '../../content/site.json'
 import { HERO_PEEK } from './peek'
 import { usePageMeta } from '../../hooks/usePageMeta'
+import { useToday } from '../../hooks/useToday'
 
 // the accent word in the headline types itself in and out through these
 const ACCENT_WORDS = site.hero.accentWords
@@ -106,8 +107,17 @@ const NAV_SAMPLE_X = [0.06, 0.16, 0.5, 0.74, 0.84, 0.93]
 
 const TAU = Math.PI * 2
 
+// the clearing in the grid sits behind the copy: centred, or pulled left with it on /today
+const GRID_MASK = (left: boolean) =>
+  `radial-gradient(ellipse 65% 55% at ${left ? '32%' : '50%'} 50%, transparent 0%, transparent 28%, rgba(0,0,0,0.35) 55%, black 85%)`
+
+// /today's own words: the headline there is the positioning line, and the greeting
+// above it is set as the line under it is
+const TODAY_HERO = site.hero.today
+
 export function Hero() {
   usePageMeta()
+  const today = useToday()
   const containerRef = useRef<HTMLDivElement>(null)
   const contentRef   = useRef<HTMLDivElement>(null)
   const fgCanvasRef  = useRef<HTMLCanvasElement>(null)
@@ -120,6 +130,9 @@ export function Hero() {
   const [cueOnColor, setCueOnColor] = useState(false)
   // the same for the intro line
   const [introOnColor, setIntroOnColor] = useState(false)
+  // /today: the greeting above the headline turns with the trail the same way
+  const [greetOnColor, setGreetOnColor] = useState(false)
+  const greetRef = useRef<HTMLParagraphElement>(null)
   const introRef = useRef<HTMLParagraphElement>(null)
 
   // the headline settles on one word rather than cycling when motion is dialled down
@@ -175,6 +188,7 @@ export function Hero() {
     let navLit = false
     let cueLit = false
     let introLit = false
+    let greetLit = false
     let introTick = 0
 
     // The intro line, wherever the trail can sit behind it: the cursor drags it there on
@@ -183,20 +197,21 @@ export function Hero() {
     // and a deep blue on the dark one — so this reads the canvas under the line a few
     // times a second, mixes it over the page the way the screen does (full strength on a
     // desktop, TRAIL_TOUCH_OPACITY on a phone) and asks whether the grey still reads.
-    const checkIntro = () => {
-      const intro = introRef.current
-      if (!intro) return
+    // One line's verdict: `lit` is what it is showing now, `ink` the token it rests in.
+    // Returns what it should show next.
+    const lineOnColor = (intro: HTMLElement | null, lit: boolean, ink: string): boolean => {
+      if (!intro) return lit
       const styles = getComputedStyle(document.documentElement)
       const page = hexRgb(styles.getPropertyValue('--page-top'))
-      const grey = hexRgb(styles.getPropertyValue('--ink-muted'))
-      if (!page || !grey) return
+      const grey = hexRgb(styles.getPropertyValue(ink))
+      if (!page || !grey) return lit
       const c = container.getBoundingClientRect()
       const r = intro.getBoundingClientRect()
       const x = Math.max(0, Math.floor((r.left - c.left) * TRAIL_SCALE))
       const y = Math.max(0, Math.floor((r.top - c.top) * TRAIL_SCALE))
       const w = Math.min(canvas.width - x, Math.ceil(r.width * TRAIL_SCALE))
       const h = Math.min(canvas.height - y, Math.ceil(r.height * TRAIL_SCALE))
-      if (w <= 0 || h <= 0) return
+      if (w <= 0 || h <= 0) return lit
       const px = ctx.getImageData(x, y, w, h).data
       // the screen colour behind the line, averaged over a grid of points
       const bg = [0, 0, 0]
@@ -210,11 +225,17 @@ export function Hero() {
       const behind = bg.map(v => v / k)
       const greyReads = contrast(grey, behind)
       const whiteReads = contrast([255, 255, 255], behind)
-      if (!introLit && greyReads < INTRO_GREY_MIN && whiteReads > greyReads * INTRO_WHITE_MARGIN) {
-        introLit = true; setIntroOnColor(true)
-      } else if (introLit && (greyReads >= INTRO_GREY_BACK || greyReads > whiteReads)) {
-        introLit = false; setIntroOnColor(false)
-      }
+      if (!lit && greyReads < INTRO_GREY_MIN && whiteReads > greyReads * INTRO_WHITE_MARGIN) return true
+      if (lit && (greyReads >= INTRO_GREY_BACK || greyReads > whiteReads)) return false
+      return lit
+    }
+    // the intro under the headline and, on /today, the greeting over it — each read
+    // off its own patch of the canvas, so one can turn while the other holds
+    const checkIntro = () => {
+      const intro = lineOnColor(introRef.current, introLit, '--ink-muted')
+      if (intro !== introLit) { introLit = intro; setIntroOnColor(intro) }
+      const greet = lineOnColor(greetRef.current, greetLit, '--ink-muted')
+      if (greet !== greetLit) { greetLit = greet; setGreetOnColor(greet) }
     }
 
     const buildSamples = () => {
@@ -469,12 +490,13 @@ export function Hero() {
       // there on the way up, and whatever flip the type had would be frozen with it
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const smp of samples) smp.ink = 0
-      navLit = cueLit = introLit = false
+      navLit = cueLit = introLit = greetLit = false
       seen = false
       idle = 0
       wiped = false
       setCueOnColor(false)
       setIntroOnColor(false)
+      setGreetOnColor(false)
       document.documentElement.classList.remove('nav-on-color')
     }
 
@@ -537,6 +559,8 @@ export function Hero() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const SUB = today ? TODAY_HERO.subtitle : site.hero.subtitle
+
   return (
     <section
       ref={containerRef}
@@ -574,49 +598,87 @@ export function Hero() {
           `,
           backgroundSize: `${CELL}px ${CELL}px`,
           // fully hide the grid across the center (behind text + buttons), then fade back in toward the edges
-          WebkitMaskImage: 'radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, transparent 28%, rgba(0,0,0,0.35) 55%, black 85%)',
-          maskImage: 'radial-gradient(ellipse 65% 55% at 50% 50%, transparent 0%, transparent 28%, rgba(0,0,0,0.35) 55%, black 85%)',
+          WebkitMaskImage: GRID_MASK(false),
+          maskImage: GRID_MASK(false),
         }}
       />
 
-      <div ref={contentRef} className="relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center items-center text-center pt-[48px] will-change-transform"
+      <div ref={contentRef} className={`relative h-full max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-[80px] flex flex-col justify-center pt-[48px] will-change-transform items-center text-center`}
         /* with the first card peeking in, the copy centres in what is left above it */
         style={HERO_PEEK ? { paddingBottom: 'calc(var(--hero-peek) + var(--hero-bars))' } : undefined}>
+        {/* /today: the copy hangs off the column's left edge, like every section under it */}
         <div className="flex flex-col items-center">
-        <h1
-          className="hero-copy font-heading font-medium text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
-          style={{ fontSize: 'clamp(30px, 4.2vw, 60px)', letterSpacing: '-0.018em' }}
-        >
-          <span aria-hidden="true">
-            {site.hero.greeting}
-            <br />
-            {site.hero.articleBeforeAccent}
-            {/* --accent, not --brand-purple: the two are the same colour in light mode, but
-                the brand value is too deep to read against the dark ground and --accent
-                is the lifted hue that holds there */}
-            <em className="hero-accent inline-block not-italic font-extrabold text-[color:var(--accent)] whitespace-nowrap">
-              {reducedMotion
-                ? ACCENT_WORDS[0]
-                : <Typewriter text={ACCENT_WORDS} speed={95} deleteSpeed={45} waitTime={2100} />}
-            </em>{' '}
-            {site.hero.role}
-          </span>
-          <span className="sr-only">{site.hero.screenReaderHeadline}</span>
-        </h1>
+        {today ? (
+          /* /today: the headline is the positioning, not the introduction. Who she is
+             steps up into a quiet line above it; the big type says what she designs
+             for, and the word that types itself is the answer. */
+          <>
+            <p
+              ref={greetRef}
+              /* set exactly as the line under the headline is: same face, size and ink */
+              className={`hero-copy font-sans font-normal leading-[1.45] mb-[clamp(16px,1.8vw,24px)] transition-colors duration-700 motion-reduce:transition-none ${greetOnColor ? 'text-white' : 'text-[color:var(--ink-muted)]'}`}
+              style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
+            >
+              {TODAY_HERO.eyebrow}
+            </p>
+            <h1
+              className="hero-copy font-heading font-medium text-[color:var(--ink-strong)] leading-[1.04] mb-[clamp(20px,2.2vw,28px)]"
+              style={{ fontSize: 'clamp(32px, 4.6vw, 68px)', letterSpacing: '-0.024em' }}
+            >
+              <span aria-hidden="true">
+                {TODAY_HERO.headlineBefore}
+                <em className="hero-accent inline-block not-italic font-extrabold text-[color:var(--accent)] whitespace-nowrap">
+                  {reducedMotion
+                    ? TODAY_HERO.accentWords[0]
+                    : <Typewriter text={TODAY_HERO.accentWords} speed={95} deleteSpeed={45} waitTime={2100} />}
+                </em>
+                {TODAY_HERO.headlineAfter}
+                <br />
+                {TODAY_HERO.headlineSecondLine}
+              </span>
+              <span className="sr-only">{TODAY_HERO.screenReaderHeadline}</span>
+            </h1>
+          </>
+        ) : (
+            <h1
+              className="hero-copy font-heading font-medium text-[color:var(--ink-strong)] leading-[1.06] mb-[clamp(24px,3vw,40px)]"
+              style={{ fontSize: 'clamp(30px, 4.2vw, 60px)', letterSpacing: '-0.018em' }}
+            >
+              <span aria-hidden="true">
+                {site.hero.greeting}
+                <br />
+                {site.hero.articleBeforeAccent}
+                {/* --accent, not --brand-purple: the two are the same colour in light mode, but
+                    the brand value is too deep to read against the dark ground and --accent
+                    is the lifted hue that holds there */}
+                <em className="hero-accent inline-block not-italic font-extrabold text-[color:var(--accent)] whitespace-nowrap">
+                  {reducedMotion
+                    ? ACCENT_WORDS[0]
+                    : <Typewriter text={ACCENT_WORDS} speed={95} deleteSpeed={45} waitTime={2100} />}
+                </em>{' '}
+                {site.hero.role}
+              </span>
+              <span className="sr-only">{site.hero.screenReaderHeadline}</span>
+            </h1>
+        )}
 
         <p
           ref={introRef}
           className={`hero-copy hero-sub font-sans font-normal leading-[1.45] max-w-[620px] text-balance transition-colors duration-700 motion-reduce:transition-none ${introOnColor ? 'text-white' : 'text-[color:var(--ink-muted)]'}`}
           style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
         >
-          {site.hero.subtitle.before}{site.hero.subtitle.emphasis}{site.hero.subtitle.after}
+          {SUB.before}
+          {SUB.emphasis}
+          {SUB.after}
         </p>
         {/* where she is now, a quiet line under the intro. The right padding gives back
             the tracking the last letter carries, so both sides read 8px; and the words
             drop 0.07em, because the face keeps room for descenders that capitals never
             use, which would leave them riding high against the centred dot */}
         <p
-          className="hero-sub inline-flex items-center gap-[6px] h-5 pl-2 pr-[7.4px] mt-[clamp(14px,1.6vw,20px)] rounded-full bg-[color:var(--tag-fill)] font-heading font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap"
+          /* /today: the tag keeps clear air under it, so the block sits higher above
+             the card that peeks in rather than resting on it */
+          className={`hero-sub inline-flex items-center gap-[6px] h-5 pl-2 pr-[7.4px] mt-[clamp(18px,1.8vw,24px)] rounded-full bg-[color:var(--tag-fill)] font-heading font-normal text-[10px] text-[color:var(--ink-body)] uppercase tracking-[0.6px] whitespace-nowrap ${today ? 'mb-[clamp(40px,8vh,96px)]' : ''}`}
         >
           <span aria-hidden="true" className="w-[5px] h-[5px] rounded-full bg-[color:var(--accent)]" />
           <span className="relative top-[0.07em]">{site.hero.currentRole}</span>

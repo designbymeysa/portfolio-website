@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
+import { flushSync } from 'react-dom'
 import { useLocation } from 'react-router-dom'
 import { NavBar } from './Navigation/NavBar'
 import { HomeFooter } from './Footer/HomeFooter'
 import { CustomCursor } from './Cursor/CustomCursor'
 import { HERO_PEEK } from './Hero/peek'
+import { useToday } from '../hooks/useToday'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -14,6 +16,7 @@ interface LayoutProps {
 export function Layout({ children, hero }: LayoutProps) {
   // the project pages sit on a flat ground; the gradient is kept for the home page
   const plain = useLocation().pathname.startsWith('/projects')
+  const today = useToday()
   // Layout is mounted per route, so plain state reset the theme on every navigation —
   // toggle to dark, open a case study, and you were back in light. The choice lives in
   // storage instead. Light is the default: the system preference is deliberately not
@@ -137,8 +140,29 @@ export function Layout({ children, hero }: LayoutProps) {
     }
   }, [isDark])
 
+  // /today: the two themes cross-fade instead of swapping in one frame. The browser
+  // takes a picture of the page, the theme changes underneath, and it fades from the
+  // picture to the live page. The class is set here as well as in the effect above, so
+  // it is certain to be on by the time the new state is captured. Where the API is
+  // missing, or motion is dialled down, the swap is immediate as before.
+  const toggleDark = () => {
+    const next = !isDark
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => unknown }
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (!today || !doc.startViewTransition || reduce) {
+      setIsDark(next)
+      return
+    }
+    doc.startViewTransition(() => {
+      flushSync(() => setIsDark(next))
+      document.documentElement.classList.toggle('dark', next)
+    })
+  }
+
   return (
-    <div className={plain ? 'plain-ground' : undefined}>
+    <div className={[plain && 'plain-ground', today && 'today'].filter(Boolean).join(' ') || undefined}>
+      {/* /today: the first stop for a keyboard — past the bar, straight to the work */}
+      {today && <a href="#work" className="skip-link font-heading">Skip to content</a>}
       {/* subtle page-wide gradient tint, fixed behind all content */}
       <div
         aria-hidden
@@ -147,7 +171,7 @@ export function Layout({ children, hero }: LayoutProps) {
       />
       <CustomCursor />
 
-      <NavBar isDark={isDark} onToggleDark={() => setIsDark(!isDark)} />
+      <NavBar isDark={isDark} onToggleDark={toggleDark} />
       {hero}
       {/* the page proper: it scrolls up over the pinned hero, so with a hero present
           it carries its own opaque ground rather than letting the hero show through */}
@@ -171,7 +195,9 @@ export function Layout({ children, hero }: LayoutProps) {
           }}
         />
 
-        {children}
+        {/* /today: the sections sit in a main landmark, so assistive tech can jump to
+            the content and tell it from the bar above and the footer below */}
+        {today ? <main>{children}</main> : children}
         <HomeFooter />
 
       </div>

@@ -7,17 +7,21 @@ import { AboutSection } from './components/About/AboutSection'
 import AllProjects from './pages/AllProjects'
 import ProjectPage from './pages/ProjectPage'
 import NotFound from './pages/NotFound'
+
+// the landing page, with the refinements behind useToday
+const home = (
+  <Layout hero={<Hero />}>
+    <WorksSection />
+    <AboutSection />
+  </Layout>
+)
+
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={
-          <Layout hero={<Hero />}>
-            <WorksSection />
-            <AboutSection />
-          </Layout>
-        } />
+        <Route path="/" element={home} />
         <Route path="/projects" element={<Layout><AllProjects /></Layout>} />
         <Route path="/projects/:id" element={<Layout><ProjectPage /></Layout>} />
         {/* anything else — the host rewrites unmatched paths to index.html, so this is

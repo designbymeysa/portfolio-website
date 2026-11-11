@@ -107,6 +107,8 @@ size, so you can write the page before the picture exists. Two are placeholders 
   that follows the cursor over that photo.
 - `skills.items` — the scrolling row. It repeats itself to fill the screen, so adding
   or removing words is safe.
+- `skills.groups` — the two big lines of skills on the home page, one group per line. They
+  repeat themselves too, so the lists can be any length.
 - `experience.items` — newest first. `logo` points at `public/logos/`.
 
 ---
