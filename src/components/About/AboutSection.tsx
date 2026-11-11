@@ -8,6 +8,7 @@ import { LeaveIcon } from '../ui/LinkIcons'
 import Stack from '../Stack/Stack'
 import { SkillsTicker } from '../Ticker/SkillsTicker'
 import { SkillRows } from './SkillRows'
+import { AboutCopy } from './AboutCopy'
 import about from '../../content/about.json'
 import { useToday } from '../../hooks/useToday'
 import type React from 'react'
@@ -252,17 +253,11 @@ export function AboutSection() {
               {about.heading}
             </h2>
 
-            <div className="flex flex-col gap-[24px] max-w-[520px]">
-              {ABOUT_COPY.map(para => (
-                <p
-                  key={para.slice(0, 32)}
-                  className="font-sans font-normal text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
-                  style={{ fontVariationSettings: '"wdth" 100' }}
-                >
-                  <Italics text={para} />
-                </p>
-              ))}
-            </div>
+            <AboutCopy
+              paragraphs={ABOUT_COPY}
+              className="flex flex-col gap-[24px] max-w-[520px] font-sans font-normal text-[17px] text-[color:var(--ink-body)] leading-[1.6]"
+              style={{ fontVariationSettings: '"wdth" 100' }}
+            />
           </div>
 
           {/* stacked photo card */}

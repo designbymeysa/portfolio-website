@@ -178,7 +178,7 @@
    than starting as a hard edge, so the label floats over the hero and the card lands on
    an opaque ground; once the page moves past the fade, it covers the hero as before. */
 :root {
-  --hero-peek: 140px;
+  --hero-peek: 100px;
   --hero-peek-stack-top: calc(72px + 18px + 16px);
   /* The hero is 100vh, which on iOS is the screen with Safari's bars put away. While
      they are showing, that last stretch sits behind them — exactly where the card peeks
@@ -188,7 +188,7 @@
 }
 @media (min-width: 1024px) {
   :root {
-    --hero-peek: 100px;
+    --hero-peek: 60px;
     --hero-peek-stack-top: max(calc(88px + 18px + 24px), calc((100svh - 480px) / 2));
   }
 }
@@ -958,4 +958,27 @@
 ::view-transition-new(root) {
   animation-duration: 420ms;
   animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── About copy ──
+   An emoji is set a size up and kept on the line: line-height 0 stops its larger box
+   from opening the line out, and it is nudged down to sit on the words' baseline. */
+.about-emoji {
+  display: inline-block;
+  font-size: 1.35em;
+  line-height: 0;
+  vertical-align: -0.1em;
+  margin: 0 0.04em;
+  cursor: default;
+  transform-origin: 70% 80%;
+}
+.about-emoji:hover { animation: about-wave 700ms ease-in-out; }
+@keyframes about-wave {
+  0%, 100% { transform: rotate(0) scale(1); }
+  20% { transform: rotate(16deg) scale(1.25); }
+  45% { transform: rotate(-12deg) scale(1.25); }
+  70% { transform: rotate(8deg) scale(1.15); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .about-emoji:hover { animation: none; }
 }

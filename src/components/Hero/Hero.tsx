@@ -107,6 +107,9 @@ const NAV_SAMPLE_X = [0.06, 0.16, 0.5, 0.74, 0.84, 0.93]
 
 const TAU = Math.PI * 2
 
+// an emoji in the greeting waves on hover, as the ones in the About copy do
+const EMOJI_RUN = /((?:\p{Regional_Indicator}{2}|\p{Extended_Pictographic}\uFE0F?)+)/u
+
 // the clearing in the grid sits behind the copy: centred, or pulled left with it on /today
 const GRID_MASK = (left: boolean) =>
   `radial-gradient(ellipse 65% 55% at ${left ? '32%' : '50%'} 50%, transparent 0%, transparent 28%, rgba(0,0,0,0.35) 55%, black 85%)`
@@ -619,7 +622,8 @@ export function Hero() {
               className={`hero-copy font-sans font-normal leading-[1.45] mb-[clamp(16px,1.8vw,24px)] transition-colors duration-700 motion-reduce:transition-none ${greetOnColor ? 'text-white' : 'text-[color:var(--ink-muted)]'}`}
               style={{ fontSize: 'clamp(16px, 1.35vw, 19px)', fontVariationSettings: '"wdth" 100' }}
             >
-              {TODAY_HERO.eyebrow}
+              {TODAY_HERO.eyebrow.split(EMOJI_RUN).map((bit, i) =>
+                EMOJI_RUN.test(bit) ? <span key={i} className="about-emoji">{bit}</span> : bit)}
             </p>
             <h1
               className="hero-copy font-heading font-medium text-[color:var(--ink-strong)] leading-[1.04] mb-[clamp(20px,2.2vw,28px)]"
