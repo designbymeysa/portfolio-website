@@ -442,6 +442,29 @@
                 "tone": "accent"
               }
             ]
+          },
+          {
+            "kind": "compare",
+            "caption": "Original D-Heart vs redesign",
+            "ratio": "1057 / 2160",
+            "left": {
+              "label": "Original",
+              "images": [
+                {
+                  "src": "/media/d-heart/original_home.webp",
+                  "alt": "The original D-Heart home screen: no ECG completed yet, empty stats and reminders"
+                }
+              ]
+            },
+            "right": {
+              "label": "Redesign",
+              "images": [
+                {
+                  "src": "/media/d-heart/patient_home.webp",
+                  "alt": "The redesigned home screen: latest result, upcoming reminder and most recent ECG"
+                }
+              ]
+            }
           }
         ],
         "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience."
