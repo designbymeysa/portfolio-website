@@ -503,7 +503,7 @@
             "kind": "figure",
             "figure": {
               "caption": "Heuristic evaluation of the original app",
-              "src": "/media/d-heart/heuristic-evaluation.png",
+              "src": "/media/d-heart/heuristic-evaluation.webp",
               "darkBg": "#FFFFFF"
             }
           },
@@ -803,7 +803,7 @@
             "kind": "figure",
             "figure": {
               "caption": "Information architecture",
-              "src": "/media/d-heart/Information-Architecture.png",
+              "src": "/media/d-heart/Information-Architecture.webp",
               "darkBg": "#FFFFFF"
             }
           },
@@ -890,6 +890,27 @@
         "label": "Outcome",
         "heading": "A system that teaches itself, then gets out of the way",
         "blocks": [
+          {
+            "kind": "subheading",
+            "text": "Less friction at the moment it matters most"
+          },
+          {
+            "kind": "findings",
+            "items": [
+              {
+                "label": "No one got stuck",
+                "body": "Users who had tried the original app completed the ECG without getting stuck."
+              },
+              {
+                "label": "The lights explained themselves",
+                "body": "At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow."
+              },
+              {
+                "label": "A way into more clinics",
+                "body": "The doctors pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
+              }
+            ]
+          },
           {
             "kind": "subheading",
             "text": "Try the patient flow"
@@ -1172,31 +1193,6 @@
             "url": "https://youtu.be/oMZuYoMLCyc",
             "title": "D Heart Redesign",
             "caption": "D Heart Redesign"
-          },
-          {
-            "kind": "subheading",
-            "text": "Less friction at the moment it matters most"
-          },
-          {
-            "kind": "highlight",
-            "text": "“It’s definitely an improvement, I didn’t get stuck this time.” — A user who had tried the original app"
-          },
-          {
-            "kind": "findings",
-            "items": [
-              {
-                "label": "No one got stuck",
-                "body": "Users who had tried the original app completed the ECG without getting stuck."
-              },
-              {
-                "label": "The lights explained themselves",
-                "body": "At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow."
-              },
-              {
-                "label": "A way into more clinics",
-                "body": "The doctors pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
-              }
-            ]
           }
         ]
       },
@@ -1320,7 +1316,6 @@
                 }
               },
               {
-                "tone": "accent",
                 "eyebrow": "Question 02",
                 "title": "Who should I vote for?",
                 "lines": [
@@ -1747,15 +1742,15 @@
             "kind": "slider",
             "slides": [
               {
-                "src": "/media/digital/benchmarking/todoist.png",
+                "src": "/media/digital/benchmarking/todoist.webp",
                 "alt": "Todoist — features, target user, and rating"
               },
               {
-                "src": "/media/digital/benchmarking/ticktick.png",
+                "src": "/media/digital/benchmarking/ticktick.webp",
                 "alt": "TickTick — features, target user, and rating"
               },
               {
-                "src": "/media/digital/benchmarking/todo.png",
+                "src": "/media/digital/benchmarking/todo.webp",
                 "alt": "Microsoft To Do — features, target user, and rating"
               }
             ],
@@ -1805,11 +1800,11 @@
             "kind": "slider",
             "slides": [
               {
-                "src": "/media/digital/digital%20ethnography/todoist.png",
+                "src": "/media/digital/digital%20ethnography/todoist.webp",
                 "alt": "Todoist — stress and autonomy-loss markers across 771 posts, with feature co-occurrence"
               },
               {
-                "src": "/media/digital/digital%20ethnography/ticktick.png",
+                "src": "/media/digital/digital%20ethnography/ticktick.webp",
                 "alt": "TickTick — stress and autonomy-loss markers, with feature co-occurrence"
               },
               {

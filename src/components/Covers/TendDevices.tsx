@@ -79,17 +79,17 @@ export function TendDevices({ className = '' }: { className?: string; bare?: boo
         ))}
 
         <g className="tn-float tn-float-a">
-          <image href={`${MEDIA}/fold.png`} x={FOLD.x} y={FOLD.y} width={FOLD.w} height={FOLD.h} />
+          <image href={`${MEDIA}/fold.webp`} x={FOLD.x} y={FOLD.y} width={FOLD.w} height={FOLD.h} />
         </g>
 
         <image
-          href={`${MEDIA}/sprout.png`}
+          href={`${MEDIA}/sprout.webp`}
           x={LOGO.x} y={LOGO.y} width={LOGO.w} height={LOGO.h}
           clipPath={`url(#tn-word-${id})`}
         />
         <g className="tn-sprout" style={{ transformOrigin: `${STEM_FOOT.x}px ${STEM_FOOT.y}px` }}>
           <image
-            href={`${MEDIA}/sprout.png`}
+            href={`${MEDIA}/sprout.webp`}
             x={LOGO.x} y={LOGO.y} width={LOGO.w} height={LOGO.h}
             clipPath={`url(#tn-mark-${id})`}
           />
@@ -97,7 +97,7 @@ export function TendDevices({ className = '' }: { className?: string; bare?: boo
 
         {/* over the logo, as in Figma */}
         <g className="tn-float tn-float-b">
-          <image href={`${MEDIA}/phone.png`} x={PHONE.x} y={PHONE.y} width={PHONE.w} height={PHONE.h} />
+          <image href={`${MEDIA}/phone.webp`} x={PHONE.x} y={PHONE.y} width={PHONE.w} height={PHONE.h} />
         </g>
       </svg>
     </div>
