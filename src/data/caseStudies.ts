@@ -63,7 +63,23 @@ export type Block =
    *  fails, and the assumption underneath that failure */
   | { kind: 'cards'; cards: { title: string; works: string[]; breaks: string; assumption: string }[] }
   /** a row of headline numbers — the sentiment counts */
-  | { kind: 'stats'; items: { value: string; label: string; note?: string }[] }
+  | { kind: 'stats'; items: { value: string; label: string; note?: string }[]; arrow?: boolean }
+  /** a row of bordered cards side by side — at-a-glance summaries, questions, before/after.
+   *  `heading` sets a numbered title above the row. Each card: a small caps `eyebrow`
+   *  (`muted` quietens it), an optional `title`, body `lines`, and an optional `tail`
+   *  label (with its own `body`) beneath. `tone: 'accent'` tints the card in the study colour */
+  | {
+      kind: 'panels'
+      heading?: { number: string; text: string }
+      items: {
+        tone?: 'plain' | 'accent'
+        eyebrow: string
+        muted?: boolean
+        title?: string
+        lines?: string[]
+        tail?: { label: string; muted?: boolean; body?: string }
+      }[]
+    }
   /** the numbered findings a synthesis lands on */
   | { kind: 'findings'; items: { label: string; body: string }[] }
   /** side-by-side takeaways: a small capital label over a rule, a line or two beneath */
