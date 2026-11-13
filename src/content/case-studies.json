@@ -411,29 +411,45 @@
     "accent": "#FF973C",
     "sections": [
       {
-        "id": "introduction",
-        "label": "Introduction",
+        "id": "overview",
+        "label": "Overview",
         "heading": "One device, two kinds of user, a simpler ECG",
-        "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience.",
         "blocks": [
           {
             "kind": "note",
             "body": "D-Heart is a real product. The original app and device can be explored at [d-heartcare.com](https://www.d-heartcare.com). What follows is our team's redesign of that ecosystem for a university studio project at Politecnico di Milano."
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "01 · Problem",
+                "lines": [
+                  "Not hard to use, hard to learn. First-timers made significant errors recording an ECG."
+                ]
+              },
+              {
+                "eyebrow": "02 · Insight",
+                "lines": [
+                  "On a second try, people did much better. The system wasn’t broken; it just didn’t teach."
+                ]
+              },
+              {
+                "eyebrow": "03 · Outcome",
+                "lines": [
+                  "A redesign of app and device around three goals: learnability, intuitiveness, scalability."
+                ],
+                "tone": "accent"
+              }
+            ]
           }
         ],
-        "figures": [
-          {
-            "caption": "(Re)Design methodology",
-            "src": "/media/d-heart/Slide%2016_9%20-%20305.png",
-            "darkBg": "#FFFFFF"
-          }
-        ]
+        "body": "D-Heart is a portable ECG (electrocardiogram) device that connects to smartphones, offering reliable and affordable heart monitoring for both professionals and non-experts. This project redesigns the app and device to create a more intuitive and scalable experience."
       },
       {
         "id": "problem",
         "label": "The Problem",
         "heading": "It wasn’t hard to use. It was hard to learn.",
-        "body": "D-Heart works. It’s a real, hospital-grade ECG you can take at home. But when we watched first-time users try to record one, most of them made significant errors. They placed electrodes in the wrong spots, missed connection states, and didn’t realise they had to press a button to start. On top of that, the app was trying to serve two very different people with one interface:",
         "blocks": [
           {
             "kind": "columns",
@@ -447,7 +463,15 @@
                 "body": "Moving fast across many patients in a day."
               }
             ]
-          },
+          }
+        ],
+        "body": "D-Heart works. It’s a real, hospital-grade ECG you can take at home. But when we watched first-time users try to record one, most of them made significant errors. They placed electrodes in the wrong spots, missed connection states, and didn’t realise they had to press a button to start. On top of that, the app was trying to serve two very different people with one interface:"
+      },
+      {
+        "id": "research",
+        "label": "Research",
+        "heading": "On the second try, people did much better",
+        "blocks": [
           {
             "kind": "text",
             "body": "We started by reviewing the existing app and device ourselves, through a heuristic evaluation, a cognitive walkthrough and a task analysis. Then we tested with first-time users and ran focus groups with medical students and doctors."
@@ -465,24 +489,54 @@
             "body": "A few problems kept coming up:"
           },
           {
-            "kind": "lead",
-            "lead": "",
-            "body": "Nobody noticed the electrodes on the back of the device."
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "01",
+                "lines": [
+                  "Nobody noticed the electrodes on the back of the device."
+                ],
+                "tail": {
+                  "label": "Addressed in → Intuitiveness",
+                  "muted": true
+                }
+              },
+              {
+                "eyebrow": "02",
+                "lines": [
+                  "The camera-based placement guide was awkward, and readings often came out invalid."
+                ],
+                "tail": {
+                  "label": "Addressed in → Learnability",
+                  "muted": true
+                }
+              }
+            ]
           },
           {
-            "kind": "lead",
-            "lead": "",
-            "body": "The camera-based placement guide was awkward, and readings often came out invalid."
-          },
-          {
-            "kind": "lead",
-            "lead": "",
-            "body": "There was no quick route for doctors or emergencies."
-          },
-          {
-            "kind": "lead",
-            "lead": "",
-            "body": "The cables were too short for larger bodies."
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "03",
+                "lines": [
+                  "There was no quick route for doctors or emergencies."
+                ],
+                "tail": {
+                  "label": "Addressed in → Scalability",
+                  "muted": true
+                }
+              },
+              {
+                "eyebrow": "04",
+                "lines": [
+                  "The cables were too short for larger bodies."
+                ],
+                "tail": {
+                  "label": "Addressed in → Intuitiveness",
+                  "muted": true
+                }
+              }
+            ]
           },
           {
             "kind": "highlight",
@@ -490,7 +544,7 @@
           },
           {
             "kind": "text",
-            "body": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day. Three words drove every decision:"
+            "body": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day. Three goals drove every decision, and the next three sections follow them:"
           },
           {
             "kind": "columns",
@@ -512,10 +566,210 @@
         ]
       },
       {
-        "id": "the-app",
-        "label": "The App",
+        "id": "learnability",
+        "label": "Learnability",
+        "heading": "A first ECG without outside help",
+        "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Goal",
+                "lines": [
+                  "A first-timer gets a valid reading without outside help."
+                ],
+                "tone": "accent"
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Before",
+                "lines": [
+                  "The camera-based guide was awkward, and readings often came out invalid."
+                ],
+                "muted": true
+              },
+              {
+                "eyebrow": "After",
+                "lines": [
+                  "A live camera overlay shows where each electrode goes and follows the user as they move."
+                ],
+                "tone": "accent"
+              }
+            ],
+            "heading": {
+              "number": "01",
+              "text": "Guided electrode placement"
+            }
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Trade-off",
+                "lines": [
+                  "AR depends on lighting, angle and phone position, so the static template guide stays as a fallback."
+                ],
+                "muted": true
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Before",
+                "lines": [
+                  "Nothing told a first-timer what to do next when they got stuck."
+                ],
+                "muted": true
+              },
+              {
+                "eyebrow": "After",
+                "lines": [
+                  "A “?” on each screen leads to short tutorial videos and FAQs."
+                ],
+                "tone": "accent"
+              }
+            ],
+            "heading": {
+              "number": "02",
+              "text": "Help at every step"
+            }
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Trade-off",
+                "lines": [
+                  "Tutorials slow down returning users, so every guided step is skippable once someone knows it."
+                ],
+                "muted": true
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Before",
+                "lines": [
+                  "Users shifted their bodies to reach the phone and tap Start, which distorted the waveform."
+                ],
+                "muted": true
+              },
+              {
+                "eyebrow": "After",
+                "lines": [
+                  "Start is the centre button on the device. The hand is already there and the body stays still."
+                ],
+                "tone": "accent"
+              }
+            ],
+            "heading": {
+              "number": "03",
+              "text": "Moving Start onto the device"
+            }
+          },
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Effect",
+                "lines": [
+                  "A usability tweak that ended up protecting the quality of the medical data."
+                ],
+                "tone": "accent"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "intuitiveness",
+        "label": "Intuitiveness",
+        "heading": "A device that explains itself",
+        "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Goal",
+                "lines": [
+                  "The device and app explain themselves as you go."
+                ],
+                "tone": "accent"
+              }
+            ]
+          },
+          {
+            "kind": "lead",
+            "number": "01",
+            "lead": "Making the hardware visible",
+            "body": "**If people can’t see a feature, it doesn’t exist.** Each hardware problem got its own quick, cheap test:"
+          },
+          {
+            "kind": "columns",
+            "items": [
+              {
+                "label": "Hidden electrodes",
+                "body": "Simple dots marking the back electrodes didn’t help, and people still missed them. Electrode-shaped, colour-coded markers worked with no hints needed."
+              },
+              {
+                "label": "The dial",
+                "body": "People ranked clay prototypes by feel. A straight dial with finger flaps won because it worked for both left- and right-handed grips."
+              },
+              {
+                "label": "The light",
+                "body": "We ran card sorts to learn what each colour and blink pattern meant to people. Most read blinking blue as “connecting to Bluetooth”, so that’s what it means."
+              }
+            ]
+          },
+          {
+            "kind": "lead",
+            "number": "02",
+            "lead": "App and device in sync",
+            "body": "Every light state on the device is mirrored on screen."
+          },
+          {
+            "kind": "text",
+            "body": "To test that as one system, we built a working prototype with longer cables, a recoiling dial and an Arduino-controlled RGB light. My teammates coded and 3D-printed the device; I did the final integration that connected it to the ProtoPie app prototype, so we could test the whole ecosystem together."
+          },
+          {
+            "kind": "figure",
+            "figure": {
+              "caption": "3D-printed working prototype",
+              "src": "/media/d-heart/device-prototype.webp",
+              "ratio": "3840 / 1870"
+            }
+          },
+          {
+            "kind": "highlight",
+            "text": "A device that explains itself, and an app that repeats what the light is saying, because you can’t see a light that’s sitting on your own chest."
+          }
+        ]
+      },
+      {
+        "id": "scalability",
+        "label": "Scalability",
         "heading": "One clear structure, then two interfaces",
         "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Goal",
+                "lines": [
+                  "The same system holds up for a doctor seeing many patients a day."
+                ],
+                "tone": "accent"
+              }
+            ]
+          },
           {
             "kind": "lead",
             "number": "01",
@@ -593,101 +847,26 @@
             }
           },
           {
+            "kind": "text",
+            "body": "Two navigation systems and two homepages is more surface area than one adaptive interface. We chose it anyway: doctors and patients weren’t a matter of degree, they were different jobs entirely, and one interface kept forcing bad compromises for one side or the other."
+          },
+          {
             "kind": "highlight",
             "text": "One ecosystem, two interfaces, each built for how that person actually works."
+          },
+          {
+            "kind": "lead",
+            "number": "03",
+            "lead": "A fast lane",
+            "body": "The original had no quick route for doctors or emergencies. Emergency ECG works without logging in."
           }
         ]
       },
       {
-        "id": "the-device",
-        "label": "The Device",
-        "heading": "A device that explains itself",
-        "blocks": [
-          {
-            "kind": "lead",
-            "number": "01",
-            "lead": "Making the hardware visible",
-            "body": "**If people can’t see a feature, it doesn’t exist.** Each hardware problem got its own quick, cheap test:"
-          },
-          {
-            "kind": "columns",
-            "items": [
-              {
-                "label": "Hidden electrodes",
-                "body": "Simple dots marking the back electrodes didn’t help, and people still missed them. Electrode-shaped, colour-coded markers worked with no hints needed."
-              },
-              {
-                "label": "The dial",
-                "body": "People ranked clay prototypes by feel. A straight dial with finger flaps won because it worked for both left- and right-handed grips."
-              },
-              {
-                "label": "The light",
-                "body": "We ran card sorts to learn what each colour and blink pattern meant to people. Most read blinking blue as “connecting to Bluetooth”, so that’s what it means."
-              }
-            ]
-          },
-          {
-            "kind": "text",
-            "body": "Then we 3D-printed a working prototype with longer cables, a recoiling dial and an Arduino-controlled RGB light. We synced it to the app prototype so we could test the whole ecosystem together."
-          },
-          {
-            "kind": "figure",
-            "figure": {
-              "caption": "3D-printed working prototype",
-              "src": "/media/d-heart/device-prototype.webp",
-              "ratio": "3840 / 1870"
-            }
-          },
-          {
-            "kind": "highlight",
-            "text": "A device that explains itself, and an app that repeats what the light is saying, because you can’t see a light that’s sitting on your own chest."
-          },
-          {
-            "kind": "lead",
-            "number": "02",
-            "lead": "Moving Start onto the device",
-            "body": "During testing, we noticed users shifting their bodies to reach the phone and tap Start. Doctors confirmed what that did: the movement was enough to distort the waveform and make the reading harder to interpret."
-          },
-          {
-            "kind": "text",
-            "body": "So we moved the trigger off the screen and onto the device. Once the electrodes are confirmed, the app tells the user to press the centre button on the device itself. Their hand is already there, and their body stays still."
-          },
-          {
-            "kind": "highlight",
-            "text": "It started as a usability tweak and ended up protecting the quality of the medical data."
-          }
-        ]
-      },
-      {
-        "id": "final-design",
-        "label": "Final Design",
+        "id": "outcome",
+        "label": "Outcome",
         "heading": "A system that teaches itself, then gets out of the way",
         "blocks": [
-          {
-            "kind": "findings",
-            "items": [
-              {
-                "label": "AR electrode placement",
-                "body": "A live camera overlay shows where each electrode goes and follows the user as they move."
-              },
-              {
-                "label": "App and device in sync",
-                "body": "Every light state on the device is mirrored on screen."
-              },
-              {
-                "label": "Help at every step",
-                "body": "A “?” on each screen leads to short tutorial videos and FAQs."
-              },
-              {
-                "label": "Two interfaces",
-                "body": "One for patients, one for doctors."
-              },
-              {
-                "label": "A fast lane",
-                "body": "Emergency ECG works without logging in."
-              }
-            ]
-          },
           {
             "kind": "subheading",
             "text": "Try the patient flow"
@@ -964,58 +1143,68 @@
               }
             ],
             "caption": "Tap through it, or let it play."
-          }
-        ]
-      },
-      {
-        "id": "impact",
-        "label": "Impact",
-        "heading": "Less friction at the moment it matters most",
-        "body": "Users who had tried the original app completed the ECG without getting stuck. As one put it, “It’s definitely an improvement, I didn’t get stuck this time.” At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow. The doctors also pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
-      },
-      {
-        "id": "challenges",
-        "label": "Challenges",
-        "heading": "Three trade-offs, and what we chose",
-        "blocks": [
-          {
-            "kind": "lead",
-            "lead": "Dual UI cost real build complexity for real clarity.",
-            "body": "Two navigation systems and two homepages is more surface area than one adaptive interface. We chose it anyway: doctors and patients weren't a matter of degree, they were different jobs entirely, and one interface kept forcing bad compromises for one side or the other."
           },
           {
-            "kind": "lead",
-            "lead": "Camera-guided setup didn't replace the old method, it sits next to it.",
-            "body": "AR placement tested well when it worked, but depends on lighting, angle, and phone positioning we couldn't fully control for. Rather than force everyone through it, the static template guide stayed as a fallback, so a device limitation doesn't block someone from finishing the exam."
+            "kind": "subheading",
+            "text": "Less friction at the moment it matters most"
           },
           {
-            "kind": "lead",
-            "lead": "Step-by-step tutorials help a first-timer and slow down a returning user.",
-            "body": "We made every guided step skippable once someone's shown they know it, so the learning curve doesn't become a permanent tax on people who've already done this fifty times."
+            "kind": "highlight",
+            "text": "“It’s definitely an improvement, I didn’t get stuck this time.” — A user who had tried the original app"
+          },
+          {
+            "kind": "findings",
+            "items": [
+              {
+                "label": "No one got stuck",
+                "body": "Users who had tried the original app completed the ECG without getting stuck."
+              },
+              {
+                "label": "The lights explained themselves",
+                "body": "At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow."
+              },
+              {
+                "label": "A way into more clinics",
+                "body": "The doctors pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
+              }
+            ]
           }
         ]
-      },
-      {
-        "id": "full-case-study",
-        "label": "Full Case study",
-        "heading": "The complete UX report",
-        "body": "Read the complete UX report covering research, information architecture, testing, and final design.",
-        "action": {
-          "label": "View the full UX report",
-          "href": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
-        }
       },
       {
         "id": "reflection",
         "label": "Reflection",
-        "heading": "What it taught me, and what I’d do now",
+        "heading": "Careful structure lowered the barrier",
         "body": "The biggest lesson was how far careful structure can lower the barrier to a complex medical task. D-Heart already worked; what it lacked was guidance in the moments where nothing told people what to do next, and most of our best changes came from filling exactly those gaps.",
         "blocks": [
           {
             "kind": "text",
             "body": "Back then (2024!), we simply didn’t have the prototyping tools and skills that AI has brought since, so the camera guide was the hardest part to make feel real. If I did this project again today, I’d use AI to simulate the camera-guided electrode placement and test it together with our prototype device, putting the whole moment, phone and device at once, in front of people far earlier."
           }
-        ]
+        ],
+        "action": {
+          "lead": "Read the complete UX report covering research, information architecture, testing, and final design.",
+          "label": "View the full UX report",
+          "href": "https://drive.google.com/file/d/1gGmdtwgpPktfldD2ThObS4jRQ4aDqLss/view?usp=share_link"
+        }
+      }
+    ],
+    "meta": [
+      {
+        "label": "Role",
+        "value": "UX Research, UI Design, Digital Prototyping"
+      },
+      {
+        "label": "Team",
+        "value": "Joana Bento, Ariana Cisternas, Sarah Cosentino and I"
+      },
+      {
+        "label": "Industry",
+        "value": "Medical"
+      },
+      {
+        "label": "Year",
+        "value": "2024"
       }
     ]
   },
