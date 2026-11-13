@@ -446,7 +446,7 @@
           {
             "kind": "compare",
             "caption": "Original D-Heart vs redesign",
-            "ratio": "1057 / 2160",
+            "ratio": "560 / 1144",
             "left": {
               "label": "Original",
               "images": [
@@ -460,8 +460,8 @@
               "label": "Redesign",
               "images": [
                 {
-                  "src": "/media/d-heart/patient_home.webp",
-                  "alt": "The redesigned home screen: latest result, upcoming reminder and most recent ECG"
+                  "src": "/media/d-heart/flow/01-get-ready.webp",
+                  "alt": "The redesigned ECG tab: Lets get ready for the exam"
                 }
               ]
             }
