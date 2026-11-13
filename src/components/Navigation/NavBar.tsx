@@ -79,6 +79,12 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) top += n.offsetTop
       window.scrollTo({ top, behavior })
     }
+    // off the homepage, "Case studies" opens the full list rather than the homepage's
+    // work section — the same place the mobile menu sends it
+    if (!isHome && id === 'work') {
+      navigate('/projects')
+      return
+    }
     if (!isHome) {
       navigate('/')
       // wait for the homepage to mount before scrolling
