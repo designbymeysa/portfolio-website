@@ -17,7 +17,7 @@ const sheetItems: { label: string; id: string; to?: string }[] = [
   ...navItems.filter(n => n.id !== 'work' && n.id !== 'contact'),
 ]
 // Work already leads to the full list, so the sheet doesn't repeat it as a link
-const sheetLinks = site.footer.links.filter(l => !l.internal)
+const sheetLinks = (site.footer.links as { label: string; href: string; download?: boolean; internal?: boolean }[]).filter(l => !l.internal)
 
 // the wordmark and the nav items share one type setting so they read as a set —
 // family, size, tracking and case are identical, only the colour differs
@@ -79,10 +79,16 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
       for (let n: HTMLElement | null = el; n; n = n.offsetParent as HTMLElement | null) top += n.offsetTop
       window.scrollTo({ top, behavior })
     }
-    // off the homepage, "Case studies" opens the full list rather than the homepage's
-    // work section — the same place the mobile menu sends it
-    if (!isHome && id === 'work') {
-      navigate('/projects')
+    // "Case studies" always opens the full list, wherever you are — the same place the
+    // mobile menu sends it. Already there, it just returns to the top.
+    if (id === 'work') {
+      if (location.pathname === '/projects') window.scrollTo({ top: 0, behavior })
+      else navigate('/projects')
+      return
+    }
+    // the closing footer is on every page, so Contact scrolls to it right where you are
+    if (id === 'contact') {
+      scroll()
       return
     }
     if (!isHome) {
@@ -113,6 +119,8 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
     if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return
     e.preventDefault()
     goToSection(id)
+    // Case studies leaves the page, so there is no hash to keep in step
+    if (id === 'work') return
     // the router keeps its own bookkeeping in history.state — hand it back untouched
     window.history.replaceState(window.history.state, '', `#${id}`)
   }
@@ -280,7 +288,7 @@ export function NavBar({ isDark, onToggleDark }: NavBarProps) {
                 <li key={label}>
                   {today ? (
                     <a
-                      href={`${homePath}#${id}`}
+                      href={id === 'work' ? '/projects' : `${homePath}#${id}`}
                       onClick={e => onSectionLink(e, id)}
                       aria-current={activeSection === id ? 'location' : undefined}
                       className={`${linkClass} no-underline ${activeSection === id ? '!text-[color:var(--accent)] after:!scale-x-100' : ''}`}

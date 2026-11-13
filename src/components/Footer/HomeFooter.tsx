@@ -9,7 +9,7 @@ import { useToday } from '../../hooks/useToday'
 
 // `download: true` on an entry serves a file from this repo, `internal: true` is a page
 // on this site; anything else opens the link in a new tab
-const links = site.footer.links
+const links: { label: string; href: string; download?: boolean; internal?: boolean }[] = site.footer.links
 
 // the closing purple lives in CSS now (--footer-purple), so it can sit deeper in dark
 // mode; Layout reads the same token when it interpolates the wash
