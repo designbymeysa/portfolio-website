@@ -6,6 +6,7 @@ import { ArrowIcon, ChevronIcon } from '../ui/LinkIcons'
 import { coverFor } from '../Covers'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { useInView } from '../../hooks/useInView'
+import { responsive } from '../../data/images'
 
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
@@ -116,6 +117,7 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
           alt={figure.caption}
           loading="lazy"
           decoding="async"
+          {...responsive(figure.src, figure.span === 'half' ? '420px' : figure.span === 'third' ? '270px' : '850px')}
           className={figure.contain ? 'w-full h-full object-contain p-[8%]' : 'w-full h-full object-cover'}
         />
       ) : (
@@ -580,45 +582,39 @@ function Stats({ items, arrow }: { items: { value: string; label: string; note?:
   )
 }
 
-/** Cards in a row: a small caps eyebrow, an optional title, body lines and a tail label.
- *  The accent tone is a tint of the study's own colour, so it follows light and dark. */
-const PANEL_EYEBROW = "font-sans font-semibold text-[12px] uppercase tracking-[0.12em] leading-[1.4]"
+/** Cards in a row — the one card style the case studies use: a small caps eyebrow in the
+ *  study's colour, an optional title, and body lines, on the site's own card ground. */
 function Panels({ heading, items }: Extract<Block, { kind: 'panels' }>) {
+  // one to three share a row; four wrap two by two so no card gets squeezed
+  const cols = items.length === 4 ? 2 : Math.min(items.length, 3)
   return (
-    <div className={heading ? 'mt-[12px]' : undefined}>
+    <div className={heading ? 'mt-[24px]' : undefined}>
       {heading && (
+        // set exactly as a numbered lead's heading, so a method reads the same either way
         <h3 className={`${SUBHEAD} flex items-baseline gap-[12px] mb-[12px]`} style={WDTH}>
-          <span className="shrink-0 font-sans font-semibold text-[12px] tracking-[0.12em] tabular-nums text-[color:var(--study-accent,var(--accent))]">{heading.number}</span>
-          <span className="text-[18px] lg:text-[20px] font-semibold">{heading.text}</span>
+          <span className="shrink-0 font-heading font-bold tabular-nums text-[color:var(--study-accent,var(--accent))]">
+            {heading.number}
+          </span>
+          <span>{heading.text}</span>
         </h3>
       )}
       <div
         className="cs-stagger grid grid-cols-1 sm:[grid-template-columns:var(--panel-cols)] gap-[16px]"
-        style={{ '--panel-cols': `repeat(${items.length}, minmax(0, 1fr))` } as React.CSSProperties}
+        style={{ '--panel-cols': `repeat(${cols}, minmax(0, 1fr))` } as React.CSSProperties}
       >
-        {items.map((c, i) => {
-          const accent = c.tone === 'accent'
-          const eyebrowInk = c.muted ? 'text-[color:var(--ink-body)] opacity-70' : 'text-[color:var(--study-accent,var(--accent))]'
-          return (
-            <div
-              key={`${c.eyebrow}-${i}`}
-              style={{ ...nth(i), ...(accent ? { background: 'color-mix(in srgb, var(--study-accent, var(--accent)) 8%, transparent)' } : {}) }}
-              className={`flex flex-col gap-[10px] rounded-[2px] p-[20px] ${accent ? '' : 'border border-[color:var(--line)] bg-[color:var(--surface)]'}`}
-            >
-              <span className={`${PANEL_EYEBROW} ${eyebrowInk}`} style={WDTH}>{c.eyebrow}</span>
-              {c.title && <p className="font-sans font-semibold text-[16px] lg:text-[18px] leading-[1.45] text-[color:var(--ink-body)]" style={WDTH}>{c.title}</p>}
-              {c.lines?.map(l => (
-                <p key={l} className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{l}</p>
-              ))}
-              {c.tail && (
-                <>
-                  <span className={`${PANEL_EYEBROW} ${c.tail.muted ? 'text-[color:var(--ink-body)] opacity-70' : 'text-[color:var(--study-accent,var(--accent))]'}`} style={WDTH}>{c.tail.label}</span>
-                  {c.tail.body && <p className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{c.tail.body}</p>}
-                </>
-              )}
-            </div>
-          )
-        })}
+        {items.map((c, i) => (
+          <div
+            key={`${c.eyebrow}-${i}`}
+            style={nth(i)}
+            className="flex flex-col gap-[10px] rounded-[2px] border border-[color:var(--line)] bg-[color:var(--surface)] p-[20px]"
+          >
+            <span className="font-sans font-semibold text-[12px] uppercase tracking-[0.12em] leading-[1.4] text-[color:var(--study-accent,var(--accent))]" style={WDTH}>{c.eyebrow}</span>
+            {c.title && <p className="font-sans font-semibold text-[16px] lg:text-[18px] leading-[1.45] text-[color:var(--ink-body)]" style={WDTH}>{c.title}</p>}
+            {c.lines?.map(l => (
+              <p key={l} className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{l}</p>
+            ))}
+          </div>
+        ))}
       </div>
     </div>
   )

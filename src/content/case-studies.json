@@ -405,7 +405,7 @@
     "headline": "D-Heart",
     "eyebrow": "Product Redesign",
     "inkAccent": {
-      "light": "#FF973C",
+      "light": "#B35400",
       "dark": "#FF973C"
     },
     "accent": "#FF973C",
@@ -438,8 +438,7 @@
                 "eyebrow": "03 · Outcome",
                 "lines": [
                   "A redesign of app and device around three goals: learnability, intuitiveness, scalability."
-                ],
-                "tone": "accent"
+                ]
               }
             ]
           },
@@ -475,15 +474,19 @@
         "heading": "It wasn’t hard to use. It was hard to learn.",
         "blocks": [
           {
-            "kind": "columns",
+            "kind": "panels",
             "items": [
               {
-                "label": "A patient",
-                "body": "Doing this for the first few times."
+                "eyebrow": "A patient",
+                "lines": [
+                  "Doing this for the first few times."
+                ]
               },
               {
-                "label": "A doctor",
-                "body": "Moving fast across many patients in a day."
+                "eyebrow": "A doctor",
+                "lines": [
+                  "Moving fast across many patients in a day."
+                ]
               }
             ]
           }
@@ -517,47 +520,30 @@
               {
                 "eyebrow": "01",
                 "lines": [
-                  "Nobody noticed the electrodes on the back of the device."
-                ],
-                "tail": {
-                  "label": "Addressed in → Intuitiveness",
-                  "muted": true
-                }
+                  "Nobody noticed the electrodes on the back of the device.",
+                  "Addressed in → Intuitiveness"
+                ]
               },
               {
                 "eyebrow": "02",
                 "lines": [
-                  "The camera-based placement guide was awkward, and readings often came out invalid."
-                ],
-                "tail": {
-                  "label": "Addressed in → Learnability",
-                  "muted": true
-                }
-              }
-            ]
-          },
-          {
-            "kind": "panels",
-            "items": [
+                  "The camera-based placement guide was awkward, and readings often came out invalid.",
+                  "Addressed in → Learnability"
+                ]
+              },
               {
                 "eyebrow": "03",
                 "lines": [
-                  "There was no quick route for doctors or emergencies."
-                ],
-                "tail": {
-                  "label": "Addressed in → Scalability",
-                  "muted": true
-                }
+                  "There was no quick route for doctors or emergencies.",
+                  "Addressed in → Scalability"
+                ]
               },
               {
                 "eyebrow": "04",
                 "lines": [
-                  "The cables were too short for larger bodies."
-                ],
-                "tail": {
-                  "label": "Addressed in → Intuitiveness",
-                  "muted": true
-                }
+                  "The cables were too short for larger bodies.",
+                  "Addressed in → Intuitiveness"
+                ]
               }
             ]
           },
@@ -570,19 +556,25 @@
             "body": "We focused the redesign on making the app teach itself to first-timers, without slowing down the people who use it every day. Three goals drove every decision, and the next three sections follow them:"
           },
           {
-            "kind": "columns",
+            "kind": "panels",
             "items": [
               {
-                "label": "Learnability",
-                "body": "A first-timer gets a valid reading without outside help."
+                "eyebrow": "Learnability",
+                "lines": [
+                  "A first-timer gets a valid reading without outside help."
+                ]
               },
               {
-                "label": "Intuitiveness",
-                "body": "The device and app explain themselves as you go."
+                "eyebrow": "Intuitiveness",
+                "lines": [
+                  "The device and app explain themselves as you go."
+                ]
               },
               {
-                "label": "Scalability",
-                "body": "The same system holds up for a doctor seeing many patients a day."
+                "eyebrow": "Scalability",
+                "lines": [
+                  "The same system holds up for a doctor seeing many patients a day."
+                ]
               }
             ]
           }
@@ -595,122 +587,87 @@
         "blocks": [
           {
             "kind": "panels",
-            "items": [
-              {
-                "eyebrow": "Goal",
-                "lines": [
-                  "A first-timer gets a valid reading without outside help."
-                ],
-                "tone": "accent"
-              }
-            ]
-          },
-          {
-            "kind": "panels",
+            "heading": {
+              "number": "01",
+              "text": "Guided electrode placement"
+            },
             "items": [
               {
                 "eyebrow": "Before",
                 "lines": [
                   "The camera-based guide was awkward, and readings often came out invalid."
-                ],
-                "muted": true
+                ]
               },
               {
                 "eyebrow": "After",
                 "lines": [
                   "A live camera overlay shows where each electrode goes and follows the user as they move."
-                ],
-                "tone": "accent"
-              }
-            ],
-            "heading": {
-              "number": "01",
-              "text": "Guided electrode placement"
-            }
-          },
-          {
-            "kind": "panels",
-            "items": [
+                ]
+              },
               {
                 "eyebrow": "Trade-off",
                 "lines": [
                   "AR depends on lighting, angle and phone position, so the static template guide stays as a fallback."
-                ],
-                "muted": true
+                ]
               }
             ]
           },
           {
             "kind": "panels",
+            "heading": {
+              "number": "02",
+              "text": "Help at every step"
+            },
             "items": [
               {
                 "eyebrow": "Before",
                 "lines": [
                   "Nothing told a first-timer what to do next when they got stuck."
-                ],
-                "muted": true
+                ]
               },
               {
                 "eyebrow": "After",
                 "lines": [
                   "A “?” on each screen leads to short tutorial videos and FAQs."
-                ],
-                "tone": "accent"
-              }
-            ],
-            "heading": {
-              "number": "02",
-              "text": "Help at every step"
-            }
-          },
-          {
-            "kind": "panels",
-            "items": [
+                ]
+              },
               {
                 "eyebrow": "Trade-off",
                 "lines": [
                   "Tutorials slow down returning users, so every guided step is skippable once someone knows it."
-                ],
-                "muted": true
+                ]
               }
             ]
           },
           {
             "kind": "panels",
+            "heading": {
+              "number": "03",
+              "text": "Moving Start onto the device"
+            },
             "items": [
               {
                 "eyebrow": "Before",
                 "lines": [
                   "Users shifted their bodies to reach the phone and tap Start, which distorted the waveform."
-                ],
-                "muted": true
+                ]
               },
               {
                 "eyebrow": "After",
                 "lines": [
                   "Start is the centre button on the device. The hand is already there and the body stays still."
-                ],
-                "tone": "accent"
-              }
-            ],
-            "heading": {
-              "number": "03",
-              "text": "Moving Start onto the device"
-            }
-          },
-          {
-            "kind": "panels",
-            "items": [
+                ]
+              },
               {
                 "eyebrow": "Effect",
                 "lines": [
                   "A usability tweak that ended up protecting the quality of the medical data."
-                ],
-                "tone": "accent"
+                ]
               }
             ]
           }
-        ]
+        ],
+        "body": "A first-timer gets a valid reading without outside help."
       },
       {
         "id": "intuitiveness",
@@ -718,37 +675,31 @@
         "heading": "A device that explains itself",
         "blocks": [
           {
-            "kind": "panels",
-            "items": [
-              {
-                "eyebrow": "Goal",
-                "lines": [
-                  "The device and app explain themselves as you go."
-                ],
-                "tone": "accent"
-              }
-            ]
-          },
-          {
             "kind": "lead",
             "number": "01",
             "lead": "Making the hardware visible",
             "body": "**If people can’t see a feature, it doesn’t exist.** Each hardware problem got its own quick, cheap test:"
           },
           {
-            "kind": "columns",
+            "kind": "panels",
             "items": [
               {
-                "label": "Hidden electrodes",
-                "body": "Simple dots marking the back electrodes didn’t help, and people still missed them. Electrode-shaped, colour-coded markers worked with no hints needed."
+                "eyebrow": "Hidden electrodes",
+                "lines": [
+                  "Simple dots marking the back electrodes didn’t help, and people still missed them. Electrode-shaped, colour-coded markers worked with no hints needed."
+                ]
               },
               {
-                "label": "The dial",
-                "body": "People ranked clay prototypes by feel. A straight dial with finger flaps won because it worked for both left- and right-handed grips."
+                "eyebrow": "The dial",
+                "lines": [
+                  "People ranked clay prototypes by feel. A straight dial with finger flaps won because it worked for both left- and right-handed grips."
+                ]
               },
               {
-                "label": "The light",
-                "body": "We ran card sorts to learn what each colour and blink pattern meant to people. Most read blinking blue as “connecting to Bluetooth”, so that’s what it means."
+                "eyebrow": "The light",
+                "lines": [
+                  "We ran card sorts to learn what each colour and blink pattern meant to people. Most read blinking blue as “connecting to Bluetooth”, so that’s what it means."
+                ]
               }
             ]
           },
@@ -774,25 +725,14 @@
             "kind": "highlight",
             "text": "A device that explains itself, and an app that repeats what the light is saying, because you can’t see a light that’s sitting on your own chest."
           }
-        ]
+        ],
+        "body": "The device and app explain themselves as you go."
       },
       {
         "id": "scalability",
         "label": "Scalability",
         "heading": "One clear structure, then two interfaces",
         "blocks": [
-          {
-            "kind": "panels",
-            "items": [
-              {
-                "eyebrow": "Goal",
-                "lines": [
-                  "The same system holds up for a doctor seeing many patients a day."
-                ],
-                "tone": "accent"
-              }
-            ]
-          },
           {
             "kind": "lead",
             "number": "01",
@@ -826,15 +766,19 @@
             "body": "So the two experiences split:"
           },
           {
-            "kind": "columns",
+            "kind": "panels",
             "items": [
               {
-                "label": "Patients",
-                "body": "Get reminders, history and guidance, and can switch between family members."
+                "eyebrow": "Patients",
+                "lines": [
+                  "Get reminders, history and guidance, and can switch between family members."
+                ]
               },
               {
-                "label": "Doctors",
-                "body": "Get a homepage built around pending validations, and a Patients tab where the Account tab used to be."
+                "eyebrow": "Doctors",
+                "lines": [
+                  "Get a homepage built around pending validations, and a Patients tab where the Account tab used to be."
+                ]
               }
             ]
           },
@@ -883,7 +827,8 @@
             "lead": "A fast lane",
             "body": "The original had no quick route for doctors or emergencies. Emergency ECG works without logging in."
           }
-        ]
+        ],
+        "body": "The same system holds up for a doctor seeing many patients a day."
       },
       {
         "id": "outcome",
@@ -891,29 +836,34 @@
         "heading": "A system that teaches itself, then gets out of the way",
         "blocks": [
           {
-            "kind": "subheading",
-            "text": "Less friction at the moment it matters most"
-          },
-          {
-            "kind": "findings",
+            "kind": "panels",
             "items": [
               {
-                "label": "No one got stuck",
-                "body": "Users who had tried the original app completed the ECG without getting stuck."
+                "eyebrow": "01",
+                "title": "No one got stuck",
+                "lines": [
+                  "Users who had tried the original app completed the ECG without getting stuck."
+                ]
               },
               {
-                "label": "The lights explained themselves",
-                "body": "At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow."
+                "eyebrow": "02",
+                "title": "The lights explained themselves",
+                "lines": [
+                  "At our showcase, people read the device’s light states correctly without explanation, and the D-Heart team responded well to the calmer, guided ECG flow."
+                ]
               },
               {
-                "label": "A way into more clinics",
-                "body": "The doctors pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
+                "eyebrow": "03",
+                "title": "A way into more clinics",
+                "lines": [
+                  "The doctors pointed to something bigger: first-use friction is why they usually stick with familiar equipment. Making that first use easier could open D-Heart up to more clinics."
+                ]
               }
             ]
           },
           {
-            "kind": "subheading",
-            "text": "Try the patient flow"
+            "kind": "text",
+            "body": "Try the patient flow."
           },
           {
             "kind": "prototype",
@@ -1194,7 +1144,8 @@
             "title": "D Heart Redesign",
             "caption": "D Heart Redesign"
           }
-        ]
+        ],
+        "body": "Less friction at the moment it matters most."
       },
       {
         "id": "reflection",
@@ -1267,8 +1218,7 @@
                 "eyebrow": "03 · Outcome",
                 "lines": [
                   "An AI advisor you chat with, answering from the parties’ own manifestos."
-                ],
-                "tone": "accent"
+                ]
               }
             ]
           },
@@ -1308,23 +1258,17 @@
                 "eyebrow": "Question 01",
                 "title": "What will my vote do?",
                 "lines": [
-                  "Not knowing how the EU works, or what a word like “Eurosceptic” means."
-                ],
-                "tail": {
-                  "label": "Answered by → clearer design",
-                  "muted": true
-                }
+                  "Not knowing how the EU works, or what a word like “Eurosceptic” means.",
+                  "Answered by → clearer design"
+                ]
               },
               {
                 "eyebrow": "Question 02",
                 "title": "Who should I vote for?",
                 "lines": [
-                  "Party programmes are long, dense, and hard to compare."
-                ],
-                "tail": {
-                  "label": "Answered by → AI",
-                  "muted": true
-                }
+                  "Party programmes are long, dense, and hard to compare.",
+                  "Answered by → AI"
+                ]
               }
             ]
           },
@@ -1345,31 +1289,31 @@
         "body": "We designed around Sophia, an 18-year-old Politecnico freshman about to vote in her first European election. Her journey runs from curiosity to the ballot box, and past it:",
         "blocks": [
           {
-            "kind": "phases",
-            "phases": [
+            "kind": "panels",
+            "items": [
               {
-                "label": "Before voting",
-                "steps": [
-                  "Sign in with SPID or CIE",
-                  "Find the elections near you",
-                  "Take a short literacy quiz",
-                  "Chat with Dèmos about your topics",
-                  "See your affinity results"
+                "eyebrow": "Phase 1 · Before voting",
+                "lines": [
+                  "1. Sign in with SPID or CIE",
+                  "2. Find the elections near you",
+                  "3. Take a short literacy quiz",
+                  "4. Chat with Dèmos about your topics",
+                  "5. See your affinity results"
                 ]
               },
               {
-                "label": "Voting day",
-                "steps": [
-                  "Revisit your results after the electoral silence",
-                  "Check how to vote and preview the ballot",
-                  "Get a reminder to go"
+                "eyebrow": "Phase 2 · Voting day",
+                "lines": [
+                  "1. Revisit your results after the electoral silence",
+                  "2. Check how to vote and preview the ballot",
+                  "3. Get a reminder to go"
                 ]
               },
               {
-                "label": "After voting",
-                "steps": [
-                  "Look back on past conversations",
-                  "Explore elections in other EU countries"
+                "eyebrow": "Phase 3 · After voting",
+                "lines": [
+                  "1. Look back on past conversations",
+                  "2. Explore elections in other EU countries"
                 ]
               }
             ]
@@ -1379,13 +1323,11 @@
             "items": [
               {
                 "eyebrow": "A website",
-                "muted": true,
                 "lines": [
                   "Something you visit once before an election."
                 ]
               },
               {
-                "tone": "accent",
                 "eyebrow": "An app · our choice",
                 "lines": [
                   "Stays with you between elections, from a university senate vote to the European Parliament. That’s how habits form."
@@ -1412,7 +1354,6 @@
             "kind": "panels",
             "items": [
               {
-                "tone": "accent",
                 "eyebrow": "Uses only",
                 "lines": [
                   "What you say in the chat",
@@ -1421,7 +1362,6 @@
               },
               {
                 "eyebrow": "Never uses",
-                "muted": true,
                 "lines": [
                   "Profiling",
                   "Browsing history"
@@ -1491,119 +1431,34 @@
             "body": "What changed along the way:"
           },
           {
-            "kind": "panels",
-            "heading": {
-              "number": "01",
-              "text": "Nobody read the intro"
-            },
-            "items": [
-              {
-                "eyebrow": "What we saw",
-                "muted": true,
-                "lines": [
-                  "People skipped the text carousel and couldn’t say what the app did."
-                ]
-              },
-              {
-                "tone": "accent",
-                "eyebrow": "What we changed",
-                "lines": [
-                  "Rebuilt around animation and short, friendly copy. Testers could then explain the service in their own words."
-                ]
-              }
-            ]
+            "kind": "lead",
+            "number": "01",
+            "lead": "Nobody read the intro",
+            "body": "People skipped the text carousel and couldn’t say what the app did. We rebuilt it around animation and short, friendly copy, and testers could then explain the service in their own words."
           },
           {
-            "kind": "panels",
-            "heading": {
-              "number": "02",
-              "text": "The quiz moved next to the chat"
-            },
-            "items": [
-              {
-                "eyebrow": "What we saw",
-                "muted": true,
-                "lines": [
-                  "Right after onboarding it felt like a hurdle, and most people skipped it."
-                ]
-              },
-              {
-                "tone": "accent",
-                "eyebrow": "What we changed",
-                "lines": [
-                  "Placed just before the first conversation, with the line “Dèmos wants to use only terms you already know”."
-                ]
-              }
-            ]
+            "kind": "lead",
+            "number": "02",
+            "lead": "The quiz moved next to the chat",
+            "body": "Right after onboarding it felt like a hurdle, and most people skipped it. Placed just before the first conversation, with the line “Dèmos wants to use only terms you already know”, its purpose became obvious."
           },
           {
-            "kind": "panels",
-            "heading": {
-              "number": "03",
-              "text": "Fewer choices, faster starts"
-            },
-            "items": [
-              {
-                "eyebrow": "What we saw",
-                "muted": true,
-                "lines": [
-                  "Too many topics caused decision paralysis."
-                ]
-              },
-              {
-                "tone": "accent",
-                "eyebrow": "What we changed",
-                "lines": [
-                  "You pick one topic to start and switch as you go."
-                ]
-              }
-            ]
+            "kind": "lead",
+            "number": "03",
+            "lead": "Fewer choices, faster starts",
+            "body": "Too many topics caused decision paralysis. Now you pick one to start and switch as you go."
           },
           {
-            "kind": "panels",
-            "heading": {
-              "number": "04",
-              "text": "Top three first"
-            },
-            "items": [
-              {
-                "eyebrow": "What we saw",
-                "muted": true,
-                "lines": [
-                  "Affinity results opened on every party at once."
-                ]
-              },
-              {
-                "tone": "accent",
-                "eyebrow": "What we changed",
-                "lines": [
-                  "They lead with your three closest matches, and the rest are a scroll away."
-                ]
-              }
-            ]
+            "kind": "lead",
+            "number": "04",
+            "lead": "Top three first",
+            "body": "Affinity results opened on every party at once. Now they lead with your three closest matches, and the rest are a scroll away."
           },
           {
-            "kind": "panels",
-            "heading": {
-              "number": "05",
-              "text": "Ideas from testers"
-            },
-            "items": [
-              {
-                "eyebrow": "What we saw",
-                "muted": true,
-                "lines": [
-                  "A tester struggled to tell similar parties apart."
-                ]
-              },
-              {
-                "tone": "accent",
-                "eyebrow": "What we changed",
-                "lines": [
-                  "Compare Parties, a grid of where every party stands on your topics. One of the best-received features in the final round."
-                ]
-              }
-            ]
+            "kind": "lead",
+            "number": "05",
+            "lead": "Ideas from testers",
+            "body": "Compare Parties, a grid of where every party stands on your topics, came from a tester who struggled to tell similar parties apart. It became one of the best-received features in the final round."
           }
         ]
       },
@@ -1644,30 +1499,24 @@
             "items": [
               {
                 "eyebrow": "Testers asked",
-                "muted": true,
                 "title": "Who is behind the app?",
-                "tail": {
-                  "label": "We designed",
-                  "body": "An EU-backed service from the first screen."
-                }
+                "lines": [
+                  "We designed: An EU-backed service from the first screen."
+                ]
               },
               {
                 "eyebrow": "Testers asked",
-                "muted": true,
                 "title": "Where does my data go?",
-                "tail": {
-                  "label": "We designed",
-                  "body": "A privacy step at sign-in."
-                }
+                "lines": [
+                  "We designed: A privacy step at sign-in."
+                ]
               },
               {
                 "eyebrow": "Testers asked",
-                "muted": true,
                 "title": "Will closing a chat delete it?",
-                "tail": {
-                  "label": "We designed",
-                  "body": "A note that closed chats are saved in Threads."
-                }
+                "lines": [
+                  "We designed: A note that closed chats are saved in Threads."
+                ]
               }
             ]
           }

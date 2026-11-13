@@ -64,8 +64,8 @@ export default {
 
       fontFamily: {
         sans:     ['"Satoshi"', 'system-ui', 'sans-serif'],
-        // every heading, number and title. Loaded from Fontshare in index.html
-        // (400, 500, 700, 800); it has no italic, so nothing set in it is italicised
+        // every heading, number and title. Served from /fonts (see globals.css) as one
+        // variable file; it has no italic, so nothing set in it is italicised
         heading:  ['"Cabinet Grotesk"', '"Satoshi"', 'sans-serif'],
       },
 

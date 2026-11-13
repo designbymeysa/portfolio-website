@@ -2,6 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
+/* The site's two faces, served from this site rather than a font host: no extra request
+   to wait on, and nothing to go missing if that host is slow or blocked. Each is one
+   variable file that carries every weight (Cabinet Grotesk 100–900, Satoshi 300–900), so
+   a new weight in the design costs nothing. `swap` shows text at once in the fallback and
+   switches when the face arrives. Cabinet Grotesk has no italic. */
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/fonts/cabinet-grotesk-variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi-variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/satoshi-variable-italic.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     /* ── Theme ──

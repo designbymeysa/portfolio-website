@@ -19,7 +19,6 @@
 
   "nav": [
     { "label": "Case studies", "id": "work" },
-    { "label": "About", "id": "about" },
     { "label": "Contact", "id": "contact" }
   ],
 
@@ -68,7 +67,6 @@
     "marquee": "Let's keep in touch",
     "email": "designbymeysa@gmail.com",
     "links": [
-      { "label": "All case studies", "href": "/projects", "internal": true },
       { "label": "LinkedIn", "href": "https://www.linkedin.com/in/khoshbazan/", "download": false },
       { "label": "CV", "href": "https://drive.google.com/file/d/1_N65Jsf7chdvHpVkT5p1fiKGRQNrqK0J/view?usp=share_link", "download": false }
     ],

@@ -32,12 +32,13 @@
     <link rel="alternate icon" type="image/png" href="/favicon-32.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-    <!-- the site's two faces, both from Fontshare in one request: Cabinet Grotesk for
-         headings and UI (font-heading; 100 is the thin display cut /today uses), Satoshi for reading text (font-sans; 401 is
-         its italic). Families are set in tailwind.config.js -->
-    <link rel="preconnect" href="https://api.fontshare.com" />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-    <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@100,400,500,700,800&f[]=satoshi@400,401,500,700&display=swap" rel="stylesheet" />
+    <!-- the site's two faces, Cabinet Grotesk (font-heading) and Satoshi (font-sans), are
+         served from /fonts and declared in src/styles/globals.css. The two upright files
+         are fetched up front, since nearly every page paints text in them; the italic is
+         only for a few lines, so it loads when one appears. Families are set in
+         tailwind.config.js -->
+    <link rel="preload" href="/fonts/cabinet-grotesk-variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/satoshi-variable.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <div id="root"></div>

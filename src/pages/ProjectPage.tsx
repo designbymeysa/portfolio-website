@@ -1,3 +1,4 @@
+import { responsive } from '../data/images'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
@@ -137,13 +138,17 @@ export default function ProjectPage() {
               {eyebrowFor(project)}
             </span>
 
-            {/* the way back out to the set, level with the project's own name */}
-            <Link
-              to="/projects"
-              className={`${META_LABEL} flex items-center gap-[6px] shrink-0 hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]`}
-            >
-              {site.works.viewAll} <ArrowIcon className="h-[11px] w-[11px]" />
-            </Link>
+            {/* the way on, level with the project's own name: the next study in the set,
+                wrapping back to the first after the last. The way back out to the set
+                is the Back link in the sidebar. */}
+            {next && (
+              <Link
+                to={next.href}
+                className={`${META_LABEL} flex items-center gap-[6px] shrink-0 hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]`}
+              >
+                Next case study <ArrowIcon className="h-[11px] w-[11px]" />
+              </Link>
+            )}
           </div>
 
           {/* the opening image — unless the study reuses its cover further down */}
@@ -157,6 +162,7 @@ export default function ProjectPage() {
             {project.heroImage ? (
               <img
                 src={project.heroImage}
+                {...responsive(project.heroImage)}
                 alt=""
                 aria-hidden="true"
                 className="w-full h-full object-cover"
@@ -306,17 +312,6 @@ export default function ProjectPage() {
                   </Link>
                 ))}
               </div>
-            )}
-
-            {/* the way on, once the reader reaches the end: the next study in the set,
-                wrapping back to the first after the last */}
-            {next && (
-              <Link
-                to={next.href}
-                className={`${META_LABEL} flex items-center gap-[6px] shrink-0 hover:text-[color:var(--ink-strong)] transition-colors duration-[150ms]`}
-              >
-                Next case study <ArrowIcon className="h-[11px] w-[11px]" />
-              </Link>
             )}
           </div>
 

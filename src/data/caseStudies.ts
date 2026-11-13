@@ -65,20 +65,13 @@ export type Block =
   /** a row of headline numbers — the sentiment counts */
   | { kind: 'stats'; items: { value: string; label: string; note?: string }[]; arrow?: boolean }
   /** a row of bordered cards side by side — at-a-glance summaries, questions, before/after.
-   *  `heading` sets a numbered title above the row. Each card: a small caps `eyebrow`
-   *  (`muted` quietens it), an optional `title`, body `lines`, and an optional `tail`
-   *  label (with its own `body`) beneath. `tone: 'accent'` tints the card in the study colour */
+   *  The one card style: a small caps `eyebrow` in the study's colour, an optional `title`,
+   *  then body `lines`. `heading` sets a numbered title above the row, set the same way as
+   *  a numbered `lead`. Four cards wrap two by two; one to three share a row */
   | {
       kind: 'panels'
       heading?: { number: string; text: string }
-      items: {
-        tone?: 'plain' | 'accent'
-        eyebrow: string
-        muted?: boolean
-        title?: string
-        lines?: string[]
-        tail?: { label: string; muted?: boolean; body?: string }
-      }[]
+      items: { eyebrow: string; title?: string; lines?: string[] }[]
     }
   /** the numbered findings a synthesis lands on */
   | { kind: 'findings'; items: { label: string; body: string }[] }
