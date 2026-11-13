@@ -58,7 +58,7 @@ Two rules worth knowing:
 
 - **Never put them under `public/projects/`.** That path collides with the site's own
   `/projects/…` routes and the folder wins, so the case study never loads.
-- **Spaces must be written `%20`** — `/media/demos/AI%20System.png`.
+- **Spaces must be written `%20`** — `/media/demos/AI%20System.webp`.
 
 ---
 
