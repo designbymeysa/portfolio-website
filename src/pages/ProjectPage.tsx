@@ -1,3 +1,4 @@
+import { responsive } from '../data/images'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
@@ -161,6 +162,7 @@ export default function ProjectPage() {
             {project.heroImage ? (
               <img
                 src={project.heroImage}
+                {...responsive(project.heroImage)}
                 alt=""
                 aria-hidden="true"
                 className="w-full h-full object-cover"

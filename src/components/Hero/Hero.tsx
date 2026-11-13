@@ -163,7 +163,7 @@ export function Hero() {
     if (!canvas || !container) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const ctx = canvas.getContext('2d')!
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })!
     let rafId = 0
     // A touch screen still fires synthetic mouse events — including for taps and
     // scrolls nowhere near the hero — which drop blobs the user never asked for.

@@ -6,6 +6,7 @@ import { ArrowIcon, ChevronIcon } from '../ui/LinkIcons'
 import { coverFor } from '../Covers'
 import { useMatchMedia } from '../../hooks/useMatchMedia'
 import { useInView } from '../../hooks/useInView'
+import { responsive } from '../../data/images'
 
 // ── shared type ──
 // Every block sets its running copy the way the case study's own paragraphs are set,
@@ -116,6 +117,7 @@ export function FigureBlock({ figure, tint, uncaptioned }: { figure: Figure; tin
           alt={figure.caption}
           loading="lazy"
           decoding="async"
+          {...responsive(figure.src, figure.span === 'half' ? '420px' : figure.span === 'third' ? '270px' : '850px')}
           className={figure.contain ? 'w-full h-full object-contain p-[8%]' : 'w-full h-full object-cover'}
         />
       ) : (
