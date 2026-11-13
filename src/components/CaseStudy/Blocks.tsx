@@ -554,14 +554,18 @@ function Cards({ cards }: { cards: { title: string; works: string[]; breaks: str
   )
 }
 
-function Stats({ items }: { items: { value: string; label: string; note?: string }[] }) {
+function Stats({ items, arrow }: { items: { value: string; label: string; note?: string }[]; arrow?: boolean }) {
   return (
-    // one column per number, so however many there are they fill the row
+    // one column per number, so however many there are they fill the row. With `arrow`,
+    // a narrow track between each pair carries a → (from one measure to the next)
     <div
       className="cs-stagger grid grid-cols-1 sm:[grid-template-columns:var(--stat-cols)] gap-[16px]"
-      style={{ '--stat-cols': `repeat(${items.length}, minmax(0, 1fr))` } as React.CSSProperties}
+      style={{ '--stat-cols': arrow ? items.map(() => 'minmax(0, 1fr)').join(' auto ') : `repeat(${items.length}, minmax(0, 1fr))` } as React.CSSProperties}
     >
-      {items.map((s, i) => (
+      {items.flatMap((s, i) => [
+        ...(arrow && i > 0 ? [
+          <span key={`arrow-${i}`} aria-hidden="true" className="hidden sm:flex items-center font-sans text-[28px] leading-none text-[color:var(--study-accent,var(--accent))]">→</span>,
+        ] : []),
         <div key={s.note ?? s.value} className="rounded-[2px] border border-[color:var(--line)] p-[20px]" style={nth(i)}>
           <div className="flex items-baseline gap-[8px]">
             <span className="font-heading font-medium text-[40px] leading-none text-[color:var(--study-accent,var(--accent))] tabular-nums">
@@ -570,8 +574,52 @@ function Stats({ items }: { items: { value: string; label: string; note?: string
             <span className="font-sans text-[14px] lg:text-[16px] text-[color:var(--ink-muted)]" style={WDTH}>{s.label}</span>
           </div>
           {s.note && <span className={`${LABEL} block mt-[12px]`}>{s.note}</span>}
-        </div>
-      ))}
+        </div>,
+      ])}
+    </div>
+  )
+}
+
+/** Cards in a row: a small caps eyebrow, an optional title, body lines and a tail label.
+ *  The accent tone is a tint of the study's own colour, so it follows light and dark. */
+const PANEL_EYEBROW = "font-sans font-semibold text-[12px] uppercase tracking-[0.12em] leading-[1.4]"
+function Panels({ heading, items }: Extract<Block, { kind: 'panels' }>) {
+  return (
+    <div className={heading ? 'mt-[12px]' : undefined}>
+      {heading && (
+        <h3 className={`${SUBHEAD} flex items-baseline gap-[12px] mb-[12px]`} style={WDTH}>
+          <span className="shrink-0 font-sans font-semibold text-[12px] tracking-[0.12em] tabular-nums text-[color:var(--study-accent,var(--accent))]">{heading.number}</span>
+          <span className="text-[18px] lg:text-[20px] font-semibold">{heading.text}</span>
+        </h3>
+      )}
+      <div
+        className="cs-stagger grid grid-cols-1 sm:[grid-template-columns:var(--panel-cols)] gap-[16px]"
+        style={{ '--panel-cols': `repeat(${items.length}, minmax(0, 1fr))` } as React.CSSProperties}
+      >
+        {items.map((c, i) => {
+          const accent = c.tone === 'accent'
+          const eyebrowInk = c.muted ? 'text-[color:var(--ink-body)] opacity-70' : 'text-[color:var(--study-accent,var(--accent))]'
+          return (
+            <div
+              key={`${c.eyebrow}-${i}`}
+              style={{ ...nth(i), ...(accent ? { background: 'color-mix(in srgb, var(--study-accent, var(--accent)) 8%, transparent)' } : {}) }}
+              className={`flex flex-col gap-[10px] rounded-[2px] p-[20px] ${accent ? '' : 'border border-[color:var(--line)] bg-[color:var(--surface)]'}`}
+            >
+              <span className={`${PANEL_EYEBROW} ${eyebrowInk}`} style={WDTH}>{c.eyebrow}</span>
+              {c.title && <p className="font-sans font-semibold text-[16px] lg:text-[18px] leading-[1.45] text-[color:var(--ink-body)]" style={WDTH}>{c.title}</p>}
+              {c.lines?.map(l => (
+                <p key={l} className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{l}</p>
+              ))}
+              {c.tail && (
+                <>
+                  <span className={`${PANEL_EYEBROW} ${c.tail.muted ? 'text-[color:var(--ink-body)] opacity-70' : 'text-[color:var(--study-accent,var(--accent))]'}`} style={WDTH}>{c.tail.label}</span>
+                  {c.tail.body && <p className="font-sans text-[14px] lg:text-[16px] leading-[1.5] text-[color:var(--ink-body)]" style={WDTH}>{c.tail.body}</p>}
+                </>
+              )}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }
@@ -1004,7 +1052,8 @@ function block(b: Block, tint: string): ReactNode {
     case 'phases':     return <Phases phases={b.phases} />
     case 'accordion':  return <Accordion {...b} />
     case 'cards':      return <Cards cards={b.cards} />
-    case 'stats':      return <Stats items={b.items} />
+    case 'stats':      return <Stats items={b.items} arrow={b.arrow} />
+    case 'panels':     return <Panels {...b} />
     case 'findings':   return <Findings items={b.items} />
     case 'columns':    return <Columns items={b.items} />
     case 'slider':     return <Slider slides={b.slides} caption={b.caption} ratio={b.ratio} />

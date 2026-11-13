@@ -1029,10 +1029,40 @@
     },
     "sections": [
       {
-        "id": "introduction",
-        "label": "Introduction",
+        "id": "overview",
+        "label": "Overview",
         "heading": "A voting advisor you can actually talk to",
-        "body": "Dèmos is an AI voting advisor for young Europeans. Instead of a 30-question quiz you fill in once and forget, you chat with it about the topics you care about. It answers from the parties’ own manifestos, shows its sources, and tells you which parties you agree with most, and where."
+        "body": "Dèmos is an AI voting advisor for young Europeans. Instead of a 30-question quiz you fill in once and forget, you chat with it about the topics you care about. It answers from the parties’ own manifestos, shows its sources, and tells you which parties you agree with most, and where.",
+        "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "01 · Problem",
+                "lines": [
+                  "More than 70% of 18–24 year-olds didn’t vote in the 2019 European elections."
+                ]
+              },
+              {
+                "eyebrow": "02 · Insight",
+                "lines": [
+                  "It wasn’t apathy. They felt they didn’t know enough to vote well."
+                ]
+              },
+              {
+                "eyebrow": "03 · Outcome",
+                "lines": [
+                  "An AI advisor you chat with, answering from the parties’ own manifestos."
+                ],
+                "tone": "accent"
+              }
+            ]
+          },
+          {
+            "kind": "highlight",
+            "text": "The result: ease of use rose from 5.7 at mid-fidelity to 6.5 out of 7 at high-fidelity, tested with 11 voters aged 18–27."
+          }
+        ]
       },
       {
         "id": "problem",
@@ -1058,15 +1088,30 @@
             "body": "Two questions kept coming up:"
           },
           {
-            "kind": "columns",
+            "kind": "panels",
             "items": [
               {
-                "label": "What will my vote do?",
-                "body": "Not knowing how the EU works, or what a word like “Eurosceptic” means."
+                "eyebrow": "Question 01",
+                "title": "What will my vote do?",
+                "lines": [
+                  "Not knowing how the EU works, or what a word like “Eurosceptic” means."
+                ],
+                "tail": {
+                  "label": "Answered by → clearer design",
+                  "muted": true
+                }
               },
               {
-                "label": "Who should I vote for?",
-                "body": "Party programmes are long, dense, and hard to compare."
+                "tone": "accent",
+                "eyebrow": "Question 02",
+                "title": "Who should I vote for?",
+                "lines": [
+                  "Party programmes are long, dense, and hard to compare."
+                ],
+                "tail": {
+                  "label": "Answered by → AI",
+                  "muted": true
+                }
               }
             ]
           },
@@ -1117,8 +1162,23 @@
             ]
           },
           {
-            "kind": "text",
-            "body": "We made it an app, not a website. A website is something you visit once before an election. An app stays with you between them, from a university senate vote to the European Parliament, and that’s how habits form."
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "A website",
+                "muted": true,
+                "lines": [
+                  "Something you visit once before an election."
+                ]
+              },
+              {
+                "tone": "accent",
+                "eyebrow": "An app · our choice",
+                "lines": [
+                  "Stays with you between elections, from a university senate vote to the European Parliament. That’s how habits form."
+                ]
+              }
+            ]
           },
           {
             "kind": "figure",
@@ -1135,6 +1195,27 @@
         "heading": "Grounded in what parties actually wrote",
         "body": "Dèmos uses only two kinds of data: what you say in the chat, and the parties’ official manifestos. No profiling, no browsing history. Three pieces work together:",
         "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "tone": "accent",
+                "eyebrow": "Uses only",
+                "lines": [
+                  "What you say in the chat",
+                  "The parties’ official manifestos"
+                ]
+              },
+              {
+                "eyebrow": "Never uses",
+                "muted": true,
+                "lines": [
+                  "Profiling",
+                  "Browsing history"
+                ]
+              }
+            ]
+          },
           {
             "kind": "lead",
             "number": "01",
@@ -1169,6 +1250,22 @@
         "body": "We tested at every stage: hand-sketched wireframes, a mid-fidelity UI reviewed by industry experts, and a high-fidelity prototype with 11 voters aged 18–27. People thought aloud through tasks while we counted attempts and errors.",
         "blocks": [
           {
+            "kind": "stats",
+            "items": [
+              {
+                "value": "5.7",
+                "label": "Ease of use, mid-fidelity",
+                "note": "Single Ease Question, out of 7"
+              },
+              {
+                "value": "6.5",
+                "label": "Ease of use, high-fidelity",
+                "note": "11 voters aged 18–27"
+              }
+            ],
+            "arrow": true
+          },
+          {
             "kind": "figure",
             "figure": {
               "caption": "Six steps, three rounds of testing",
@@ -1181,42 +1278,117 @@
             "body": "What changed along the way:"
           },
           {
-            "kind": "lead",
-            "lead": "Nobody read the intro.",
-            "body": "People skipped the text carousel and couldn’t say what the app did. We rebuilt it around animation and short, friendly copy, and testers could then explain the service in their own words."
-          },
-          {
-            "kind": "lead",
-            "lead": "The quiz moved next to the chat.",
-            "body": "Right after onboarding it felt like a hurdle, and most people skipped it. Placed just before the first conversation, with the line “Dèmos wants to use only terms you already know”, its purpose became obvious."
-          },
-          {
-            "kind": "lead",
-            "lead": "Fewer choices, faster starts.",
-            "body": "Too many topics caused decision paralysis. Now you pick one to start and switch as you go."
-          },
-          {
-            "kind": "lead",
-            "lead": "Top three first.",
-            "body": "Affinity results opened on every party at once. Now they lead with your three closest matches, and the rest are a scroll away."
-          },
-          {
-            "kind": "lead",
-            "lead": "Ideas from testers.",
-            "body": "Compare Parties, a grid of where every party stands on your topics, came from a tester who struggled to tell similar parties apart. It became one of the best-received features in the final round."
-          },
-          {
-            "kind": "stats",
+            "kind": "panels",
+            "heading": {
+              "number": "01",
+              "text": "Nobody read the intro"
+            },
             "items": [
               {
-                "value": "5.7",
-                "label": "Ease of use, mid-fidelity",
-                "note": "Single Ease Question, out of 7"
+                "eyebrow": "What we saw",
+                "muted": true,
+                "lines": [
+                  "People skipped the text carousel and couldn’t say what the app did."
+                ]
               },
               {
-                "value": "6.5",
-                "label": "Ease of use, high-fidelity",
-                "note": "11 voters aged 18–27"
+                "tone": "accent",
+                "eyebrow": "What we changed",
+                "lines": [
+                  "Rebuilt around animation and short, friendly copy. Testers could then explain the service in their own words."
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "heading": {
+              "number": "02",
+              "text": "The quiz moved next to the chat"
+            },
+            "items": [
+              {
+                "eyebrow": "What we saw",
+                "muted": true,
+                "lines": [
+                  "Right after onboarding it felt like a hurdle, and most people skipped it."
+                ]
+              },
+              {
+                "tone": "accent",
+                "eyebrow": "What we changed",
+                "lines": [
+                  "Placed just before the first conversation, with the line “Dèmos wants to use only terms you already know”."
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "heading": {
+              "number": "03",
+              "text": "Fewer choices, faster starts"
+            },
+            "items": [
+              {
+                "eyebrow": "What we saw",
+                "muted": true,
+                "lines": [
+                  "Too many topics caused decision paralysis."
+                ]
+              },
+              {
+                "tone": "accent",
+                "eyebrow": "What we changed",
+                "lines": [
+                  "You pick one topic to start and switch as you go."
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "heading": {
+              "number": "04",
+              "text": "Top three first"
+            },
+            "items": [
+              {
+                "eyebrow": "What we saw",
+                "muted": true,
+                "lines": [
+                  "Affinity results opened on every party at once."
+                ]
+              },
+              {
+                "tone": "accent",
+                "eyebrow": "What we changed",
+                "lines": [
+                  "They lead with your three closest matches, and the rest are a scroll away."
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "panels",
+            "heading": {
+              "number": "05",
+              "text": "Ideas from testers"
+            },
+            "items": [
+              {
+                "eyebrow": "What we saw",
+                "muted": true,
+                "lines": [
+                  "A tester struggled to tell similar parties apart."
+                ]
+              },
+              {
+                "tone": "accent",
+                "eyebrow": "What we changed",
+                "lines": [
+                  "Compare Parties, a grid of where every party stands on your topics. One of the best-received features in the final round."
+                ]
               }
             ]
           }
@@ -1252,7 +1424,59 @@
             "label": "or ask me!",
             "href": "mailto:designbymeysa@gmail.com"
           }
-        }
+        },
+        "blocks": [
+          {
+            "kind": "panels",
+            "items": [
+              {
+                "eyebrow": "Testers asked",
+                "muted": true,
+                "title": "Who is behind the app?",
+                "tail": {
+                  "label": "We designed",
+                  "body": "An EU-backed service from the first screen."
+                }
+              },
+              {
+                "eyebrow": "Testers asked",
+                "muted": true,
+                "title": "Where does my data go?",
+                "tail": {
+                  "label": "We designed",
+                  "body": "A privacy step at sign-in."
+                }
+              },
+              {
+                "eyebrow": "Testers asked",
+                "muted": true,
+                "title": "Will closing a chat delete it?",
+                "tail": {
+                  "label": "We designed",
+                  "body": "A note that closed chats are saved in Threads."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "meta": [
+      {
+        "label": "My part",
+        "value": "User Research, Ideation, UI Design"
+      },
+      {
+        "label": "Team",
+        "value": "Joana Bento, Alessandro Cesa, Simone de Marchi, Martina Ricca and I"
+      },
+      {
+        "label": "Industry",
+        "value": "Politics / Civic Technology"
+      },
+      {
+        "label": "Year",
+        "value": "2024"
       }
     ]
   },
