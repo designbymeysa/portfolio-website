@@ -1145,6 +1145,12 @@
             "caption": "Tap through it, or let it play."
           },
           {
+            "kind": "video",
+            "url": "https://youtu.be/oMZuYoMLCyc",
+            "title": "D Heart Redesign",
+            "caption": "D Heart Redesign"
+          },
+          {
             "kind": "subheading",
             "text": "Less friction at the moment it matters most"
           },
